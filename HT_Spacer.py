@@ -71,15 +71,6 @@ def config():
 	return array
 
 
-# get layer id
-def layerIndex(font, layer):
-	actualId = layer.layerId
-	for i in range(len(font.masters)):
-		if actualId == font.masters[i].id:
-			index = i
-	return index
-
-
 def autoAlignment(thisLayer):
 	status = False
 	for thisComp in thisLayer.components:
@@ -242,8 +233,8 @@ class htSpacer(object):
 		selectedLayers = Glyphs.currentDocument.selectedLayers()
 		self.mySelection = list(set(selectedLayers))
 		self.output = ''
-		self.layerIndex = layerIndex(self.font, self.mySelection[0])
-		self.master = self.font.masters[self.layerIndex]
+		self.layerID = self.mySelection[0].associatedMasterId
+		self.master = self.font.masters[self.layerID]
 
 		self.angle = self.master.italicAngle
 		self.xHeight = self.master.xHeight
@@ -265,20 +256,23 @@ class htSpacer(object):
 			self.spaceMain(self)
 
 	def getParams(self):
-		if self.font.masters[self.layerIndex].customParameters["paramArea"]:
-			self.paramArea = self.font.masters[self.layerIndex].customParameters["paramArea"]
+		customArea = self.master.customParameters["paramArea"]
+		if customArea:
+			self.paramArea = customArea
 			self.output += 'Using master custom parameter, paramArea: ' + str(self.paramArea) + "\n"
 		else:
 			self.paramArea = paramArea
 			self.output += 'Using DEFAULT PARAMETERS, paramArea: ' + str(self.paramArea) + "\n"
-		if self.font.masters[self.layerIndex].customParameters["paramDepth"]:
-			self.paramDepth = self.font.masters[self.layerIndex].customParameters["paramDepth"]
+		customDepth = self.master.customParameters["paramDepth"]
+		if customDepth:
+			self.paramDepth = customDepth
 			self.output += 'Using master custom parameter, paramDepth: ' + str(self.paramDepth) + "\n"
 		else:
 			self.paramDepth = paramDepth
 			self.output += 'Using DEFAULT PARAMETERS, paramDepth: ' + str(self.paramDepth) + "\n"
-		if self.font.masters[self.layerIndex].customParameters["paramOver"]:
-			self.paramOver = self.font.masters[self.layerIndex].customParameters["paramOver"]
+		customOver = self.master.customParameters["paramOver"]
+		if customOver:
+			self.paramOver = customOver
 			self.output += 'Using master custom parameter, paramOver: ' + str(self.paramOver) + "\n"
 		else:
 			self.paramOver = paramOver
@@ -286,6 +280,10 @@ class htSpacer(object):
 
 	def setG(self, layer):
 		self.output = '\\' + layer.parent.name + '\\\n' + self.output
+		
+		self.layerID = layer.associatedMasterId
+		self.master = self.font.masters[self.layerID]
+		
 		self.glyph = layer.parent
 		self.layer = layer
 		self.category = layer.parent.category
@@ -529,7 +527,7 @@ class htSpacer(object):
 
 		# check reference layer existance and contours
 		if self.font.glyphs[reference]:
-			referenciaLayer = self.font.glyphs[reference].layers[self.layerIndex]
+			referenciaLayer = self.font.glyphs[reference].layers[self.layerID]
 			if len(referenciaLayer.paths) < 1:
 				self.output += "WARNING: The reference glyph declared (" + self.reference + ") doesn't have contours. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
 				referenciaLayer = self.layer
@@ -604,7 +602,7 @@ class htSpacer(object):
 
 		# creates glyph with white area polygon
 		if len(self.mySelection) < 2 and createProofGlyph:
-			createAreasGlyph(self.font, self.layer, self.layerIndex, poligonos)
+			createAreasGlyph(self.font, self.layer, self.layerID, poligonos)
 
 	def spaceMain(self, sender):
 		Glyphs.clearLog()
