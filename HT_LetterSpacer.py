@@ -74,18 +74,6 @@ def config():
 	return array
 
 
-def autoAlignment(thisLayer):
-	status = False
-	for thisComp in thisLayer.components:
-		# print thisComp.disableAlignment
-		if thisComp.disableAlignment:
-			status = True
-	if len(thisLayer.components) > 0 and len(thisLayer.paths) == 0 and status == False:
-		make = False
-	else:
-		make = True
-	return make
-
 def setSidebearings(layer, newL, newR, width, color):
 	layer.LSB = newL
 	layer.RSB = newR
