@@ -398,9 +398,6 @@ class htSpacer(object):
 		valorExcedente = self.xHeight * self.paramOver / 100
 		return valorExcedente
 
-	def box(self, layer):
-		return layer.bounds[0][0], layer.bounds[0][1], layer.bounds[1][0] + layer.bounds[0][0], layer.bounds[0][1] + layer.bounds[1][1]
-
 	def maxPoints(self, points, minY, maxY):
 		right = -10000
 		left = 10000
@@ -536,18 +533,18 @@ class htSpacer(object):
 			self.output += "WARNING: The reference glyph declared (" + self.reference + ") doesn't exist. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
 
 		# get reference glyph maximum points
-		maxpoints = self.box(referenciaLayer)
+		bounds = referenciaLayer.bounds
 		valorExcedente = self.excedente()
 
 		# store min and max y
-		self.minYref = maxpoints[1] - valorExcedente
-		self.maxYref = maxpoints[3] + valorExcedente
+		self.minYref = NSMinY(bounds) - valorExcedente
+		self.maxYref = NSMaxY(bounds) + valorExcedente
 
 		# bounds
-		box = self.box(self.layer)
+		bounds = self.layer.bounds
 
 		# all the margins
-		marginsOne = marginList(self.layer, box[1], box[3])
+		marginsOne = marginList(self.layer, NSMinY(bounds), NSMaxY(bounds))
 
 		# creates a list with left and right margins
 		marginsFull = [marginsOne[0], marginsOne[1]]
@@ -565,7 +562,7 @@ class htSpacer(object):
 		# deitalize margins
 		marginsFull = self.deSlant(marginsFull)
 		# get extreme points deitalized
-		extremosFull = self.maxPoints(marginsFull[0] + marginsFull[1], box[1], box[3])
+		extremosFull = self.maxPoints(marginsFull[0] + marginsFull[1], NSMinY(bounds), NSMaxY(bounds))
 		# get zone extreme points
 		extremos = self.maxPoints(margins[0] + margins[1], self.minYref, self.maxYref)
 
