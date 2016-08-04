@@ -114,35 +114,8 @@ def rectCateto(angle, cat):
 	return result
 
 
-def rectHipotenusa(cat1, cat2):
-	result = math.sqrt((cat1 ** 2 + cat2 ** 2))
-	return result
-
-
-def rectAngle(cat1, cat2):
-	angle = math.atan(cat1 / cat2)
-	return math.degrees(angle)
-
-
 # point list area
 def area(points):
-
-
-# returns horizontal, vertical range
-def amplitude(layer):
-	return layer.box[2] - layer.box[0], layer.box[3] - layer.box[1],
-
-# get margins in robofab
-# def getMargins(layer, y):
-# pen = MarginPen(layer.getParent(), y, True)
-# layer.draw(pen)
-# # get crossing values
-# crossings = pen.getMargins()
-# try:
-#	 margins = (crossings[0], crossings[1])
-# except:
-#	 margins = (None, None)
-# return margins
 	s = 0
 	for ii in np.arange(len(points)) - 1:
 		s = s + (points[ii][0] * points[ii + 1][1] - points[ii + 1][0] * points[ii][1])
@@ -445,15 +418,6 @@ class htSpacer(object):
 					lefty = p[1]
 
 		return ((left, lefty), (right, righty))
-
-	def layerExtremes(self, layer):
-		points = []
-		for path in layer.paths:
-			for node in path.nodes:
-				if node.type != 65:
-					points.append((node.x, node.y))
-		points.sort()
-		return points[0], points[-1]
 
 	def processMargins(self, margins):
 		# deSlant if is italic
