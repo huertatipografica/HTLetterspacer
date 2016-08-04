@@ -141,7 +141,7 @@ A simple example of the first 4 lines of a config file for a given font:
     *,Letter,Lowercase,1,x,*,
     *,Letter,Superscript,0.7,ordfeminine,*,
 
-A [default config file](Example_autospace.py) is provided to make the process easier.
+A [default config file](config-default.py) is provided to make the process easier.
 
 You can activate or deactivate lines writing a numbersign at the beginning of the line, just as it is in Python language. 
 Each line should contain the 6 values separated by comma, otherwise will result in a traceback error or misconfiguration.
