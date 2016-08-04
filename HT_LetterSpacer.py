@@ -112,11 +112,11 @@ def getMargins(layer, y):
 	else:
 		result = measurementTool.calculateIntersectionsForLayer_startPoint_endPoint_(layer, startPoint, endPoint)
 
-	puntos = len(result)
+	points = len(result)
 	left = 1
-	right = puntos - 2
+	right = points - 2
 
-	if (puntos > 2):
+	if (points > 2):
 		margins = (result[left].pointValue().x, result[right].pointValue().x)
 	else:
 		margins = (None, None)
@@ -138,8 +138,8 @@ def marginList(layer, bottom, top):
 		listR.append([rpos, y])
 		y += freq
 
-	lista = [listL, listR]
-	return lista
+	myList = [listL, listR]
+	return myList
 
 
 def marginsZone(margins, bottom, top):
@@ -153,9 +153,9 @@ def marginsZone(margins, bottom, top):
 
 # sets depth for each point in list
 # left
-def setDepthInListL(lista, depth, extremePoints):
+def setDepthInListL(myList, depth, extremePoints):
 	list = []
-	for p in lista:
+	for p in myList:
 		# si es nulo lo pone a la profundiad
 		if p[0] is not None:
 			x = p[0]
@@ -168,9 +168,9 @@ def setDepthInListL(lista, depth, extremePoints):
 
 
 # right
-def setDepthInListR(lista, depth, extremePoints):
+def setDepthInListR(myList, depth, extremePoints):
 	list = []
-	for p in lista:
+	for p in myList:
 		if p[0] is not None:
 			x = p[0]
 			if p[0] < (extremePoints[1][0] - depth):
@@ -182,7 +182,7 @@ def setDepthInListR(lista, depth, extremePoints):
 
 
 # creates proof glyph
-def createAreasGlyph(font, origenLayer, layerIndex, margins):
+def createAreasGlyph(font, originLayer, layerIndex, margins):
 	from robofab.pens.marginPen import MarginPen
 	if 'areas' in f:
 		areaLayer = font.glyphs['areas'].layers[layerIndex]
@@ -194,21 +194,21 @@ def createAreasGlyph(font, origenLayer, layerIndex, margins):
 			del areaLayer.paths[i]
 	else:
 		f.newGlyph("areas")
-	origen = f[origenLayer.parent.name]
+	origin = f[originLayer.parent.name]
 
-	drawArea(origen, f['areas'], margins[0])
-	drawArea(origen, f['areas'], margins[1])
+	drawArea(origin, f['areas'], margins[0])
+	drawArea(origin, f['areas'], margins[1])
 
 
 # draw outlines on areas glyph
-def drawArea(origen, destination, puntos):
-	destination.width = origen.width
+def drawArea(origin, destination, points):
+	destination.width = origin.width
 	# pen
 	pen = destination.getPen()
 
 	# Tell the pen to draw things
-	pen.moveTo(puntos[0])
-	for p in puntos:
+	pen.moveTo(points[0])
+	for p in points:
 		pen.lineTo(p)
 
 	# Done drawing: close the path
@@ -300,13 +300,13 @@ class htSpacer(object):
 		self.newWidth = False
 
 	def window(self):
-		self.w = vanilla.FloatingWindow((250, 200), "AutoEspaciar", minSize=(225, 200), maxSize=(225, 200), autosaveName="com.ht.spacer")
+		self.w = vanilla.FloatingWindow((250, 200), "HT Spacer", minSize=(225, 200), maxSize=(225, 200), autosaveName="com.ht.spacer")
 		self.w.text_3 = vanilla.TextBox((210, 25, -170, 14), "%", sizeStyle='small')
 		self.w.text_4 = vanilla.TextBox((15, 50, 100, 14), "Area", sizeStyle='small')
 		self.w.text_4b = vanilla.TextBox((140, 50, 50, 14), self.paramArea, sizeStyle='small')
-		self.w.text_5 = vanilla.TextBox((15, 75, 100, 14), "Profundidad", sizeStyle='small')
+		self.w.text_5 = vanilla.TextBox((15, 75, 100, 14), "Depth", sizeStyle='small')
 		self.w.text_5b = vanilla.TextBox((140, 75, 50, 14), self.paramDepth, sizeStyle='small')
-		self.w.text_6 = vanilla.TextBox((15, 100, 100, 14), "Excedente", sizeStyle='small')
+		self.w.text_6 = vanilla.TextBox((15, 100, 100, 14), "Overshoot", sizeStyle='small')
 		self.w.text_6b = vanilla.TextBox((140, 100, 50, 14), self.paramOver, sizeStyle='small')
 		self.w.LSB = vanilla.CheckBox((15, 25, 40, 18), "LSB", value=True, sizeStyle='small', callback=self.SavePreferences)
 		self.w.RSB = vanilla.CheckBox((15 + 45, 25, 40, 18), "RSB", value=True, sizeStyle='small', callback=self.SavePreferences)
@@ -388,9 +388,9 @@ class htSpacer(object):
 				self.reference = item
 
 	# calculates distance over and below
-	def excedente(self):
-		valorExcedente = self.xHeight * self.paramOver / 100
-		return valorExcedente
+	def overshoot(self):
+		valueOver = self.xHeight * self.paramOver / 100
+		return valueOver
 
 	def maxPoints(self, points, minY, maxY):
 		right = -10000
@@ -500,14 +500,14 @@ class htSpacer(object):
 			margins[1][index] = self.italizePoint(margins[1][index])
 		return margins
 
-	def calcularValorSb(self, poligono):
+	def calculateValueSB(self, polygon):
 		amplitudeY = self.maxYref - self.minYref
 		# calculates proportional area
-		areaProporcional = (amplitudeY * self.area) / self.xHeight
-		areaPoligono = area(poligono)
-		valor = areaProporcional - areaPoligono
-		nuevoValor = valor / amplitudeY
-		return nuevoValor
+		proportionalArea = (amplitudeY * self.area) / self.xHeight
+		polygonArea = area(polygon)
+		value = proportionalArea - polygonArea
+		newValue = value / amplitudeY
+		return newValue
 
 	def setSpace(self):
 		self.setResize()
@@ -518,21 +518,21 @@ class htSpacer(object):
 
 		# check reference layer existance and contours
 		if self.font.glyphs[reference]:
-			referenciaLayer = self.font.glyphs[reference].layers[self.layerID]
-			if len(referenciaLayer.paths) < 1:
+			referenceLayer = self.font.glyphs[reference].layers[self.layerID]
+			if len(referenceLayer.paths) < 1:
 				self.output += "WARNING: The reference glyph declared (" + self.reference + ") doesn't have contours. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
-				referenciaLayer = self.layer
+				referenceLayer = self.layer
 		else:
-			referenciaLayer = self.layer
+			referenceLayer = self.layer
 			self.output += "WARNING: The reference glyph declared (" + self.reference + ") doesn't exist. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
 
 		# get reference glyph maximum points
-		bounds = referenciaLayer.bounds
-		valorExcedente = self.excedente()
+		bounds = referenceLayer.bounds
+		valueOver = self.overshoot()
 
 		# store min and max y
-		self.minYref = NSMinY(bounds) - valorExcedente
-		self.maxYref = NSMaxY(bounds) + valorExcedente
+		self.minYref = NSMinY(bounds) - valueOver
+		self.maxYref = NSMaxY(bounds) + valueOver
 
 		# bounds
 		bounds = self.layer.bounds
@@ -547,11 +547,11 @@ class htSpacer(object):
 		margins = marginsZone(marginsFull, self.minYref, self.maxYref)
 
 		# create a closed polygon
-		poligonos = self.processMargins(margins)
+		polygons = self.processMargins(margins)
 
 		# get area from each side
-		areaL = area(poligonos[0])
-		areaR = area(poligonos[1])
+		areaL = area(polygons[0])
+		areaR = area(polygons[1])
 
 		# deitalize margins
 		marginsFull = self.deSlant(marginsFull)
@@ -561,12 +561,12 @@ class htSpacer(object):
 		extremes = self.maxPoints(margins[0] + margins[1], self.minYref, self.maxYref)
 
 		# dif between extremes full and zone
-		distanciaL = math.ceil(extremes[0][0] - fullExtremes[0][0])
-		distanciaR = math.ceil(fullExtremes[1][0] - extremes[1][0])
+		distanceL = math.ceil(extremes[0][0] - fullExtremes[0][0])
+		distanceR = math.ceil(fullExtremes[1][0] - extremes[1][0])
 
 		# set new sidebearings
-		self.newL = math.ceil(0 - distanciaL + self.calcularValorSb(poligonos[0]))
-		self.newR = math.ceil(0 - distanciaR + self.calcularValorSb(poligonos[1]))
+		self.newL = math.ceil(0 - distanceL + self.calculateValueSB(polygons[0]))
+		self.newR = math.ceil(0 - distanceR + self.calculateValueSB(polygons[1]))
 
 		# tabVersion
 		if '.tosf' in self.glyph.name or '.tf' in self.glyph.name or self.tab or tabVersion:
@@ -580,7 +580,7 @@ class htSpacer(object):
 			self.newR += widthDiff
 			self.newWidth = self.width
 
-			self.output += self.glyph.name + ' Fue ajustado tabularmente a ' + str(self.width)
+			self.output += self.glyph.name + ' tabular adjusted ' + str(self.width)
 		# fin tabVersion
 
 		# if there is a metric rule
@@ -593,7 +593,7 @@ class htSpacer(object):
 
 		# creates glyph with white area polygon
 		if len(self.mySelection) < 2 and createProofGlyph:
-			createAreasGlyph(self.font, self.layer, self.layerID, poligonos)
+			createAreasGlyph(self.font, self.layer, self.layerID, polygons)
 
 	def spaceMain(self, sender):
 		Glyphs.clearLog()
@@ -622,7 +622,7 @@ class htSpacer(object):
 				# DECLARE YOUR EXCEPTIONS HERE
 				# no paths
 				if not layer.name:
-					self.output += 'Hay algo raro... Probablemente un salto de linea'
+					self.output += 'Something weird... probably a line break'
 				elif len(layer.paths) < 1 and len(layer.components) < 1:
 					self.output += 'Glyph ' + self.glyph.name + " hasn't any path\n"
 				# both sidebearings with metric keys
