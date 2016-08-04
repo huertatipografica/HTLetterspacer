@@ -165,13 +165,6 @@ def amplitude(layer):
 
 # get margins in Glyphs
 def getMargins(layer, y):
-	# works over glyph copy
-	cleanLayer = layer.copyDecomposedLayer()
-	cleanLayer.removeOverlap()
-	cleanLayer.addExtremePointsForce_(True)
-
-	layer = cleanLayer
-
 	startPoint = NSMakePoint(-1000, y)
 	endPoint = NSMakePoint(3000, y)
 
@@ -196,8 +189,10 @@ def marginList(layer, bottom, top):
 	y = bottom
 	listL = []
 	listR = []
+	# works over glyph copy
+	cleanLayer = layer.copyDecomposedLayer()
 	while y <= top:
-		margins = getMargins(layer, y)
+		margins = getMargins(cleanLayer, y)
 		lpos = margins[0]
 		rpos = margins[1]
 		listL.append([lpos, y])
