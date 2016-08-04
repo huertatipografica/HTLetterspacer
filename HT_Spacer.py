@@ -1,10 +1,13 @@
 #MenuTitle: HT Spacer
+#
+# LetterSpacer, an auto-spacing tool
+# Copyright (C) 2009 - 2016, The LetterSpacer Project Authors
+#
+# This script can only be used with permission
+# 
 # Version 1.0.0
-# Created by Andres Torresi, (Huerta Tipografica)
-# This script can only be used with authorization
-# The program will be useful assigning it a shortcut in OSX keyboard preferences.
 
-#  Basic config
+# Basic config
 # if window = True, scripts run with a UI
 window = False
 # Tabular: if True doesn't change glyph widths // It is automatic for .tf or .tosf glyphs
