@@ -92,18 +92,16 @@ def autoAlignment(thisLayer):
 		make = True
 	return make
 
+def setSidebearings(layer, newL, newR, width, color):
+	layer.LSB = newL
+	layer.RSB = newR
 
-def setSidebearings(color, font, glyphList):
-	for g in glyphList:
-		font.glyphs[g[1]].layers[g[0]].LSB = g[2]
-		font.glyphs[g[1]].layers[g[0]].RSB = g[3]
+	# ajusta el error de calculo tabular
+	if width:
+		layer.width = width
 
-		# ajusta el error de calculo tabular
-		if g[4]:
-			font.glyphs[g[1]].layers[g[0]].width = g[4]
-
-		if color:
-			font.glyphs[g[1]].color = color
+	if color:
+		layer.parent.color = color
 
 
 # shape calculations
@@ -653,8 +651,7 @@ class htSpacer(object):
 				else:
 					self.setSpace()
 					# store values in a list
-					self.glyphValues.append([self.layerIndex, self.glyph.name, self.newL, self.newR, self.newWidth])
-
+					setSidebearings(layer, self.newL, self.newR, self.newWidth, color)
 			# self.p.close()
 
 			if window and not self.SavePreferences(self):
@@ -663,7 +660,7 @@ class htSpacer(object):
 			self.output = ''
 
 			# set sidebearings in list
-			setSidebearings(color, self.font, self.glyphValues)
+			
 
 		# traceback
 		except Exception as ex:
