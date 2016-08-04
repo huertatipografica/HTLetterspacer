@@ -124,26 +124,8 @@ def rectAngle(cat1, cat2):
 	return math.degrees(angle)
 
 
-# polygon area
-def areaPoligono(x, y):
-	ind_arr = np.arange(len(x)) - 1  # for indexing convenience
-	s = 0
-	for ii in ind_arr:
-		s = s + (x[ii] * y[ii + 1] - x[ii + 1] * y[ii])
-
-	return abs(s) * 0.5
-
-
 # point list area
 def area(points):
-	arrayx = []
-	arrayy = []
-
-	for p in range(len(points)):
-		point = points[p]
-		arrayx.append(point[0])
-		arrayy.append(point[1])
-	return areaPoligono(arrayx, arrayy)
 
 
 # returns horizontal, vertical range
@@ -161,6 +143,10 @@ def amplitude(layer):
 # except:
 #	 margins = (None, None)
 # return margins
+	s = 0
+	for ii in np.arange(len(points)) - 1:
+		s = s + (points[ii][0] * points[ii + 1][1] - points[ii + 1][0] * points[ii][1])
+	return abs(s) * 0.5
 
 
 # get margins in Glyphs
