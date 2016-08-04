@@ -248,7 +248,7 @@ class htSpacer(object):
 		self.master = self.font.masters[self.layerIndex]
 
 		self.angle = self.master.italicAngle
-		self.x = self.master.xHeight
+		self.xHeight = self.master.xHeight
 		self.mline = self.master.xHeight / 2
 
 		self.getParams()
@@ -399,16 +399,16 @@ class htSpacer(object):
 
 	# calculates distance over and below
 	def excedente(self):
-		valorExcedente = self.x * self.paramOver / 100
+		valorExcedente = self.xHeight * self.paramOver / 100
 		return valorExcedente
 
 	def box(self, layer):
 		return layer.bounds[0][0], layer.bounds[0][1], layer.bounds[1][0] + layer.bounds[0][0], layer.bounds[0][1] + layer.bounds[1][1]
 
-	def maxPoints(self, list, minY, maxY):
+	def maxPoints(self, points, minY, maxY):
 		right = -10000
 		left = 10000
-		for p in list:
+		for p in points:
 			if p[1] >= minY and p[1] <= maxY:
 				if p[0] > right and p[0] is not None:
 					right = p[0]
@@ -435,7 +435,7 @@ class htSpacer(object):
 
 	# process lists with depth, proportional to xheight
 	def setDepth(self, marginsL, marginsR, puntosExtremos):
-		depth = self.x * self.paramDepth / 100
+		depth = self.xHeight * self.paramDepth / 100
 		marginsL = setDepthInListL(marginsL, depth, puntosExtremos)
 		marginsR = setDepthInListR(marginsR, depth, puntosExtremos)
 		return marginsL, marginsR
@@ -518,7 +518,7 @@ class htSpacer(object):
 	def calcularValorSb(self, poligono):
 		amplitudeY = self.maxYref - self.minYref
 		# calculates proportional area
-		areaProporcional = (amplitudeY * self.area) / self.x
+		areaProporcional = (amplitudeY * self.area) / self.xHeight
 		areaPoligono = area(poligono)
 		valor = areaProporcional - areaPoligono
 		nuevoValor = valor / amplitudeY
