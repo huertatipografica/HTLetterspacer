@@ -77,12 +77,27 @@ Check example files to see it configured.
 
 Once the script is executed it will output the results in the macro window, telling you if it is using the custom parameters or default parameters. 
 
+![Diagram of depth](images/README-01.png)
+
+![Diagram of area parameter compensation on left of C](images/README-02.png)
+
+![Diagram of area parameter compensation on left of N](images/README-03.png)
+
+![Diagram of area parameter compensation on right of C](images/README-04.png)
+
 The `paramArea` parameter lets you define how much area (measured in thousand units) do you want between the lowercase letters inside the x-height. 
 A font suitable for text at 1000 UPM typically uses a value between 200 and 400.
+
+![Diagram of depth parameter variations 10 20 and 25](images/README-05.png)
+
+![Diagram of depth parameter variations 10 and 20](images/README-06.png)
 
 The `paramDepth` parameter (measured relatively as a % of x-height) lets you define how deep into open counterforms you want to measure the space, from the extreme points of each glyphs to its center. 
 This parameter will affect rounded or open shapes. 
 For example: a square with x-height has no depth, its side is vertical, and this value won't affect it. 
+
+![Diagram of depth parameter not effecting flat sides](images/README-07.png)
+
 But a triangle with x-height (a circle, a c-shape or a T) has a long distance and amount of white from its extreme points or sides to the center of the letter. 
 Our eyes doesn't pay attention to the whole area, so the program doesn't do it either. 
 But you need to decide how much of this "big white" you want to measure setting up this parameter.
@@ -115,8 +130,7 @@ Each field in this line should be separated by comma, with a trailing comma:
 | Script | The name of the script type. Asterisk `*` means all |
 | Category | The name of the Glyph category. For the lowercase glyphs is Letter |
 | Subcategory | The name of the Glyph subcategory. For the lowercase glyphs is Lowercase |
-| Value | The number or coefficient of variation that changes the area parameter in each category or rule. In this case the area parameter will be maintained multiplied by 1. If you set up a paramArea of 400 and this value is equal to 2, it means that the area applied will be 800. In this version of script only area parameter is altered by this number. 
-|
+| Value | The number or coefficient of variation that changes the area parameter in each category or rule. In this case the area parameter will be maintained multiplied by 1. If you set up a paramArea of 400 and this value is equal to 2, it means that the area applied will be 800. In this version of script only area parameter is altered by this number. |
 | Reference glyph | It's the name of the glyph that defines the vertical range or area where spacing will be measured. For lowercase we will use the `x`, but you can use any other glyph with the same height, lower and higher points. (Note: it seems silly to define this if we have values as x-height or caps height on the font. But it is made in this way to make it open to any other group of glyphs without standard values on the font, like small caps, numbers, superscript, devanagari, etc.) |
 | Filter | You can filter the rules by any suffix or part of the glyph name. `*` means `all`. But, for example, you can constrain the rule just to the ordinal glyphs writing `ord` in this rule. So it will be applied to `ordfeminine`, `ordmasculine` and `mordor`, if you have this last one. |
 
