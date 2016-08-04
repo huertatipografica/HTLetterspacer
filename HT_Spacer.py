@@ -230,7 +230,10 @@ class htSpacer(object):
 
 	def __init__(self):
 		self.font = Glyphs.font
-		selectedLayers = Glyphs.currentDocument.selectedLayers()
+		selectedLayers = Glyphs.font.selectedLayers
+		if len(selectedLayers) == 0:
+			self.output += "Nothing selected\n"
+			return
 		self.mySelection = list(set(selectedLayers))
 		self.output = ''
 		self.layerID = self.mySelection[0].associatedMasterId
