@@ -623,13 +623,13 @@ class htSpacer(object):
 
 			# self.w.close()
 
-			self.progressBar()
+			# self.progressBar()
 
 			for layer in self.mySelection:
 
 				if layer.name:
 					self.setG(layer)
-					self.p.bar.increment(self.wunit)
+					# self.p.bar.increment(self.wunit)
 
 				# do not execute when
 				# DECLARE YOUR EXCEPTIONS HERE
@@ -655,7 +655,7 @@ class htSpacer(object):
 					# store values in a list
 					self.glyphValues.append([self.layerIndex, self.glyph.name, self.newL, self.newR, self.newWidth])
 
-			self.p.close()
+			# self.p.close()
 
 			if window and not self.SavePreferences(self):
 				self.output += "Note: Couldn't save preferences."
