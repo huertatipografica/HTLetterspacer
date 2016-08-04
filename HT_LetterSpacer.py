@@ -581,7 +581,7 @@ class htSpacer(object):
 			self.newWidth = self.width
 
 			self.output += self.glyph.name + ' tabular adjusted ' + str(self.width)
-		# fin tabVersion
+		# ends tabVersion
 
 		# if there is a metric rule
 		else:
