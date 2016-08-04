@@ -134,7 +134,7 @@ def getMargins(layer, y):
 
 	puntos = len(result)
 	left = 1
-	right = len(result) - 2
+	right = puntos - 2
 
 	if (puntos > 2):
 		margins = (result[left].pointValue().x, result[right].pointValue().x)
@@ -156,7 +156,7 @@ def marginList(layer, bottom, top):
 		rpos = margins[1]
 		listL.append([lpos, y])
 		listR.append([rpos, y])
-		y = y + freq
+		y += freq
 
 	lista = [listL, listR]
 	return lista
@@ -287,7 +287,7 @@ class htSpacer(object):
 			self.output += 'Using DEFAULT PARAMETERS, paramOver: ' + str(self.paramOver) + "\n"
 
 	def setG(self, layer):
-		self.output = '\\' + layer.parent.name + '\\' + "\n" + self.output
+		self.output = '\\' + layer.parent.name + '\\\n' + self.output
 		self.glyph = layer.parent
 		self.layer = layer
 		self.category = layer.parent.category
@@ -416,7 +416,6 @@ class htSpacer(object):
 				if p[0] < left and p[0] is not None:
 					left = p[0]
 					lefty = p[1]
-
 		return ((left, lefty), (right, righty))
 
 	def processMargins(self, margins):
@@ -498,7 +497,6 @@ class htSpacer(object):
 			py = p[1]
 			cateto = p[1] - self.mline
 			xvar = -rectCateto(self.angle, cateto)
-			# xvar=-round(rectCateto(angle,cateto))
 			p = [px + xvar, py]
 		return p
 
@@ -641,16 +639,16 @@ class htSpacer(object):
 				elif len(layer.paths) < 1 and len(layer.components) < 1:
 					self.output += 'Glyph ' + self.glyph.name + " hasn't any path\n"
 				# both sidebearings with metric keys
-				elif autoAlignment(layer) == False:
-					self.output += 'Glifo ' + self.glyph.name + ' has automatic alignment.' + "\n"
+				elif layer.hasAlignedWidth():
+					self.output += 'Glifo ' + self.glyph.name + ' has automatic alignment.\n'
 				elif self.glyph.leftMetricsKey is not None and self.glyph.rightMetricsKey is not None:
-					self.output += 'Glifo ' + self.glyph.name + ' has metric keys. Dont forget to update it.' + "\n"
+					self.output += 'Glifo ' + self.glyph.name + " has metric keys. Don't forget to update it.\n"
 				# if it is tabular
 				# elif '.tosf' in self.glyph.name or '.tf' in self.glyph.name:
 					#self.output+='Glifo '+self.glyph.name +' se supone tabular..'+"\n"
 				# if it is fraction
 				elif 'fraction' in self.glyph.name:
-					self.output += 'Glifo ' + self.glyph.name + ': should be checked and done manually.' + "\n"
+					self.output += 'Glifo ' + self.glyph.name + ': should be checked and done manually.\n'
 				# if not...
 				else:
 					self.setSpace()
