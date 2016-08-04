@@ -131,7 +131,7 @@ class HTSpacerScript(object):
 		self.w.LSB = vanilla.CheckBox((15, 25, 40, 18), "LSB", value=True, sizeStyle='small', callback=self.SavePreferences)
 		self.w.RSB = vanilla.CheckBox((15 + 45, 25, 40, 18), "RSB", value=True, sizeStyle='small', callback=self.SavePreferences)
 		self.w.tab = vanilla.CheckBox((15 + 45 + 45, 25, 60, 18), "Tabular", value=False, sizeStyle='small', callback=self.SavePreferences)
-		self.w.ancho = vanilla.EditText((170, 25, 40, 18), self.mySelection[0].width, sizeStyle='small')
+		self.w.width = vanilla.EditText((170, 25, 40, 18), self.mySelection[0].width, sizeStyle='small')
 		self.w.area = vanilla.EditText((170, 50 - 3, 40, 18), "430", sizeStyle='small')
 		self.w.prof = vanilla.EditText((170, 75 - 3, 40, 18), "20", sizeStyle='small')
 		self.w.ex = vanilla.EditText((170, 100 - 3, 40, 18), "0", sizeStyle='small')
@@ -152,7 +152,7 @@ class HTSpacerScript(object):
 		self.engine.tab = self.w.tab.get()
 		self.engine.LSB = self.w.LSB.get()
 		self.engine.RSB = self.w.RSB.get()
-		self.engine.ancho = float(self.w.ancho.get())
+		self.engine.width = float(self.w.width.get())
 		self.spaceMain()
 		
 		if not self.SavePreferences(self):
