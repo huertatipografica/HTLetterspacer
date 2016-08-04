@@ -1,0 +1,9 @@
+This project is currently in private beta; only the people invited to access this repo should access it. 
+
+It will be published under GPLv3 at the 2016 ATypI in Warsaw. 
+
+Please do not tell anyone about this project until then.
+
+Thanks!
+
+- Andrés Torresi, Dave Crossland, Georg Seifert
