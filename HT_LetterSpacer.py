@@ -153,30 +153,30 @@ def marginsZone(margins, bottom, top):
 
 # sets depth for each point in list
 # left
-def setDepthInListL(lista, depth, puntosExtremos):
+def setDepthInListL(lista, depth, extremePoints):
 	list = []
 	for p in lista:
 		# si es nulo lo pone a la profundiad
 		if p[0] is not None:
 			x = p[0]
-			if p[0] > (puntosExtremos[0][0] + depth):
-				x = puntosExtremos[0][0] + depth
+			if p[0] > (extremePoints[0][0] + depth):
+				x = extremePoints[0][0] + depth
 		else:
-			x = puntosExtremos[0][0] + depth
+			x = extremePoints[0][0] + depth
 		list.append([x, p[1]])
 	return list
 
 
 # right
-def setDepthInListR(lista, depth, puntosExtremos):
+def setDepthInListR(lista, depth, extremePoints):
 	list = []
 	for p in lista:
 		if p[0] is not None:
 			x = p[0]
-			if p[0] < (puntosExtremos[1][0] - depth):
-				x = puntosExtremos[1][0] - depth
+			if p[0] < (extremePoints[1][0] - depth):
+				x = extremePoints[1][0] - depth
 		else:
-			x = puntosExtremos[1][0] - depth
+			x = extremePoints[1][0] - depth
 		list.append([x, p[1]])
 	return list
 
@@ -311,7 +311,7 @@ class htSpacer(object):
 		self.w.LSB = vanilla.CheckBox((15, 25, 40, 18), "LSB", value=True, sizeStyle='small', callback=self.SavePreferences)
 		self.w.RSB = vanilla.CheckBox((15 + 45, 25, 40, 18), "RSB", value=True, sizeStyle='small', callback=self.SavePreferences)
 		self.w.tab = vanilla.CheckBox((15 + 45 + 45, 25, 60, 18), "Tabular", value=False, sizeStyle='small', callback=self.SavePreferences)
-		self.w.ancho = vanilla.EditText((170, 25, 40, 18), self.mySelection[0].width, sizeStyle='small')
+		self.w.width = vanilla.EditText((170, 25, 40, 18), self.mySelection[0].width, sizeStyle='small')
 		self.w.area = vanilla.EditText((170, 50 - 3, 40, 18), "430", sizeStyle='small')
 		self.w.prof = vanilla.EditText((170, 75 - 3, 40, 18), "20", sizeStyle='small')
 		self.w.ex = vanilla.EditText((170, 100 - 3, 40, 18), "0", sizeStyle='small')
@@ -409,21 +409,21 @@ class htSpacer(object):
 		# deSlant if is italic
 		margins = self.deSlant(margins)
 		# get extremes
-		puntosExtremos = self.maxPoints(margins[0] + margins[1], self.minYref, self.maxYref)
+		extremePoints = self.maxPoints(margins[0] + margins[1], self.minYref, self.maxYref)
 
 		# set depth
-		margins = self.setDepth(margins[0], margins[1], puntosExtremos)
+		margins = self.setDepth(margins[0], margins[1], extremePoints)
 		# close open counterforms at 45 degrees
 		margins = self.diagonize(margins[0], margins[1])
-		margins = self.closeOpenCounters(margins[0], margins[1], puntosExtremos)
+		margins = self.closeOpenCounters(margins[0], margins[1], extremePoints)
 		margins = self.slant(margins)
 		return margins[0], margins[1]
 
 	# process lists with depth, proportional to xheight
-	def setDepth(self, marginsL, marginsR, puntosExtremos):
+	def setDepth(self, marginsL, marginsR, extremePoints):
 		depth = self.xHeight * self.paramDepth / 100
-		marginsL = setDepthInListL(marginsL, depth, puntosExtremos)
-		marginsR = setDepthInListR(marginsR, depth, puntosExtremos)
+		marginsL = setDepthInListL(marginsL, depth, extremePoints)
+		marginsR = setDepthInListR(marginsR, depth, extremePoints)
 		return marginsL, marginsR
 
 	# close counterforms at 45 degrees
@@ -457,14 +457,14 @@ class htSpacer(object):
 		return marginsL, marginsR
 
 	# close counterforms, creating a polygon
-	def closeOpenCounters(self, marginsL, marginsR, puntosExtremos):
-		initPoint = puntosExtremos[0][0], self.minYref
-		endPoint = puntosExtremos[0][0], self.maxYref
+	def closeOpenCounters(self, marginsL, marginsR, extremePoints):
+		initPoint = extremePoints[0][0], self.minYref
+		endPoint = extremePoints[0][0], self.maxYref
 		marginsL.insert(0, initPoint)
 		marginsL.append(endPoint)
 
-		initPoint = puntosExtremos[1][0], self.minYref
-		endPoint = puntosExtremos[1][0], self.maxYref
+		initPoint = extremePoints[1][0], self.minYref
+		endPoint = extremePoints[1][0], self.maxYref
 		marginsR.insert(0, initPoint)
 		marginsR.append(endPoint)
 		return marginsL, marginsR
@@ -556,13 +556,13 @@ class htSpacer(object):
 		# deitalize margins
 		marginsFull = self.deSlant(marginsFull)
 		# get extreme points deitalized
-		extremosFull = self.maxPoints(marginsFull[0] + marginsFull[1], NSMinY(bounds), NSMaxY(bounds))
+		fullExtremes = self.maxPoints(marginsFull[0] + marginsFull[1], NSMinY(bounds), NSMaxY(bounds))
 		# get zone extreme points
-		extremos = self.maxPoints(margins[0] + margins[1], self.minYref, self.maxYref)
+		extremes = self.maxPoints(margins[0] + margins[1], self.minYref, self.maxYref)
 
 		# dif between extremes full and zone
-		distanciaL = math.ceil(extremos[0][0] - extremosFull[0][0])
-		distanciaR = math.ceil(extremosFull[1][0] - extremos[1][0])
+		distanciaL = math.ceil(extremes[0][0] - fullExtremes[0][0])
+		distanciaR = math.ceil(fullExtremes[1][0] - extremes[1][0])
 
 		# set new sidebearings
 		self.newL = math.ceil(0 - distanciaL + self.calcularValorSb(poligonos[0]))
@@ -571,16 +571,16 @@ class htSpacer(object):
 		# tabVersion
 		if '.tosf' in self.glyph.name or '.tf' in self.glyph.name or self.tab or tabVersion:
 			if not window:
-				self.ancho = self.layer.width
-			anchoForma = extremosFull[1][0] - extremosFull[0][0]
-			anchoActual = anchoForma + self.newL + self.newR
-			anchoDiff = (self.ancho - anchoActual) / 2
+				self.width = self.layer.width
+			shapeWidth = fullExtremes[1][0] - fullExtremes[0][0]
+			actualWidth = shapeWidth + self.newL + self.newR
+			widthDiff = (self.width - actualWidth) / 2
 
-			self.newL += anchoDiff
-			self.newR += anchoDiff
-			self.newWidth = self.ancho
+			self.newL += widthDiff
+			self.newR += widthDiff
+			self.newWidth = self.width
 
-			self.output += self.glyph.name + ' Fue ajustado tabularmente a ' + str(self.ancho)
+			self.output += self.glyph.name + ' Fue ajustado tabularmente a ' + str(self.width)
 		# fin tabVersion
 
 		# if there is a metric rule
@@ -606,7 +606,7 @@ class htSpacer(object):
 				self.tab = self.w.tab.get()
 				self.LSB = self.w.LSB.get()
 				self.RSB = self.w.RSB.get()
-				self.ancho = float(self.w.ancho.get())
+				self.width = float(self.w.width.get())
 
 			# self.w.close()
 
