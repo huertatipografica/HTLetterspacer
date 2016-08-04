@@ -387,14 +387,14 @@ class htSpacer(object):
 		return exception
 
 	def setResize(self):
-		if(self.exception):
+		if (self.exception):
 			self.area = self.area * self.exception[3]
 
 	def setReference(self):
-		if(self.exception):
-			item = self.exception
-			if item[4] != '*':
-				self.reference = item[4]
+		if (self.exception):
+			item = self.exception[4]
+			if item != '*':
+				self.reference = item
 
 	# calculates distance over and below
 	def excedente(self):
