@@ -209,6 +209,8 @@ class HTSpacerScript(object):
 		return exception
 
 	def setG(self, layer):
+		if layer.isKindOfClass_(objc.lookUpClass("GSControlLayer")):
+			return
 		self.output = '\\' + layer.parent.name + '\\\n' + self.output
 		
 		self.layerID = layer.associatedMasterId
