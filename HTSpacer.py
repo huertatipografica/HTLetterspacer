@@ -25,6 +25,7 @@ createProofGlyph = False
 import GlyphsApp
 import math
 import numpy as np
+import vanilla
 
 import htSpacerLib
 reload(htSpacerLib)
@@ -123,11 +124,11 @@ class HTSpacerScript(object):
 		self.w = vanilla.FloatingWindow((250, 200), "AutoSpacer", minSize=(225, 200), maxSize=(225, 200), autosaveName="com.ht.spacer")
 		self.w.text_3 = vanilla.TextBox((210, 25, -170, 14), "%", sizeStyle='small')
 		self.w.text_4 = vanilla.TextBox((15, 50, 100, 14), "Area", sizeStyle='small')
-		self.w.text_4b = vanilla.TextBox((140, 50, 50, 14), self.paramArea, sizeStyle='small')
+		self.w.text_4b = vanilla.TextBox((140, 50, 50, 14), self.engine.paramArea, sizeStyle='small')
 		self.w.text_5 = vanilla.TextBox((15, 75, 100, 14), "Depth", sizeStyle='small')
-		self.w.text_5b = vanilla.TextBox((140, 75, 50, 14), self.paramDepth, sizeStyle='small')
+		self.w.text_5b = vanilla.TextBox((140, 75, 50, 14), self.engine.paramDepth, sizeStyle='small')
 		self.w.text_6 = vanilla.TextBox((15, 100, 100, 14), "Overshot", sizeStyle='small')
-		self.w.text_6b = vanilla.TextBox((140, 100, 50, 14), self.paramOver, sizeStyle='small')
+		self.w.text_6b = vanilla.TextBox((140, 100, 50, 14), self.engine.paramOver, sizeStyle='small')
 		self.w.LSB = vanilla.CheckBox((15, 25, 40, 18), "LSB", value=True, sizeStyle='small', callback=self.SavePreferences)
 		self.w.RSB = vanilla.CheckBox((15 + 45, 25, 40, 18), "RSB", value=True, sizeStyle='small', callback=self.SavePreferences)
 		self.w.tab = vanilla.CheckBox((15 + 45 + 45, 25, 60, 18), "Tabular", value=False, sizeStyle='small', callback=self.SavePreferences)
