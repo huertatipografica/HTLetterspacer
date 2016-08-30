@@ -1,0 +1,18 @@
+@import 'https://fonts.googleapis.com/css?family=Alegreya+Sans:400,400i,700,700i';
+.sections {
+    section {
+    	padding: 30px 0;
+        &#download {
+            background: #333;
+				p {
+					color: #fff;
+				}
+        }
+        &#idea {
+            background: #eee;
+        }
+    }
+}
+footer {
+	//
+}
