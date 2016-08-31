@@ -1,8 +1,8 @@
-@import 'https://fonts.googleapis.com/css?family=Alegreya+Sans:400,400i,700,700i';
+@import 'https://fonts.googleapis.com/css?family=Telex';
 header {
     background: #eee;
     .menu {
-        font-size: 15px;
+        font-size: 13px;
         letter-spacing: .11em;
         text-transform: uppercase;
         a {
@@ -44,8 +44,8 @@ footer {
 
 // Type
 .bigger {
-    font-size: 26px;
-    line-height: 1.25;
+    font-size: 130%;
+    // line-height: 1.25;
 }
 
 
