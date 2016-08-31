@@ -1,4 +1,4 @@
-@import 'https://fonts.googleapis.com/css?family=Telex';
+// @import 'https://fonts.googleapis.com/css?family=Telex';
 header {
     background: #eee;
     .menu {
@@ -48,9 +48,23 @@ footer {
     // line-height: 1.25;
 }
 
+code {
+    white-space: pre-line;
+}
+
+.accordion {
+    h5 {
+        margin: 0;
+    }
+}
 
 article {
-    p, table, ul, ol, pre, .flex-video {
+    p,
+    table,
+    ul,
+    ol,
+    pre,
+    .flex-video {
         display: none;
     }
 }
