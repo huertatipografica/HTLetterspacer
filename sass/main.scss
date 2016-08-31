@@ -1,18 +1,56 @@
 @import 'https://fonts.googleapis.com/css?family=Alegreya+Sans:400,400i,700,700i';
+header {
+    background: #eee;
+    .menu {
+        font-size: 15px;
+        letter-spacing: .11em;
+        text-transform: uppercase;
+        a {
+            color: #000;
+        }
+    }
+}
+
 .sections {
     section {
-    	padding: 30px 0;
+        &#heading {
+            p {
+                @extend .bigger;
+                margin-top: -12px;
+                color: #777;
+            }
+        }
+        padding: 40px 0;
         &#download {
-            background: #333;
-				p {
-					color: #fff;
-				}
+            background: #111;
+            p {
+                img {
+                    position: absolute;
+                    margin: 9px -104px;
+                }
+                @extend .bigger;
+                color: #fff;
+            }
         }
         &#idea {
             background: #eee;
         }
     }
 }
+
 footer {
-	//
+    //
+}
+
+// Type
+.bigger {
+    font-size: 26px;
+    line-height: 1.25;
+}
+
+
+article {
+    p, table, ul, ol, pre, .flex-video {
+        display: none;
+    }
 }
