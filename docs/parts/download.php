@@ -7,7 +7,7 @@
         Alguien (o un slider de citas) que hable bien del proyecto o algún párrafo marketinero: ej. yo perdí peso usando Reduce Fat Fast. Era un infeliz, pero ahora todas las mujeres se pelan por estar a mi lado.
       </p>
 
-      <a href="#" class="button success"><i class="fa fa-download"></i> Download</a>
+      <a href="#" class="button "><i class="fa fa-download"></i> Download</a>
       <a href="#" class="button secondary"><i class="fa fa-github"></i> Contribute</a>
     </div>
   </div>

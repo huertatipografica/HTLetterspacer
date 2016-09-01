@@ -47,9 +47,9 @@
 
 $global-font-size: 105%;
 $global-width: rem-calc(1100);
-$global-lineheight: 1.5;
+$global-lineheight: 1.7;
 $foundation-palette: (
-  primary: #2199e8,
+  primary: #3adb76,
   secondary: #777,
   success: #3adb76,
   warning: #ffae00,
@@ -131,7 +131,7 @@ $header-text-rendering: optimizeLegibility;
 $small-font-size: 80%;
 $header-small-font-color: $medium-gray;
 $paragraph-lineheight: 1.6;
-$paragraph-margin-bottom: 1rem;
+$paragraph-margin-bottom: 0;
 $paragraph-text-rendering: optimizeLegibility;
 $code-color: $black;
 $code-font-family: $font-family-monospace;

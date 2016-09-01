@@ -1,11 +1,11 @@
 <section id="idea" data-magellan-target="idea">
-	<div class="row">
-		<div class="medium-9 medium-offset-3 columns">
+	<div class="row fundaSplash">
+		<div class="medium-8 medium-offset-3 columns">
 
 			<h2>Fundaments</h2>
 		</div>
 
-		<div class="medium-9 medium-push-3 columns">
+		<div class="medium-8 medium-push-3 columns">
 			<h4>LetterSpacer is a tool for spacing fonts, that works on finished fonts as well as during development. The first public version works as a macro for <a href="https://glyphsapp.com">Glyphs</a> and uses that application's glyph categories and subcategories feature, but the method is adaptable to any editor or programming language.</h4>
 		</div>
 		<div class="medium-3 medium-pull-9 columns smaller">
@@ -13,16 +13,16 @@
 			<p>By making the spacing of a font simpler you can try different spacing options quickly without going mad. </p>
 			<p>Today LetterSpacer doesn't kern, it is only for setting glyph widths and sidebearings.</p>
 		</div>
-
-
-		<div class="large-9 large-offset-3 columns ">
-
+	</div>
+	<div class="row">
+		<div class="medium-8 medium-offset-3 columns">
 
 			<ul class="accordion" data-accordion data-allow-all-closed="true">
 
 				<li class="accordion-item is-active" data-accordion-item>
 					<a href="#" class="accordion-title">
 						<h5>
+							<span class=" badge">1</span>
 							So it replaces the type designer's craft?
 						</h5>
 					</a>
@@ -35,6 +35,7 @@
 				<li class="accordion-item" data-accordion-item>
 					<a href="#" class="accordion-title">
 						<h5>
+							<span class=" badge">2</span>
 							What are the ideas behind it?
 						</h5>
 					</a>
@@ -54,6 +55,7 @@
 				<li class="accordion-item" data-accordion-item>
 					<a href="#" class="accordion-title">
 						<h5>
+							<span class=" badge">3</span>
 							Project History
 						</h5>
 					</a>

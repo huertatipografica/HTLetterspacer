@@ -1,6 +1,6 @@
   <section id="examples" data-magellan-target="examples">
   	<div class="row">
-  		<div class="medium-9 medium-offset-3 columns">
+  		<div class="medium-8 medium-offset-3 columns">
 
   			<h2>Examples</h2>
 
