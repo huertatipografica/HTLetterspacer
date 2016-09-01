@@ -32,6 +32,9 @@ header {
                 color: #fff;
             }
         }
+        &#start {
+            background: #eee;
+        }
         &#idea {
             background: #eee;
         }
@@ -47,6 +50,10 @@ footer {
     font-size: 130%;
     // line-height: 1.25;
 }
+.smaller {
+    font-size: 70%;
+    // line-height: 1.25;
+}
 
 code {
     white-space: pre-line;
@@ -55,16 +62,5 @@ code {
 .accordion {
     h5 {
         margin: 0;
-    }
-}
-
-article {
-    p,
-    table,
-    ul,
-    ol,
-    pre,
-    .flex-video {
-        display: none;
     }
 }

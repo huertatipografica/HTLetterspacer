@@ -1,6 +1,6 @@
   <section id="start" data-magellan-target="start">
   	<div class="row">
-  		<div class="large-9 large-offset-3 columns">
+  		<div class="medium-9 medium-offset-3 columns">
 
   			<h2>Get started</h2>
   			<ul class="accordion" data-accordion data-allow-all-closed="true">
@@ -18,7 +18,7 @@
   								<p>Declare custom parameters on each master of your Glyphs file or a general default one in the script code. </p>
   							</li>
   							<li>
-  								<p>A configuration file in the same folder than your Glyphs file, named like yourfontname_autospace.py, with all the glyph categories, they area value and glyph of reference to define the vertical range where the group will be measured. If there is no file in the same folder, or with incompatible name, you will get an error.</p>
+  								<p>A configuration file in the same folder than your Glyphs file, named like <code>yourfontname_autospace.py</code>, with all the glyph categories, they area value and glyph of reference to define the vertical range where the group will be measured. If there is no file in the same folder, or with incompatible name, you will get an error.</p>
   							</li>
   						</ol>
   					</div>
@@ -75,6 +75,7 @@
   						<p>Config values and rules</p>
   						<p>Each line of the configuration files will contain a set of rules to apply to a group of glyphs. Lines should be ordered from general to specific rules. Each field in this line should be separated by comma, with a trailing comma:</p>
   						<pre><code>Script, Category, Subcategory, value, reference glyph, name filter,</code></pre>
+              <hr>
   						<table>
   							<thead>
   								<tr>
@@ -114,7 +115,7 @@
   							*,Letter,Smallcaps,1.25,h.sc,*,
   							*,Letter,Lowercase,1,x,*,
   							*,Letter,Superscript,0.7,ordfeminine,*,</code></pre>
-  							<p>A <a href="/schriftgestalt/HTSpacer/blob/master/config-default.py">default config file</a> is provided to make the process easier. You must rename this file so it has the same name as your font plus the "_autospace" suffix. For example if your file is called "myserif.glyphs" your config file should be renamed to "myserif_autospace.py".</p>
+  							<p>A <a href="/schriftgestalt/HTSpacer/blob/master/<config-code>code></config-default.py">default config file</a> is provided to make the process easier. You must rename this file so it has the same name as your font plus the "_autospace" suffix. For example if your file is called "myserif.glyphs" your config file should be renamed to "<code>myserif_autospace.py</code>".</p>
   							<p>You can activate or deactivate lines writing a numbersign at the beginning of the line, just as it is in Python language. Each line should contain the 6 values separated by comma, otherwise will result in a traceback error or misconfiguration.</p>
   							<p>Once the script is executed on a selection of glyphs, it will output the results in the macro window, displaying if it is using the custom parameters or default parameters and which line of config was applied in each glyph. In this way, you can have control of what the script is doing and if it is applying the line you want.</p>
   							<p>If a glyph doesn't match any line, the area parameter will be applied and multiplied proportionally to the glyph height.</p>

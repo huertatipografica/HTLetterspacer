@@ -36,18 +36,16 @@
 
 
 
-
-  <div class="sections">
-    <?php include 'parts/heading.php'; ?>
-    <?php include 'parts/download.php'; ?>
-    <?php include 'parts/start.php'; ?>
-    <?php include 'parts/examples.php'; ?>
-    <?php include 'parts/idea.php'; ?>
-    <?php include 'parts/contribute.php'; ?>
-
-    <?php include 'parts/docs.php'; ?>
-  </div>
-
+  <article>
+    <div class="sections">
+      <?php include 'parts/heading.php'; ?>
+      <?php include 'parts/download.php'; ?>
+      <?php include 'parts/start.php'; ?>
+      <?php include 'parts/examples.php'; ?>
+      <?php include 'parts/idea.php'; ?>
+      <?php include 'parts/contribute.php'; ?>
+    </div>
+  </article>
 
 
 
