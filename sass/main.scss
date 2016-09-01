@@ -9,7 +9,7 @@ header {
         a {
             color: #000;
             &.active, &:hover {
-                color: #3adb76;
+                color: $green;
             }
         }
     }
@@ -19,7 +19,7 @@ header {
     section {
         padding: 40px 0 60px;
         p + p {
-            text-indent: 1.3em;
+            text-indent: 1.2em;
         }
         &#heading {
             padding-top: 90px;

@@ -1,3 +1,5 @@
+$greem : #25e46c;
+
 //  Foundation for Sites Settings
 //  -----------------------------
 //
@@ -49,9 +51,9 @@ $global-font-size: 105%;
 $global-width: rem-calc(1100);
 $global-lineheight: 1.7;
 $foundation-palette: (
-  primary: #3adb76,
+  primary: $green,
   secondary: #777,
-  success: #3adb76,
+  success: $green,
   warning: #ffae00,
   alert: #ec5840,
 );

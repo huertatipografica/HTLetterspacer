@@ -19,13 +19,13 @@
         <div class="large-12 columns text-center">
 
           <ul class="horizontal menu" data-magellan>
-            <li>
+            <li class="show-for-large">
               <a target="_blank" href="http://www.huertatipografica.com/">
                 <img src="/images/ht.png" alt="Huerta Tipográfica">
               </a>
             </li>
             <li><a href="#download">Download</a></li>
-            <li><a href="#start">Get started</a></li>
+            <li><a href="#start">Start</a></li>
             <li><a href="#examples">Examples</a></li>
             <li><a href="#idea">Fundaments</a></li>
             <li><a href="#contribute">Contribute</a></li>
