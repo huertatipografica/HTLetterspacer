@@ -10,8 +10,6 @@
 # Basic config
 # if window = True, scripts run with a UI
 window = False
-# Tabular: if True doesn't change glyph widths // It is automatic for .tf or .tosf glyphs
-tabVersion = False
 
 # ADVANCED CONFIG
 # mark color
