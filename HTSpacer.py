@@ -230,8 +230,6 @@ class HTSpacerScript(object):
 		
 		self.engine.minYref = 0
 		self.engine.maxYref = 0
-		self.engine.minYg = 0
-		self.engine.maxYg = 0
 
 		self.engine.newL = layer.LSB
 		self.engine.newR = layer.RSB
