@@ -301,11 +301,7 @@ class HTSpacerLib(object):
 		# bounds
 		bounds = self.layer.bounds
 
-		# all the margins
-		marginsOne = marginList(self.layer, NSMinY(bounds), NSMaxY(bounds))
-
-		# creates a list with left and right margins
-		marginsFull = [marginsOne[0], marginsOne[1]]
+		marginsFull = marginList(self.layer, NSMinY(bounds), NSMaxY(bounds))
 
 		# filter values between min and max
 		margins = marginsZone(marginsFull, self.minYref, self.maxYref)
