@@ -108,14 +108,12 @@ def marginsZone(margins, bottom, top):
 # left
 def setDepthInListL(lista, depth, puntosExtremos):
 	list = []
+	maxdepth = puntosExtremos[0][0] + depth
 	for p in lista:
-		# si es nulo lo pone a la profundiad
 		if p[0] is not None:
-			x = p[0]
-			if p[0] > (puntosExtremos[0][0] + depth):
-				x = puntosExtremos[0][0] + depth
+			x = min(p[0], maxdepth)
 		else:
-			x = puntosExtremos[0][0] + depth
+			x = maxdepth
 		list.append([x, p[1]])
 	return list
 
@@ -123,13 +121,12 @@ def setDepthInListL(lista, depth, puntosExtremos):
 # right
 def setDepthInListR(lista, depth, puntosExtremos):
 	list = []
+	mindepth = puntosExtremos[1][0] - depth
 	for p in lista:
 		if p[0] is not None:
-			x = p[0]
-			if p[0] < (puntosExtremos[1][0] - depth):
-				x = puntosExtremos[1][0] - depth
+			x = max(p[0], mindepth)
 		else:
-			x = puntosExtremos[1][0] - depth
+			x = mindepth
 		list.append([x, p[1]])
 	return list
 
@@ -258,36 +255,26 @@ class HTSpacerLib(object):
 		marginsR.append(endPoint)
 		return marginsL, marginsR
 
-	def italizePoint(self, p):
-		if p[0] is not None:
-			px = p[0]
-			py = p[1]
-			cateto = self.mline - p[1]
-			xvar = -rectCateto(self.angle, cateto)
-			p = [px + xvar, py]
-		return p
+	def _italicOnOffPoint(self, p, onoff):
+		if p[0] is None: return p
+		px, py = p[0], p[1]
+		cateto = -py + self.mline
+		if onoff == "off": cateto = -cateto
+		xvar = -rectCateto(self.angle, cateto)
+		return [px+xvar, py]
 
-	def deItalizePoint(self, p):
-		if p[0] is not None:
-			px = p[0]
-			py = p[1]
-			cateto = p[1] - self.mline
-			xvar = -rectCateto(self.angle, cateto)
-			p = [px + xvar, py]
-		return p
+	def _slantOnOff(self, margins, onoff):
+		if not (self.angle > 0): return margins
+		for index in range(len(margins[0])):
+				margins[0][index] = self._italicOnOffPoint(margins[0][index], onoff)
+				margins[1][index] = self._italicOnOffPoint(margins[1][index], onoff)
+		return margins
 
 	def deSlant(self, margins):
-		if self.angle > 0:
-			for index in range(len(margins[0])):
-				margins[0][index] = self.deItalizePoint(margins[0][index])
-				margins[1][index] = self.deItalizePoint(margins[1][index])
-		return margins
+		return self._slantOnOff(margins, "off")
 
 	def slant(self, margins):
-		for index in range(len(margins[0])):
-			margins[0][index] = self.italizePoint(margins[0][index])
-			margins[1][index] = self.italizePoint(margins[1][index])
-		return margins
+		return self._slantOnOff(margins, "on")
 
 	def calcularValorSb(self, poligono):
 		amplitudeY = self.maxYref - self.minYref
