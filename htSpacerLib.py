@@ -56,7 +56,7 @@ def rectCateto(angle, cat):
 def area(points):
 	s = 0
 	for ii in np.arange(len(points)) - 1:
-		s = s + (points[ii][0] * points[ii + 1][1] - points[ii + 1][0] * points[ii][1])
+		s = s + (points[ii].x * points[ii + 1].y - points[ii + 1].x * points[ii].y)
 	return abs(s) * 0.5
 
 
