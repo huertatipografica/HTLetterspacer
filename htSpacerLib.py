@@ -68,14 +68,12 @@ def getMargins(layer, y):
 	result = layer.calculateIntersectionsStartPoint_endPoint_(startPoint, endPoint)
 	
 	count = len(result)
-	if (count > 2):
-		left = 1
-		right = count - 2
-		margins = (result[left].pointValue().x, result[right].pointValue().x)
-	else:
-		margins = (None, None)
-	return margins
+	if (count <= 2):
+		return (None, None)
 
+	left = 1
+	right = count - 2
+	return (result[left].pointValue().x, result[right].pointValue().x)
 
 # a list of margins
 def marginList(layer, bottom, top):
