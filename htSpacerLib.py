@@ -374,20 +374,20 @@ class HTSpacerLib(object):
 		try:
 			self.output = ""
 			if not layer.name:
-				self.output += 'Hay algo raro... Probablemente un salto de linea'
+				self.output += 'Something went wrong!'
 			elif len(layer.paths) < 1 and len(layer.components) < 1:
-				self.output += 'Glyph ' + layer.parent.name + " hasn't any path\n"
+				self.output += 'No paths in glyph ' + layer.parent.name + "\n"
 			# both sidebearings with metric keys
 			elif layer.hasAlignedWidth():
-				self.output += 'Glifo ' + layer.parent.name + ' has automatic alignment.\n'
+				self.output += 'Glyph ' + layer.parent.name + ' has automatic alignment. Spacing not set.\n'
 			elif layer.parent.leftMetricsKey is not None and layer.parent.rightMetricsKey is not None:
-				self.output += 'Glifo ' + layer.parent.name + " has metric keys. Don't forget to update it.\n"
+				self.output += 'Glyph ' + layer.parent.name + " has metric keys. Spacing not set.\n"
 			# if it is tabular
 			# elif '.tosf' in layer.parent.name or '.tf' in layer.parent.name:
-				#self.output+='Glifo '+layer.parent.name +' se supone tabular..'+"\n"
+				#self.output+='Glyph '+layer.parent.name +' se supone tabular..'+"\n"
 			# if it is fraction
 			elif 'fraction' in layer.parent.name:
-				self.output += 'Glifo ' + layer.parent.name + ': should be checked and done manually.\n'
+				self.output += 'Glyph ' + layer.parent.name + ': should be checked and done manually.\n'
 			# if not...
 			else:
 				self.setSpace(layer, referenceLayer)
