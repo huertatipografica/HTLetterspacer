@@ -293,7 +293,7 @@ class HTSpacerLib(object):
 		rMargins = marginsZone(rFullMargin, self.minYref, self.maxYref)
 
 		# create a closed polygon
-		poligonos = self.processMargins(lMargins, rMargins)
+		lPolygon, rPolygon = self.processMargins(lMargins, rMargins)
 
 		# deitalize margins
 		lFullMargin = self.deSlant(lFullMargin)
@@ -309,8 +309,8 @@ class HTSpacerLib(object):
 		distanciaR = math.ceil(rFullExtreme[0] - rExtreme[0])
 
 		# set new sidebearings
-		self.newL = math.ceil(0 - distanciaL + self.calcularValorSb(poligonos[0]))
-		self.newR = math.ceil(0 - distanciaR + self.calcularValorSb(poligonos[1]))
+		self.newL = math.ceil(0 - distanciaL + self.calcularValorSb(lPolygon))
+		self.newR = math.ceil(0 - distanciaR + self.calcularValorSb(rPolygon))
 
 		# tabVersion
 		if '.tosf' in layer.parent.name or '.tf' in layer.parent.name or self.tab or self.tabVersion:
