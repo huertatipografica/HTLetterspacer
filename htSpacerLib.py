@@ -84,38 +84,38 @@ def marginList(layer, bottom, top):
 	cleanLayer = layer.copyDecomposedLayer()
 	while y <= top:
 		lpos, rpos = getMargins(cleanLayer, y)
-		listL.append([lpos, y])
-		listR.append([rpos, y])
+		listL.append(NSMakePoint(lpos, y))
+		listR.append(NSMakePoint(rpos, y))
 		y += paramFreq
 	return listL, listR
 
 def marginsZone(margins, bottom, top):
-	return filter(lambda p: p[1] >= bottom and p[1] <= top, margins)
+	return filter(lambda p: p.y >= bottom and p.y <= top, margins)
 
 # sets depth for each point in list
 # left
 def setDepthInListL(lista, depth, lExtreme):
 	list = []
-	maxdepth = lExtreme[0] + depth
+	maxdepth = lExtreme.x + depth
 	for p in lista:
-		if p[0] is not None:
-			x = min(p[0], maxdepth)
+		if p.x is not None:
+			x = min(p.x, maxdepth)
 		else:
 			x = maxdepth
-		list.append([x, p[1]])
+		list.append(NSMakePoint(x, p.y))
 	return list
 
 
 # right
 def setDepthInListR(lista, depth, rExtreme):
 	list = []
-	mindepth = rExtreme[0] - depth
+	mindepth = rExtreme.x - depth
 	for p in lista:
 		if p[0] is not None:
 			x = max(p[0], mindepth)
 		else:
 			x = mindepth
-		list.append([x, p[1]])
+		list.append(NSMakePoint(x, p.y))
 	return list
 
 
@@ -170,14 +170,14 @@ class HTSpacerLib(object):
 		right = -10000
 		left = 10000
 		for p in points:
-			if p[1] >= minY and p[1] <= maxY:
-				if p[0] > right and p[0] is not None:
-					right = p[0]
-					righty = p[1]
-				if p[0] < left and p[0] is not None:
-					left = p[0]
-					lefty = p[1]
-		return (left, lefty), (right, righty)
+			if p.y >= minY and p.y <= maxY:
+				if p.x > right and p.x is not None:
+					right = p.x
+					righty = p.y
+				if p.x < left and p.x is not None:
+					left = p.x
+					lefty = p.y
+		return NSMakePoint(left, lefty), NSMakePoint(right, righty)
 
 	def processMargins(self, lMargin, rMargin):
 		# deSlant if is italic
@@ -214,47 +214,46 @@ class HTSpacerLib(object):
 			# left
 			actualPoint = marginsL[index]
 			nextPoint = marginsL[index + 1]
-			if nextPoint[0] > (actualPoint[0] + valueFreq) and nextPoint[1] > actualPoint[1]:
-				marginsL[index + 1][0] = actualPoint[0] + valueFreq
+			if nextPoint.x > (actualPoint.x + valueFreq) and nextPoint.y > actualPoint.y:
+				marginsL[index + 1].x = actualPoint.x + valueFreq
 			# right
 			actualPoint = marginsR[index]
 			nextPoint = marginsR[index + 1]
-			if nextPoint[0] < (actualPoint[0] - valueFreq) and nextPoint[1] > actualPoint[1]:
-				marginsR[index + 1][0] = actualPoint[0] - valueFreq
+			if nextPoint.x < (actualPoint.x - valueFreq) and nextPoint.y > actualPoint.y:
+				marginsR[index + 1].x = actualPoint.x - valueFreq
 
 			# left
 			actualPoint = marginsL[total - index]
 			nextPoint = marginsL[total - index - 1]
-			if nextPoint[0] > (actualPoint[0] + valueFreq) and nextPoint[1] < actualPoint[1]:
-				marginsL[total - index - 1][0] = actualPoint[0] + valueFreq
+			if nextPoint.x > (actualPoint.x + valueFreq) and nextPoint.y < actualPoint.y:
+				marginsL[total - index - 1].x = actualPoint.x + valueFreq
 			# right
 			actualPoint = marginsR[total - index]
 			nextPoint = marginsR[total - index - 1]
-			if nextPoint[0] < (actualPoint[0] - valueFreq) and nextPoint[1] < actualPoint[1]:
-				marginsR[total - index - 1][0] = actualPoint[0] - valueFreq
+			if nextPoint.x < (actualPoint.x - valueFreq) and nextPoint.y < actualPoint.y:
+				marginsR[total - index - 1].x = actualPoint.x - valueFreq
 
 		return marginsL, marginsR
 
 	# close counterforms, creating a polygon
 	def closeOpenCounters(self, marginsL, marginsR, lExtreme, rExtreme):
-		initPoint = lExtreme[0], self.minYref
-		endPoint = lExtreme[0], self.maxYref
+		initPoint = NSMakePoint(lExtreme.x, self.minYref)
+		endPoint = NSMakePoint(lExtreme.x, self.maxYref)
 		marginsL.insert(0, initPoint)
 		marginsL.append(endPoint)
 
-		initPoint = rExtreme[0], self.minYref
-		endPoint = rExtreme[0], self.maxYref
+		initPoint = NSMakePoint(rExtreme.x, self.minYref)
+		endPoint = NSMakePoint(rExtreme.x, self.maxYref)
 		marginsR.insert(0, initPoint)
 		marginsR.append(endPoint)
 		return marginsL, marginsR
 
 	def _italicOnOffPoint(self, p, onoff):
-		if p[0] is None: return p
-		px, py = p[0], p[1]
-		cateto = -py + self.mline
+		if p.x is None: return p
+		cateto = -p.y + self.mline
 		if onoff == "off": cateto = -cateto
 		xvar = -rectCateto(self.angle, cateto)
-		return [px+xvar, py]
+		return NSMakePoint(p.x+xvar, p.y)
 
 	def deSlant(self, margin):
 		return [self._italicOnOffPoint(p,"off") for p in margin]
@@ -305,8 +304,8 @@ class HTSpacerLib(object):
 		lExtreme, rExtreme = self.maxPoints(lMargins + rMargins, self.minYref, self.maxYref)
 
 		# dif between extremes full and zone
-		distanciaL = math.ceil(lExtreme[0] - lFullExtreme[0])
-		distanciaR = math.ceil(rFullExtreme[0] - rExtreme[0])
+		distanciaL = math.ceil(lExtreme.x - lFullExtreme.x)
+		distanciaR = math.ceil(rFullExtreme.x - rExtreme.x)
 
 		# set new sidebearings
 		self.newL = math.ceil(0 - distanciaL + self.calcularValorSb(lPolygon))
@@ -316,7 +315,7 @@ class HTSpacerLib(object):
 		if '.tosf' in layer.parent.name or '.tf' in layer.parent.name or self.tab or self.tabVersion:
 			if not window:
 				self.ancho = self.layer.width
-			anchoForma = rFullExtreme[0] - lFullExtreme[0]
+			anchoForma = rFullExtreme.x - lFullExtreme.x
 			anchoActual = anchoForma + self.newL + self.newR
 			anchoDiff = (self.ancho - anchoActual) / 2
 
