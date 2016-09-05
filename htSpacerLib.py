@@ -178,10 +178,8 @@ class HTSpacerLib(object):
 		self.paramOver = paramOver
 		self.tabVersion = False
 
-	# calculates distance over and below
-	def excedente(self):
-		valorExcedente = self.xHeight * self.paramOver / 100
-		return valorExcedente
+	def overshoot(self):
+		return self.xHeight * self.paramOver / 100
 
 	def maxPoints(self, points, minY, maxY):
 		right = -10000
@@ -307,11 +305,11 @@ class HTSpacerLib(object):
 
 		# get reference glyph maximum points
 		bounds = referenceLayer.bounds
-		valorExcedente = self.excedente()
+		overshoot = self.overshoot()
 
 		# store min and max y
-		self.minYref = NSMinY(bounds) - valorExcedente
-		self.maxYref = NSMaxY(bounds) + valorExcedente
+		self.minYref = NSMinY(bounds) - overshoot
+		self.maxYref = NSMaxY(bounds) + overshoot
 
 		# bounds
 		bounds = self.layer.bounds
