@@ -237,11 +237,9 @@ class HTSpacerScript(object):
 
 		self.setReference()
 
-		# get reference glyph, if exists
-		reference = self.reference
 		# check reference layer existance and contours
-		if self.font.glyphs[reference]:
-			self.referenceLayer = self.font.glyphs[reference].layers[self.layerID]
+		if self.font.glyphs[self.reference]:
+			self.referenceLayer = self.font.glyphs[self.reference].layers[self.layerID]
 			if len(self.referenceLayer.paths) < 1:
 				self.output += "WARNING: The reference glyph declared (" + self.reference + ") doesn't have contours. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
 				self.referenceLayer = self.layer
