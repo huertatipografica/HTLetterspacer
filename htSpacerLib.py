@@ -83,30 +83,20 @@ def marginList(layer, bottom, top):
 	# works over glyph copy
 	cleanLayer = layer.copyDecomposedLayer()
 	while y <= top:
-		margins = getMargins(cleanLayer, y)
-		lpos = margins[0]
-		rpos = margins[1]
+		lpos, rpos = getMargins(cleanLayer, y)
 		listL.append([lpos, y])
 		listR.append([rpos, y])
 		y += paramFreq
-	lista = [listL, listR]
-	return lista
-
+	return listL, listR
 
 def marginsZone(margins, bottom, top):
-	marginsNew = [[], []]
-	for index in range(len(margins[0])):
-		if margins[0][index][1] >= bottom and margins[0][index][1] <= top:
-			marginsNew[0].append(margins[0][index])
-			marginsNew[1].append(margins[1][index])
-	return marginsNew
-
+	return filter(lambda p: p[1] >= bottom and p[1] <= top, margins)
 
 # sets depth for each point in list
 # left
-def setDepthInListL(lista, depth, puntosExtremos):
+def setDepthInListL(lista, depth, lExtreme):
 	list = []
-	maxdepth = puntosExtremos[0][0] + depth
+	maxdepth = lExtreme[0] + depth
 	for p in lista:
 		if p[0] is not None:
 			x = min(p[0], maxdepth)
@@ -117,9 +107,9 @@ def setDepthInListL(lista, depth, puntosExtremos):
 
 
 # right
-def setDepthInListR(lista, depth, puntosExtremos):
+def setDepthInListR(lista, depth, rExtreme):
 	list = []
-	mindepth = puntosExtremos[1][0] - depth
+	mindepth = rExtreme[0] - depth
 	for p in lista:
 		if p[0] is not None:
 			x = max(p[0], mindepth)
@@ -187,27 +177,32 @@ class HTSpacerLib(object):
 				if p[0] < left and p[0] is not None:
 					left = p[0]
 					lefty = p[1]
-		return ((left, lefty), (right, righty))
+		return (left, lefty), (right, righty)
 
-	def processMargins(self, margins):
+	def processMargins(self, lMargin, rMargin):
 		# deSlant if is italic
-		margins = self.deSlant(margins)
+		lMargin = self.deSlant(lMargin)
+		rMargin = self.deSlant(rMargin)
+
 		# get extremes
-		puntosExtremos = self.maxPoints(margins[0] + margins[1], self.minYref, self.maxYref)
+		lExtreme, rExtreme = self.maxPoints(lMargin + rMargin, self.minYref, self.maxYref)
 
 		# set depth
-		margins = self.setDepth(margins[0], margins[1], puntosExtremos)
+		lMargin, rMargin = self.setDepth(lMargin, rMargin, lExtreme, rExtreme)
+
 		# close open counterforms at 45 degrees
-		margins = self.diagonize(margins[0], margins[1])
-		margins = self.closeOpenCounters(margins[0], margins[1], puntosExtremos)
-		margins = self.slant(margins)
-		return margins[0], margins[1]
+		lMargin, rMargin = self.diagonize(lMargin, rMargin)
+		lMargin, rMargin = self.closeOpenCounters(lMargin, rMargin, lExtreme, rExtreme)
+
+		lMargin = self.slant(lMargin)
+		rMargin = self.slant(rMargin)
+		return lMargin, rMargin
 
 	# process lists with depth, proportional to xheight
-	def setDepth(self, marginsL, marginsR, puntosExtremos):
+	def setDepth(self, marginsL, marginsR, lExtreme, rExtreme):
 		depth = self.xHeight * self.paramDepth / 100
-		marginsL = setDepthInListL(marginsL, depth, puntosExtremos)
-		marginsR = setDepthInListR(marginsR, depth, puntosExtremos)
+		marginsL = setDepthInListL(marginsL, depth, lExtreme)
+		marginsR = setDepthInListR(marginsR, depth, rExtreme)
 		return marginsL, marginsR
 
 	# close counterforms at 45 degrees
@@ -241,14 +236,14 @@ class HTSpacerLib(object):
 		return marginsL, marginsR
 
 	# close counterforms, creating a polygon
-	def closeOpenCounters(self, marginsL, marginsR, puntosExtremos):
-		initPoint = puntosExtremos[0][0], self.minYref
-		endPoint = puntosExtremos[0][0], self.maxYref
+	def closeOpenCounters(self, marginsL, marginsR, lExtreme, rExtreme):
+		initPoint = lExtreme[0], self.minYref
+		endPoint = lExtreme[0], self.maxYref
 		marginsL.insert(0, initPoint)
 		marginsL.append(endPoint)
 
-		initPoint = puntosExtremos[1][0], self.minYref
-		endPoint = puntosExtremos[1][0], self.maxYref
+		initPoint = rExtreme[0], self.minYref
+		endPoint = rExtreme[0], self.maxYref
 		marginsR.insert(0, initPoint)
 		marginsR.append(endPoint)
 		return marginsL, marginsR
@@ -261,18 +256,11 @@ class HTSpacerLib(object):
 		xvar = -rectCateto(self.angle, cateto)
 		return [px+xvar, py]
 
-	def _slantOnOff(self, margins, onoff):
-		if not (self.angle > 0): return margins
-		for index in range(len(margins[0])):
-				margins[0][index] = self._italicOnOffPoint(margins[0][index], onoff)
-				margins[1][index] = self._italicOnOffPoint(margins[1][index], onoff)
-		return margins
+	def deSlant(self, margin):
+		return [self._italicOnOffPoint(p,"off") for p in margin]
 
-	def deSlant(self, margins):
-		return self._slantOnOff(margins, "off")
-
-	def slant(self, margins):
-		return self._slantOnOff(margins, "on")
+	def slant(self, margin):
+		return [self._italicOnOffPoint(p,"on") for p in margin]
 
 	def calcularValorSb(self, poligono):
 		amplitudeY = self.maxYref - self.minYref
@@ -284,7 +272,6 @@ class HTSpacerLib(object):
 		return nuevoValor
 
 	def setSpace(self, layer, referenceLayer):
-		
 		self.layer = layer
 		self.area = self.paramArea * self.factor * 100
 
@@ -299,24 +286,27 @@ class HTSpacerLib(object):
 		# bounds
 		bounds = self.layer.bounds
 
-		marginsFull = marginList(self.layer, NSMinY(bounds), NSMaxY(bounds))
+		lFullMargin, rFullMargin = marginList(self.layer, NSMinY(bounds), NSMaxY(bounds))
 
 		# filter values between min and max
-		margins = marginsZone(marginsFull, self.minYref, self.maxYref)
+		lMargins = marginsZone(lFullMargin, self.minYref, self.maxYref)
+		rMargins = marginsZone(rFullMargin, self.minYref, self.maxYref)
 
 		# create a closed polygon
-		poligonos = self.processMargins(margins)
+		poligonos = self.processMargins(lMargins, rMargins)
 
 		# deitalize margins
-		marginsFull = self.deSlant(marginsFull)
+		lFullMargin = self.deSlant(lFullMargin)
+		rFullMargin = self.deSlant(rFullMargin)
+
 		# get extreme points deitalized
-		extremosFull = self.maxPoints(marginsFull[0] + marginsFull[1], NSMinY(bounds), NSMaxY(bounds))
+		lFullExtreme, rFullExtreme = self.maxPoints(lFullMargin + rFullMargin, NSMinY(bounds), NSMaxY(bounds))
 		# get zone extreme points
-		extremos = self.maxPoints(margins[0] + margins[1], self.minYref, self.maxYref)
+		lExtreme, rExtreme = self.maxPoints(lMargins + rMargins, self.minYref, self.maxYref)
 
 		# dif between extremes full and zone
-		distanciaL = math.ceil(extremos[0][0] - extremosFull[0][0])
-		distanciaR = math.ceil(extremosFull[1][0] - extremos[1][0])
+		distanciaL = math.ceil(lExtreme[0] - lFullExtreme[0])
+		distanciaR = math.ceil(rFullExtreme[0] - rExtreme[0])
 
 		# set new sidebearings
 		self.newL = math.ceil(0 - distanciaL + self.calcularValorSb(poligonos[0]))
@@ -326,7 +316,7 @@ class HTSpacerLib(object):
 		if '.tosf' in layer.parent.name or '.tf' in layer.parent.name or self.tab or self.tabVersion:
 			if not window:
 				self.ancho = self.layer.width
-			anchoForma = extremosFull[1][0] - extremosFull[0][0]
+			anchoForma = rFullExtreme[0] - lFullExtreme[0]
 			anchoActual = anchoForma + self.newL + self.newR
 			anchoDiff = (self.ancho - anchoActual) / 2
 
