@@ -326,10 +326,6 @@ class HTSpacerLib(object):
 		# create a closed polygon
 		poligonos = self.processMargins(margins)
 
-		# get area from each side
-		areaL = area(poligonos[0])
-		areaR = area(poligonos[1])
-
 		# deitalize margins
 		marginsFull = self.deSlant(marginsFull)
 		# get extreme points deitalized
