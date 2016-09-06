@@ -216,7 +216,8 @@ class HTSpacerLib(object):
 		return margin
 
 	def _italicOnOffPoint(self, p, onoff):
-		cateto = -p.y + self.mline
+		mline = self.xHeight / 2
+		cateto = -p.y + mline
 		if onoff == "off": cateto = -cateto
 		xvar = -rectCateto(self.angle, cateto)
 		return NSMakePoint(p.x+xvar, p.y)

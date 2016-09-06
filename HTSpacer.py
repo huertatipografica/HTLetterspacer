@@ -80,7 +80,6 @@ class HTSpacerScript(object):
 		
 		self.engine.angle = self.master.italicAngle
 		self.engine.xHeight = self.master.xHeight
-		self.engine.mline = self.master.xHeight / 2
 
 		self.getParams()
 		self.engine.paramDepth = int(self.engine.paramDepth)
