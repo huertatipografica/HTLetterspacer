@@ -73,13 +73,13 @@ def getMargins(layer, y):
 	return (result[left].pointValue().x, result[right].pointValue().x)
 
 # a list of margins
-def marginList(layer, bottom, top):
-	y = bottom
+def marginList(layer):
+	y = NSMinY(layer.bounds)
 	listL = []
 	listR = []
 	# works over glyph copy
 	cleanLayer = layer.copyDecomposedLayer()
-	while y <= top:
+	while y <= NSMaxY(layer.bounds):
 		lpos, rpos = getMargins(cleanLayer, y)
 		if lpos is not None:
 			listL.append(NSMakePoint(lpos, y))
@@ -245,7 +245,7 @@ class HTSpacerLib(object):
 		self.maxYref = NSMaxY(referenceLayer.bounds) + overshoot
 
 		# bounds
-		lFullMargin, rFullMargin = marginList(layer, NSMinY(layer.bounds), NSMaxY(layer.bounds))
+		lFullMargin, rFullMargin = marginList(layer)
 
 		lMargins = filter(lambda p: p.y >= self.minYref and p.y <= self.maxYref, lFullMargin)
 		rMargins = filter(lambda p: p.y >= self.minYref and p.y <= self.maxYref, rFullMargin)
