@@ -266,8 +266,6 @@ class HTSpacerLib(object):
 		return nuevoValor
 
 	def setSpace(self, layer, referenceLayer):
-		self.layer = layer
-
 		# get reference glyph maximum points
 		bounds = referenceLayer.bounds
 		overshoot = self.overshoot()
@@ -277,9 +275,9 @@ class HTSpacerLib(object):
 		self.maxYref = NSMaxY(bounds) + overshoot
 
 		# bounds
-		bounds = self.layer.bounds
+		bounds = layer.bounds
 
-		lFullMargin, rFullMargin = marginList(self.layer, NSMinY(bounds), NSMaxY(bounds))
+		lFullMargin, rFullMargin = marginList(layer, NSMinY(bounds), NSMaxY(bounds))
 
 		# filter values between min and max
 		lMargins = marginsZone(lFullMargin, self.minYref, self.maxYref)
@@ -308,7 +306,7 @@ class HTSpacerLib(object):
 		# tabVersion
 		if '.tosf' in layer.parent.name or '.tf' in layer.parent.name or self.tab or self.tabVersion:
 			if not window:
-				self.ancho = self.layer.width
+				self.ancho = layer.width
 			anchoForma = rFullExtreme.x - lFullExtreme.x
 			anchoActual = anchoForma + self.newL + self.newR
 			anchoDiff = (self.ancho - anchoActual) / 2
@@ -323,10 +321,10 @@ class HTSpacerLib(object):
 		# if there is a metric rule
 		else:
 			if layer.parent.leftMetricsKey is not None or self.LSB == False:
-				self.newL = self.layer.LSB
+				self.newL = layer.LSB
 
 			if layer.parent.rightMetricsKey is not None or self.RSB == False:
-				self.newR = self.layer.RSB
+				self.newR = layer.RSB
 
 	def spaceMain(self, layer, referenceLayer):
 		try:
