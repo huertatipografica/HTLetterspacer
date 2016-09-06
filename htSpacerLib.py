@@ -236,10 +236,8 @@ class HTSpacerLib(object):
 		whiteArea = self.paramArea * self.factor * 100
 		areaProporcional = (amplitudeY * whiteArea) / self.xHeight
 
-		areaPoligono = area(poligono)
-		valor = areaProporcional - areaPoligono
-		nuevoValor = valor / amplitudeY
-		return nuevoValor
+		valor = areaProporcional - area(poligono)
+		return valor / amplitudeY
 
 	def setSpace(self, layer, referenceLayer):
 		# get reference glyph maximum points
