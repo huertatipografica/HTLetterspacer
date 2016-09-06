@@ -62,9 +62,7 @@ class HTSpacerScript(object):
 		if window:
 			self.window()
 		else:
-			for layer in self.mySelection:
-				self.setG(layer)
-				self.engine.spaceMain(layer, self.referenceLayer)
+			self.spaceMain()
 
 	def getParams(self):
 		customArea = self.master.customParameters["paramArea"]
