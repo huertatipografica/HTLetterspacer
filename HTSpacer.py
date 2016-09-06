@@ -217,7 +217,7 @@ class HTSpacerScript(object):
 	def spaceMain(self):
 		for layer in self.mySelection:
 			self.setG(layer)
-			self.engine.spaceMain(layer)
+			self.engine.spaceMain(layer, self.referenceLayer)
 		print(self.output)
 
 
