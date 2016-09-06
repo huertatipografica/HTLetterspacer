@@ -225,12 +225,7 @@ class HTSpacerScript(object):
 
 		if (self.exception):
 			self.engine.factor = self.exception[3]
-		
-		self.engine.minYref = 0
-		self.engine.maxYref = 0
 
-		self.engine.newL = layer.LSB
-		self.engine.newR = layer.RSB
 		self.engine.newWidth = False
 
 		self.setReference()
