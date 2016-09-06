@@ -25,7 +25,7 @@ paramFreq = 10
 import GlyphsApp
 import math
 import numpy as np
-from Foundation import NSMinY, NSMaxY, NSMakePoint
+from Foundation import NSMinX, NSMaxX, NSMinY, NSMaxY, NSMakePoint
 if createProofGlyph:
 	from objectsGS import *
 	f = CurrentFont()
@@ -51,7 +51,6 @@ def rectCateto(angle, cat):
 	#result = round(result)
 	return result
 
-
 # point list area
 def area(points):
 	s = 0
@@ -59,14 +58,12 @@ def area(points):
 		s = s + (points[ii].x * points[ii + 1].y - points[ii + 1].x * points[ii].y)
 	return abs(s) * 0.5
 
-
 # get margins in Glyphs
 def getMargins(layer, y):
-	startPoint = NSMakePoint(-1000, y)
-	endPoint = NSMakePoint(3000, y)
+	startPoint = NSMakePoint(NSMinX(layer.bounds), y)
+	endPoint = NSMakePoint(NSMaxX(layer.bounds), y)
 
 	result = layer.calculateIntersectionsStartPoint_endPoint_(startPoint, endPoint)
-	
 	count = len(result)
 	if (count <= 2):
 		return (None, None)
