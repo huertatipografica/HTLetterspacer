@@ -11,13 +11,6 @@
 # if window = True, scripts run with a UI
 window = False
 
-# ADVANCED CONFIG
-# mark color
-color = 1
-# creates -areas- glyph, with a drawing of the white space in letter. Requires robofab.
-createProofGlyph = False
-
-
 # program
 #  Dependencies
 import GlyphsApp
