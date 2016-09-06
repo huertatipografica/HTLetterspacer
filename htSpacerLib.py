@@ -94,23 +94,13 @@ def marginsZone(margins, bottom, top):
 # sets depth for each point in list
 # left
 def setDepthInListL(lista, depth, lExtreme):
-	list = []
 	maxdepth = lExtreme.x + depth
-	for p in lista:
-		x = min(p.x, maxdepth)
-		list.append(NSMakePoint(x, p.y))
-	return list
-
+	return [NSMakePoint(min(p.x, maxdepth), p.y) for p in lista]
 
 # right
 def setDepthInListR(lista, depth, rExtreme):
-	list = []
 	mindepth = rExtreme.x - depth
-	for p in lista:
-		x = max(p[0], mindepth)
-		list.append(NSMakePoint(x, p.y))
-	return list
-
+	return [NSMakePoint(max(p.x, mindepth), p.y) for p in lista]
 
 # creates proof glyph
 def createAreasGlyph(font, origenLayer, layerIndex, margins):
