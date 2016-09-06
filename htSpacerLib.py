@@ -91,17 +91,6 @@ def marginList(layer, bottom, top):
 def marginsZone(margins, bottom, top):
 	return filter(lambda p: p.y >= bottom and p.y <= top, margins)
 
-# sets depth for each point in list
-# left
-def setDepthInListL(lista, depth, lExtreme):
-	maxdepth = lExtreme.x + depth
-	return [NSMakePoint(min(p.x, maxdepth), p.y) for p in lista]
-
-# right
-def setDepthInListR(lista, depth, rExtreme):
-	mindepth = rExtreme.x - depth
-	return [NSMakePoint(max(p.x, mindepth), p.y) for p in lista]
-
 # creates proof glyph
 def createAreasGlyph(font, origenLayer, layerIndex, margins):
 	from robofab.pens.marginPen import MarginPen
@@ -185,8 +174,10 @@ class HTSpacerLib(object):
 	# process lists with depth, proportional to xheight
 	def setDepth(self, marginsL, marginsR, lExtreme, rExtreme):
 		depth = self.xHeight * self.paramDepth / 100
-		marginsL = setDepthInListL(marginsL, depth, lExtreme)
-		marginsR = setDepthInListR(marginsR, depth, rExtreme)
+		maxdepth = lExtreme.x + depth
+		mindepth = rExtreme.x - depth
+		marginsL = [NSMakePoint(min(p.x, maxdepth), p.y) for p in marginsL]
+		marginsR = [NSMakePoint(max(p.x, mindepth), p.y) for p in marginsR]
 		return marginsL, marginsR
 
 	# close counterforms at 45 degrees
