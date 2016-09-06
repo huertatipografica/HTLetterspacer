@@ -113,6 +113,7 @@ class HTSpacerScript(object):
 		self.w.open()
 
 	def dialogCallback(self, sender):
+		self.output = ""
 		self.engine.paramArea = int(self.w.area.get())
 		self.engine.paramDepth = int(self.w.prof.get())
 		self.engine.paramOver = int(self.w.ex.get())
