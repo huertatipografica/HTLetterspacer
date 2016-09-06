@@ -41,8 +41,8 @@ class HTSpacerScript(object):
 		
 		self.font = Glyphs.font
 		selectedLayers = Glyphs.font.selectedLayers
-		if len(selectedLayers) == 0:
-			self.output += "Nothing selected\n"
+		if selectedLayers is None:
+			print("Nothing selected\n")
 			return
 		self.mySelection = list(set(selectedLayers))
 		self.output = ''
