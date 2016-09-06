@@ -10,28 +10,17 @@
 paramArea = 400  # white area in thousand units
 paramDepth = 15  # depth in open counterforms, from extreme points.
 paramOver = 0    # overshoot in spacing vertical range
+color = 1 			 # mark color
+paramFreq = 10   # frequency of vertical measuring. Higher values are faster but less accurate
 
-# ADVANCED CONFIG
-# mark color
-color = 1
-# creates -areas- glyph, with a drawing of the white space in letter. Requires robofab.
-createProofGlyph = False
-# frequency of vertical measuring. Higher values are faster but less accurate
-paramFreq = 10
-
-
-# program
-#  Dependencies
+# program dependencies
 import GlyphsApp
 import math
 import numpy as np
 from Foundation import NSMinX, NSMaxX, NSMinY, NSMaxY, NSMakePoint
-if createProofGlyph:
-	from objectsGS import *
-	f = CurrentFont()
+from objectsGS import *
 
 #  Functions
-
 def setSidebearings(layer, newL, newR, width, color):
 	layer.LSB = newL
 	layer.RSB = newR
@@ -88,25 +77,6 @@ def marginList(layer):
 		y += paramFreq
 	return listL, listR
 
-# creates proof glyph
-def createAreasGlyph(font, origenLayer, layerIndex, margins):
-	from robofab.pens.marginPen import MarginPen
-	if 'areas' in f:
-		areaLayer = font.glyphs['areas'].layers[layerIndex]
-		# f.removeGlyph('areas')
-		#del font.glyphs["areas"]
-		# removeSegment(index)
-
-		for i in range(len(areaLayer.paths))[::-1]:
-			del areaLayer.paths[i]
-	else:
-		f.newGlyph("areas")
-	origen = f[origenLayer.parent.name]
-
-	drawArea(origen, f['areas'], margins[0])
-	drawArea(origen, f['areas'], margins[1])
-
-
 # draw outlines on areas glyph
 def drawArea(origen, destination, puntos):
 	destination.width = origen.width
@@ -131,6 +101,25 @@ class HTSpacerLib(object):
 		self.paramDepth = paramDepth
 		self.paramOver = paramOver
 		self.tabVersion = False
+
+	def createAreasGlyph(self, font, origenLayer, layerIndex, margins):
+		from robofab.pens.marginPen import MarginPen
+		f = CurrentFont()
+		if 'areas' in f:
+			areaLayer = font.glyphs['areas'].layers[layerIndex]
+			# f.removeGlyph('areas')
+			#del font.glyphs["areas"]
+			# removeSegment(index)
+
+			for i in range(len(areaLayer.paths))[::-1]:
+				del areaLayer.paths[i]
+		else:
+			f.newGlyph("areas")
+		origen = f[origenLayer.parent.name]
+
+		drawArea(origen, f['areas'], margins[0])
+		drawArea(origen, f['areas'], margins[1])
+
 
 	def overshoot(self):
 		return self.xHeight * self.paramOver / 100
@@ -293,6 +282,7 @@ class HTSpacerLib(object):
 
 			if layer.parent.rightMetricsKey is not None or self.RSB == False:
 				self.newR = layer.RSB
+		return lPolygon, rPolygon
 
 	def spaceMain(self, layer, referenceLayer):
 		try:
@@ -314,14 +304,15 @@ class HTSpacerLib(object):
 				self.output += 'Glyph ' + layer.parent.name + ': should be checked and done manually.\n'
 			# if not...
 			else:
-				self.setSpace(layer, referenceLayer)
+				lp, rp = self.setSpace(layer, referenceLayer)
 				# store values in a list
 				setSidebearings(layer, self.newL, self.newR, self.newWidth, color)
 			
 			print self.output
 			self.output = ''
-			
+			return lp, rp
 		# traceback
 		except Exception as ex:
 			import traceback
 			print traceback.format_exc()
+			return ()

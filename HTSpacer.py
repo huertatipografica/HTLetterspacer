@@ -196,8 +196,11 @@ class HTSpacerScript(object):
 	def spaceMain(self):
 		for layer in self.mySelection:
 			self.setG(layer)
-			self.engine.spaceMain(layer, self.referenceLayer)
+			lpolygon, rpolygon = self.engine.spaceMain(layer, self.referenceLayer)
 		print(self.output)
+		if len(self.mySelection) < 2 and createProofGlyph:
+			htSpacerLib.createAreasGlyph(self.font, self.mySelection[0],
+				self.layerID, [lpolygon, rpolygon])
 
 
 HTSpacerScript()
