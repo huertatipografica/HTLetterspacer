@@ -167,12 +167,8 @@ class HTSpacerScript(object):
 			if self.script == item[0] or item[0] == '*':
 				if self.category == item[1] or item[1] == '*':
 					if self.subCategory == item[2] or item[2] == '*':
-						items.append(item)
-		if len(items) > 0:
-			exception = items[0]
-			for item in items:
-				if item[5] in self.glyph.name:
-					exception = item
+						if not exception or item[5] in self.glyph.name:
+							exception = item
 		return exception
 
 	def setG(self, layer):
