@@ -218,6 +218,7 @@ class HTSpacerScript(object):
 		for layer in self.mySelection:
 			self.setG(layer)
 			self.engine.spaceMain(layer)
+		print(self.output)
 
 
 HTSpacerScript()
