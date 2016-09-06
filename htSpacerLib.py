@@ -267,17 +267,14 @@ class HTSpacerLib(object):
 
 	def setSpace(self, layer, referenceLayer):
 		# get reference glyph maximum points
-		bounds = referenceLayer.bounds
 		overshoot = self.overshoot()
 
 		# store min and max y
-		self.minYref = NSMinY(bounds) - overshoot
-		self.maxYref = NSMaxY(bounds) + overshoot
+		self.minYref = NSMinY(referenceLayer.bounds) - overshoot
+		self.maxYref = NSMaxY(referenceLayer.bounds) + overshoot
 
 		# bounds
-		bounds = layer.bounds
-
-		lFullMargin, rFullMargin = marginList(layer, NSMinY(bounds), NSMaxY(bounds))
+		lFullMargin, rFullMargin = marginList(layer, NSMinY(layer.bounds), NSMaxY(layer.bounds))
 
 		# filter values between min and max
 		lMargins = marginsZone(lFullMargin, self.minYref, self.maxYref)
@@ -291,7 +288,7 @@ class HTSpacerLib(object):
 		rFullMargin = self.deSlant(rFullMargin)
 
 		# get extreme points deitalized
-		lFullExtreme, rFullExtreme = self.maxPoints(lFullMargin + rFullMargin, NSMinY(bounds), NSMaxY(bounds))
+		lFullExtreme, rFullExtreme = self.maxPoints(lFullMargin + rFullMargin, NSMinY(layer.bounds), NSMaxY(layer.bounds))
 		# get zone extreme points
 		lExtreme, rExtreme = self.maxPoints(lMargins + rMargins, self.minYref, self.maxYref)
 
