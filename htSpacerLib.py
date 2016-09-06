@@ -261,7 +261,9 @@ class HTSpacerLib(object):
 	def calcularValorSb(self, poligono):
 		amplitudeY = self.maxYref - self.minYref
 		# calculates proportional area
-		areaProporcional = (amplitudeY * self.area) / self.xHeight
+		whiteArea = self.paramArea * self.factor * 100
+		areaProporcional = (amplitudeY * whiteArea) / self.xHeight
+
 		areaPoligono = area(poligono)
 		valor = areaProporcional - areaPoligono
 		nuevoValor = valor / amplitudeY
@@ -269,7 +271,6 @@ class HTSpacerLib(object):
 
 	def setSpace(self, layer, referenceLayer):
 		self.layer = layer
-		self.area = self.paramArea * self.factor * 100
 
 		# get reference glyph maximum points
 		bounds = referenceLayer.bounds
