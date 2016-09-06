@@ -21,8 +21,6 @@ createProofGlyph = False
 # program
 #  Dependencies
 import GlyphsApp
-import math
-import numpy as np
 import vanilla
 
 import htSpacerLib
