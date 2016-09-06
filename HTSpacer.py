@@ -186,14 +186,15 @@ class HTSpacerScript(object):
 		self.subCategory = layer.parent.subCategory
 		self.script = layer.parent.script
 		self.engine.reference = self.glyph.name
-		self.exception = self.findException()
 
-		if (self.exception):
-			self.engine.factor = self.exception[3]
+		exception = self.findException()
+		if (exception):
+			self.engine.factor = exception[3]
+			item = exception[4]
+			if item != '*':
+				self.engine.reference = item
 
 		self.engine.newWidth = False
-
-		self.setReference()
 
 		# check reference layer existance and contours
 		if self.font.glyphs[self.engine.reference]:
@@ -204,12 +205,6 @@ class HTSpacerScript(object):
 		else:
 			self.referenceLayer = self.layer
 			self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't exist. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
-	
-	def setReference(self):
-		if (self.exception):
-			item = self.exception[4]
-			if item != '*':
-				self.engine.reference = item
 	
 	def spaceMain(self):
 		for layer in self.mySelection:
