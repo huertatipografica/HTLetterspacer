@@ -88,9 +88,6 @@ def marginList(layer, bottom, top):
 		y += paramFreq
 	return listL, listR
 
-def marginsZone(margins, bottom, top):
-	return filter(lambda p: p.y >= bottom and p.y <= top, margins)
-
 # creates proof glyph
 def createAreasGlyph(font, origenLayer, layerIndex, margins):
 	from robofab.pens.marginPen import MarginPen
@@ -250,9 +247,8 @@ class HTSpacerLib(object):
 		# bounds
 		lFullMargin, rFullMargin = marginList(layer, NSMinY(layer.bounds), NSMaxY(layer.bounds))
 
-		# filter values between min and max
-		lMargins = marginsZone(lFullMargin, self.minYref, self.maxYref)
-		rMargins = marginsZone(rFullMargin, self.minYref, self.maxYref)
+		lMargins = filter(lambda p: p.y >= self.minYref and p.y <= self.maxYref, lFullMargin)
+		rMargins = filter(lambda p: p.y >= self.minYref and p.y <= self.maxYref, rFullMargin)
 
 		# create a closed polygon
 		lPolygon, rPolygon = self.processMargins(lMargins, rMargins)
