@@ -81,8 +81,10 @@ def marginList(layer, bottom, top):
 	cleanLayer = layer.copyDecomposedLayer()
 	while y <= top:
 		lpos, rpos = getMargins(cleanLayer, y)
-		listL.append(NSMakePoint(lpos, y))
-		listR.append(NSMakePoint(rpos, y))
+		if lpos is not None:
+			listL.append(NSMakePoint(lpos, y))
+		if rpos is not None:
+			listR.append(NSMakePoint(rpos, y))
 		y += paramFreq
 	return listL, listR
 
@@ -95,10 +97,7 @@ def setDepthInListL(lista, depth, lExtreme):
 	list = []
 	maxdepth = lExtreme.x + depth
 	for p in lista:
-		if p.x is not None:
-			x = min(p.x, maxdepth)
-		else:
-			x = maxdepth
+		x = min(p.x, maxdepth)
 		list.append(NSMakePoint(x, p.y))
 	return list
 
@@ -108,10 +107,7 @@ def setDepthInListR(lista, depth, rExtreme):
 	list = []
 	mindepth = rExtreme.x - depth
 	for p in lista:
-		if p[0] is not None:
-			x = max(p[0], mindepth)
-		else:
-			x = mindepth
+		x = max(p[0], mindepth)
 		list.append(NSMakePoint(x, p.y))
 	return list
 
@@ -168,10 +164,10 @@ class HTSpacerLib(object):
 		left = 10000
 		for p in points:
 			if p.y >= minY and p.y <= maxY:
-				if p.x > right and p.x is not None:
+				if p.x > right:
 					right = p.x
 					righty = p.y
-				if p.x < left and p.x is not None:
+				if p.x < left:
 					left = p.x
 					lefty = p.y
 		return NSMakePoint(left, lefty), NSMakePoint(right, righty)
@@ -242,7 +238,6 @@ class HTSpacerLib(object):
 		return margin
 
 	def _italicOnOffPoint(self, p, onoff):
-		if p.x is None: return p
 		cateto = -p.y + self.mline
 		if onoff == "off": cateto = -cateto
 		xvar = -rectCateto(self.angle, cateto)
