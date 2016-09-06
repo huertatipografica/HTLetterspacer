@@ -65,26 +65,13 @@ class HTSpacerScript(object):
 			self.spaceMain()
 
 	def getParams(self):
-		customArea = self.master.customParameters["paramArea"]
-		if customArea:
-			self.engine.paramArea = int(customArea)
-			self.output += 'Using master custom parameter, paramArea: ' + str(self.engine.paramArea) + "\n"
-		else:
-			self.output += 'Using DEFAULT PARAMETERS, paramArea: ' + str(self.engine.paramArea) + "\n"
-
-		customDepth = self.master.customParameters["paramDepth"]
-		if customDepth:
-			self.engine.paramDepth = int(customDepth)
-			self.output += 'Using master custom parameter, paramDepth: ' + str(self.engine.paramDepth) + "\n"
-		else:
-			self.output += 'Using DEFAULT PARAMETERS, paramDepth: ' + str(self.engine.paramDepth) + "\n"
-
-		customOver = self.master.customParameters["paramOver"]
-		if customOver:
-			self.engine.paramOver = int(customOver)
-			self.output += 'Using master custom parameter, paramOver: ' + str(self.engine.paramOver) + "\n"
-		else:
-			self.output += 'Using DEFAULT PARAMETERS, paramOver: ' + str(self.engine.paramOver) + "\n"
+		for param in ["paramArea", "paramDepth", "paramOver"]:
+			customParam = self.master.customParameters[param]
+			if customParam:
+				setattr(self.engine, param, int(customParam))
+				self.output += 'Using master custom parameter, %s: %i\n' % (param, int(customParam))
+			else:
+				self.output += 'Using default parameter %s: %i\n' % (param, getattr(self.engine, param))
 
 	def window(self):
 		self.w = vanilla.FloatingWindow((250, 200), "AutoSpacer", minSize=(225, 200), maxSize=(225, 200), autosaveName="com.ht.spacer")
