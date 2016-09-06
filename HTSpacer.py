@@ -19,30 +19,12 @@ import vanilla
 import htSpacerLib
 reload(htSpacerLib)
 
-if createProofGlyph:
-	from objectsGS import *
-	f = CurrentFont()
-
-#  Functions
-
-# file
-def fileLocation():
-	path = Glyphs.font.filepath.split('/')
-	del path[len(path) - 1]
-	output = ''
-	for f in path:
-		output += f + '/'
-	return output
-
-
 def config():
-	path = fileLocation()
-	filename = Glyphs.font.filepath.split('/')
-	filename = filename[-1].split('.')
-	filename = filename[0]
-	filename = path + filename + "_autospace.py"
+	directory, glyphsfile = os.path.split(Glyphs.font.filepath)
+	conffile = glyphsfile.split('.')[0] + "_autospace.py"
+	confpath = os.path.join(directory, conffile)
 	array = []
-	with open(filename) as f:
+	with open(confpath) as f:
 		for line in f:
 			if line[0] != '#' and len(line) > 5:
 				newline = line.split(",")
@@ -50,7 +32,6 @@ def config():
 				newline[3] = float(newline[3])
 				array.append(newline)
 	return array
-
 
 class HTSpacerScript(object):
 
