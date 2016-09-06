@@ -189,7 +189,8 @@ class HTSpacerLib(object):
 
 		# close open counterforms at 45 degrees
 		lMargin, rMargin = self.diagonize(lMargin, rMargin)
-		lMargin, rMargin = self.closeOpenCounters(lMargin, rMargin, lExtreme, rExtreme)
+		lMargin = self.closeOpenCounters(lMargin, lExtreme)
+		rMargin = self.closeOpenCounters(rMargin, rExtreme)
 
 		lMargin = self.slant(lMargin)
 		rMargin = self.slant(rMargin)
@@ -233,17 +234,12 @@ class HTSpacerLib(object):
 		return marginsL, marginsR
 
 	# close counterforms, creating a polygon
-	def closeOpenCounters(self, marginsL, marginsR, lExtreme, rExtreme):
-		initPoint = NSMakePoint(lExtreme.x, self.minYref)
-		endPoint = NSMakePoint(lExtreme.x, self.maxYref)
-		marginsL.insert(0, initPoint)
-		marginsL.append(endPoint)
-
-		initPoint = NSMakePoint(rExtreme.x, self.minYref)
-		endPoint = NSMakePoint(rExtreme.x, self.maxYref)
-		marginsR.insert(0, initPoint)
-		marginsR.append(endPoint)
-		return marginsL, marginsR
+	def closeOpenCounters(self, margin, extreme):
+		initPoint = NSMakePoint(extreme.x, self.minYref)
+		endPoint = NSMakePoint(extreme.x, self.maxYref)
+		margin.insert(0, initPoint)
+		margin.append(endPoint)
+		return margin
 
 	def _italicOnOffPoint(self, p, onoff):
 		if p.x is None: return p
