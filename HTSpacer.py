@@ -54,8 +54,6 @@ class HTSpacerScript(object):
 		self.engine.xHeight = self.master.xHeight
 
 		self.getParams()
-		self.engine.paramDepth = int(self.engine.paramDepth)
-		self.engine.paramOver = int(self.engine.paramOver)
 
 		self.engine.tab = False
 		self.engine.LSB = True
@@ -71,20 +69,21 @@ class HTSpacerScript(object):
 	def getParams(self):
 		customArea = self.master.customParameters["paramArea"]
 		if customArea:
-			self.engine.paramArea = customArea
+			self.engine.paramArea = int(customArea)
 			self.output += 'Using master custom parameter, paramArea: ' + str(self.engine.paramArea) + "\n"
 		else:
 			self.output += 'Using DEFAULT PARAMETERS, paramArea: ' + str(self.engine.paramArea) + "\n"
 
 		customDepth = self.master.customParameters["paramDepth"]
 		if customDepth:
+			self.engine.paramDepth = int(customDepth)
 			self.output += 'Using master custom parameter, paramDepth: ' + str(self.engine.paramDepth) + "\n"
 		else:
 			self.output += 'Using DEFAULT PARAMETERS, paramDepth: ' + str(self.engine.paramDepth) + "\n"
 
 		customOver = self.master.customParameters["paramOver"]
 		if customOver:
-			self.engine.paramOver = customOver
+			self.engine.paramOver = int(customOver)
 			self.output += 'Using master custom parameter, paramOver: ' + str(self.engine.paramOver) + "\n"
 		else:
 			self.output += 'Using DEFAULT PARAMETERS, paramOver: ' + str(self.engine.paramOver) + "\n"
@@ -202,20 +201,20 @@ class HTSpacerScript(object):
 		self.setReference()
 
 		# check reference layer existance and contours
-		if self.font.glyphs[self.reference]:
-			self.referenceLayer = self.font.glyphs[self.reference].layers[self.layerID]
+		if self.font.glyphs[self.engine.reference]:
+			self.referenceLayer = self.font.glyphs[self.engine.reference].layers[self.layerID]
 			if len(self.referenceLayer.paths) < 1:
-				self.output += "WARNING: The reference glyph declared (" + self.reference + ") doesn't have contours. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
+				self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't have contours. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
 				self.referenceLayer = self.layer
 		else:
 			self.referenceLayer = self.layer
-			self.output += "WARNING: The reference glyph declared (" + self.reference + ") doesn't exist. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
+			self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't exist. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
 	
 	def setReference(self):
 		if (self.exception):
 			item = self.exception[4]
 			if item != '*':
-				self.reference = item
+				self.engine.reference = item
 	
 	def spaceMain(self):
 		for layer in self.mySelection:
