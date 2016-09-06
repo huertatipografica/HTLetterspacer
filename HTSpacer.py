@@ -19,7 +19,7 @@ import vanilla
 import htSpacerLib
 reload(htSpacerLib)
 
-def config():
+def readConfig():
 	directory, glyphsfile = os.path.split(Glyphs.font.filepath)
 	conffile = glyphsfile.split('.')[0] + "_autospace.py"
 	confpath = os.path.join(directory, conffile)
@@ -48,8 +48,8 @@ class HTSpacerScript(object):
 		self.output = ''
 		self.layerID = self.mySelection[0].associatedMasterId
 		self.master = self.font.masters[self.layerID]
-		
-		
+		self.config = readConfig()
+
 		self.engine.angle = self.master.italicAngle
 		self.engine.xHeight = self.master.xHeight
 
@@ -163,7 +163,7 @@ class HTSpacerScript(object):
 	def findException(self):
 		exception = False
 		items = []
-		for item in config():
+		for item in self.config:
 			if self.script == item[0] or item[0] == '*':
 				if self.category == item[1] or item[1] == '*':
 					if self.subCategory == item[2] or item[2] == '*':
