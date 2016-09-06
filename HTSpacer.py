@@ -55,7 +55,7 @@ class HTSpacerScript(object):
 
 		self.getParams()
 
-		self.engine.tab = False
+		self.engine.tabVersion = False
 		self.engine.LSB = True
 		self.engine.RSB = True
 
@@ -104,7 +104,7 @@ class HTSpacerScript(object):
 		self.engine.paramArea = int(self.w.area.get())
 		self.engine.paramDepth = int(self.w.prof.get())
 		self.engine.paramOver = int(self.w.ex.get())
-		self.engine.tab = self.w.tab.get()
+		self.engine.tabVersion = self.w.tab.get()
 		self.engine.LSB = self.w.LSB.get()
 		self.engine.RSB = self.w.RSB.get()
 		self.engine.width = float(self.w.width.get())

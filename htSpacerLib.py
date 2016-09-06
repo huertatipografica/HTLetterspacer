@@ -261,8 +261,10 @@ class HTSpacerLib(object):
 		self.newR = math.ceil(0 - distanciaR + self.calcularValorSb(rPolygon))
 
 		# tabVersion
-		if '.tosf' in layer.parent.name or '.tf' in layer.parent.name or self.tab or self.tabVersion:
-			if not window:
+		if '.tosf' in layer.parent.name or '.tf' in layer.parent.name or self.tabVersion:
+			if self.width:
+				self.ancho = self.width
+			else:
 				self.ancho = layer.width
 			anchoForma = rFullExtreme.x - lFullExtreme.x
 			anchoActual = anchoForma + self.newL + self.newR
