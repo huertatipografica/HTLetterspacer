@@ -3,7 +3,7 @@
   		<div class="medium-8 medium-offset-3 columns">
 
   			<h2>Examples</h2>
-        <p>You can download our <a href="https://github.com/schriftgestalt/HTSpacer" target="_blank">example source files</a> at our <a href="https://github.com/schriftgestalt/HTSpacer" target="_blank">Github repository</a>.</p>
+        <p>You can download our <a href="https://github.com/huertatipografica/HTLetterspacer" target="_blank">example source files</a> at our <a href="https://github.com/huertatipografica/HTLetterspacer" target="_blank">Github repository</a>.</p>
         <p>The <a href="http://www.huertatipografica.com/fonts/telder-ht-pro" target="_blank">Telder HT Pro</a> family's spacing was made with the tool around 98%, plus a little 2% of post-adjustment. The family was drawn in parallel with the development of the tool.</p>
   		</div>
 

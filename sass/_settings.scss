@@ -1,4 +1,4 @@
-$greem : #25e46c;
+$green : #25e46c;
 
 //  Foundation for Sites Settings
 //  -----------------------------
@@ -64,7 +64,7 @@ $black: #0a0a0a;
 $white: #fefefe;
 $body-background: $white;
 $body-font-color: $black;
-$body-font-family: 'Telex', sans-serif;
+$body-font-family: 'Sarala', sans-serif;
 $body-antialiased: true;
 $global-margin: 1rem;
 $global-padding: 1rem;
@@ -105,7 +105,7 @@ $block-grid-max: 8;
 // ------------------
 
 $header-font-family: $body-font-family;
-$header-font-weight: $global-weight-normal;
+$header-font-weight: 700;
 $header-font-style: normal;
 $font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace;
 $header-sizes: (

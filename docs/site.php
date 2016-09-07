@@ -5,8 +5,6 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HT Letterspacer</title>
-  <link href="https://fonts.googleapis.com/css?family=Alegreya:400i" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Sarala:400,700" rel="stylesheet">
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.css">
 
@@ -21,6 +19,7 @@
         <div class="large-12 columns text-center">
 
           <ul class="horizontal menu" data-magellan>
+
             <li class="show-for-large">
               <a target="_blank" href="http://www.huertatipografica.com/">
                 <img src="/images/ht.png" alt="Huerta Tipográfica">
@@ -30,7 +29,6 @@
             <li><a href="#idea">Fundaments</a></li>
             <li><a href="#start">Start</a></li>
             <li><a href="#examples">Examples</a></li>
-            
             <li><a href="#contribute">Contribute</a></li>
           </ul>
         </div>

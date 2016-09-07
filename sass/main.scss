@@ -1,4 +1,5 @@
-@import 'https://fonts.googleapis.com/css?family=Telex';
+@import 'https://fonts.googleapis.com/css?family=Sarala:400,700';
+@import 'https://fonts.googleapis.com/css?family=Alegreya:400i';
 header {
     width: 100%;
     background: rgba(#fff, .95);
@@ -8,7 +9,7 @@ header {
         text-transform: uppercase;
         a {
             color: #000;
-            &.active, &:hover {
+            &:hover {
                 color: $green;
             }
         }
@@ -41,16 +42,22 @@ header {
                 margin-bottom: 30px;
             }
         }
-        &#start {
-            background: #eee;
-        }
         &#idea {
-            background: #eee;
+            // background: #eee;
             .fundaSplash {
                 .smaller {
                     margin-top: 5px;
                 }
             }
+        }
+        &#start {
+            background: #eee;
+        }
+        &#examples {
+            // background: #eee;
+        }
+        &#contribute {
+            background: #eee;
         }
     }
 }
@@ -66,8 +73,16 @@ footer {
 
 // Type
 .bigger {
-    font-size: 130%;
-    // line-height: 1.25;
+    font-size: 200%;
+    font-family: 'Alegreya', serif;
+    font-style: italic;
+    line-height: 1.2;
+    span {
+        font-size: 75%;
+        text-transform: uppercase;
+        letter-spacing: .1em;
+        color: lighten($green, 5%);
+    }
 }
 
 .smaller {
