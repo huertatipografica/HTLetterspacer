@@ -88,6 +88,7 @@ footer {
     span {
         @extend .sc;
         color: lighten($green, 5%);
+        font-style: normal;
     }
 }
 

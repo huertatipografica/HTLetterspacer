@@ -1,0 +1,390 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HT Letterspacer</title>
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.css">
+
+</head>
+<body>
+
+  <div data-sticky-container>
+
+
+    <header class="sticky" data-sticky data-margin-top="0">
+      <div class="row">
+        <div class="large-12 columns text-center">
+
+          <ul class="horizontal menu" data-magellan>
+
+            <li class="show-for-large">
+              <a target="_blank" href="http://www.huertatipografica.com/">
+                <img src="/images/ht.png" alt="Huerta Tipográfica">
+              </a>
+            </li>
+            <li><a href="#download">Download</a></li>
+            <li><a href="#idea">Fundaments</a></li>
+            <li><a href="#start">Start</a></li>
+            <li><a href="#examples">Examples</a></li>
+            <li><a href="#contribute">Contribute</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+
+
+    <article>
+      <div class="sections">
+        
+    <section id="heading">
+      <div class="row">
+        <div class="large-12 columns text-center">
+          <h1>
+            <img src="/images/HTLetterspacerLogo.png" alt="HT Letterspacer">
+          </h1>
+          <p>A free tool for spacing fonts</p>
+        </div>
+      </div>
+    </section>        <section id="download" data-magellan-target="download">
+  <div class="row">
+    <div class="small-12 columns">
+
+      <div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
+        <ul class="orbit-container">
+          <button class="orbit-previous"><span class="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
+          <button class="orbit-next"><span class="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
+
+          
+                      <li class="is-active orbit-slide">
+              <div class="row">
+                <div class="large-7 large-offset-3 medium-8 medium-offset-2  columns">
+                 <p>
+                  <img src="/images/q.png">
+                  An amazing tool to have a well-done spacing in every step of a font project                  <span>– Eduardo Tunni</span>
+                </p>
+              </div>
+            </div>
+          </li>
+                    <li class="is-active orbit-slide">
+              <div class="row">
+                <div class="large-7 large-offset-3 medium-8 medium-offset-2  columns">
+                 <p>
+                  <img src="/images/q.png">
+                  It was very useful for defining Henderson. We made different spacings very quickly to decide the better one                  <span>– Alejandro Paul</span>
+                </p>
+              </div>
+            </div>
+          </li>
+                    <li class="is-active orbit-slide">
+              <div class="row">
+                <div class="large-7 large-offset-3 medium-8 medium-offset-2  columns">
+                 <p>
+                  <img src="/images/q.png">
+                  It works great                  <span>– Pablo Impallari</span>
+                </p>
+              </div>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+
+
+    <div class="medium-9 medium-offset-3  columns">
+      <a href="#" class="button "><i class="fa fa-download"></i> Download</a>
+      <a href="#" class="button secondary"><i class="fa fa-github"></i> Contribute</a>
+    </div>
+  </div>
+</div>
+</section>        <section id="idea" data-magellan-target="idea">
+	<div class="row fundaSplash">
+		<div class="medium-8 medium-offset-3 columns">
+
+			<h2>Fundaments</h2>
+		</div>
+
+		<div class="medium-8 medium-push-3 columns">
+			<h4>HT LetterSpacer is a tool for spacing fonts, that works on finished fonts as well as during development. The first public version works as a macro for <a href="https://glyphsapp.com">Glyphs</a> and uses that application's glyph categories and subcategories feature, but the method is adaptable to any editor or programming language.</h4>
+		</div>
+		<div class="medium-3 medium-pull-9 columns smaller">
+			<p>With HT LetterSpacer making a consistent spacing is easy, because you can define fixed parameters of spacing during your type design process and focus on the letterform drawing. </p>
+			<p>By making the spacing of a font simpler you can try different spacing options quickly without going mad. </p>
+			<p>Today HT LetterSpacer doesn't kern, it is only for setting glyph widths and sidebearings.</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="medium-8 medium-offset-3 columns">
+
+			<ul class="accordion" data-accordion data-allow-all-closed="true">
+
+				<li class="accordion-item is-active" data-accordion-item>
+					<a href="#" class="accordion-title">
+						<h5>
+							<span class=" badge">1</span>
+							So it replaces the type designer's craft?
+						</h5>
+					</a>
+					<div class="accordion-content" data-tab-content>
+						<p>No. You have to configure and use it in what you think is the best way. You still need to know what you are doing. The default configuration will output a reasonable result for a beginner, but it does not replace the eye of a master type designer. To achieve an excellent spacing you need to make an excellent configuration and use of the script. But having good results will be easier and faster.</p>
+					</div>
+				</li>
+
+
+				<li class="accordion-item" data-accordion-item>
+					<a href="#" class="accordion-title">
+						<h5>
+							<span class=" badge">2</span>
+							What are the ideas behind it?
+						</h5>
+					</a>
+					<div class="accordion-content" data-tab-content>
+						<p>HT LetterSpacer is a method for define sidebearings based on the amount of white space or area in a glyph box, and define a way to measure it, using 3 parameters for each master. The parameters are set up for lowercase letters and modified by a configuration template to different groups of letters (using the glyph categories in Glyphs.) There is a script version with a window, where you can apply specific parameters to selected glyphs. The area entered, the zone measured and the depth from each glyph sides will be equalized for all the glyphs in a group.</p>
+						<p>You can use the script based on a template where each category of glyphs has a number that changes the area parameter proportionally, to do a general spacing that looks good. Otherwise you can work applying specific parameters manually to different groups of glyphs, on the fly. The more you put your eye and hand on the process, the more accurate are the results. HT LetterSpacer allows you to work on groups of glyphs reducing the time and effort for achieve a consistent spacing. </p>
+						<p>It works with big families and many masters. If you've changed your mind late in the process, or you want to adapt your fonts to a new purpose, then redesigning the spacing scheme of the entire typeface family is easy. The results can be mixed with your type designer eye as much as you wish.</p>
+						<p>With HT LetterSpacer it is possible to work on tabular or fixed width glyph groups (like tabular numbers) too, on a case by case basis. For monospaced fonts you can set the script to a global tabular mode. </p>
+						<p>HT LetterSpacer is a tool for type designers. There are no magic parameters and each designer can make their own experiments to achieve different results and find their own way to use it for different purposes. Spacing a font is a matter of design, where the designer must make many decisions based on the proportions of letters, the general look, the role of tabular glyphs, and many other factors. </p>
+
+
+
+					</div>
+				</li>
+
+
+				<li class="accordion-item" data-accordion-item>
+					<a href="#" class="accordion-title">
+						<h5>
+							<span class=" badge">3</span>
+							Project History
+						</h5>
+					</a>
+					<div class="accordion-content" data-tab-content>
+						<p>Andrés Torresi is the initial and primary author of this tool. Soon after joining the postgraduate course in typeface design in Buenos Aires in 2009 he began research to find a simple and semi-automated method to set glyph sidebearings, that could work at any moment during a project, and that the type designer can control. Today HT LetterSpacer is the result of this research, and has been thoroughly tested by Andrés and Juan Pablo del Peral at the Huerta Tipográfica foundry and other designers on Latin, Greek, Cyrillic, and Devanagari designs. Experiments with Latin fonts by several other type designers around the world were conducted during development, and each said that the HT LetterSpacer program produces great results.</p>
+						<p>At the ATypI 2015 in São Paulo, Andrés approached Dave Crossland to discuss ways of funding the project to make it available under the GPLv3 license. Andrés wanted to invite other type designers and software developers to use, study, share, and improve the tool, because with peer review it can grow beyond what he can do by himself and become a basis for better and new approaches to font spacing. The tool was used and tested privately by the Google Fonts team and finally at ATypI 2016 in Warsaw Andrés and Georg Seifert announced that HT LetterSpacer is finally available for all Glyphs users from the Glyphs Plugin System with sources at <a href="https://github.com/huertatipografica/HTLetterspacer">https://github.com/huertatipografica/HTLetterspacer</a></p>
+					</div>
+				</li>
+
+			</ul>
+
+		</div>
+
+	</div>
+</section>          <section id="start" data-magellan-target="start">
+  	<div class="row">
+  		<div class="medium-8 medium-offset-3 columns">
+
+  			<h2>Get started</h2>
+  			<ul class="accordion" data-accordion data-allow-all-closed="true">
+
+  				<li class="accordion-item is-active" data-accordion-item>
+  					<a href="#" class="accordion-title">
+  						<h5>
+                <span class=" badge">1</span>
+                What do I need to set up to use it?
+              </h5>
+            </a>
+            <div class="accordion-content" data-tab-content>
+              <p>For using the script you need two main things:</p>
+              <ol>
+               <li>
+                <p>Declare custom parameters on each master of your Glyphs file or a general default one in the script code. </p>
+              </li>
+              <li>
+                <p>A configuration file in the same folder than your Glyphs file, named like <code>yourfontname_autospace.py</code>, with all the glyph categories, they area value and glyph of reference to define the vertical range where the group will be measured. If there is no file in the same folder, or with incompatible name, you will get an error.</p>
+              </li>
+            </ol>
+          </div>
+        </li>
+
+        <li class="accordion-item" data-accordion-item>
+         <a href="#" class="accordion-title">
+          <h5>
+            <span class=" badge">2</span>
+            Parameters
+          </h5>
+        </a>
+        <div class="accordion-content" data-tab-content>
+          <p>Parameters are declared in the custom master parameters field, in the font info, for each of the masters you want to store the values.</p>
+          <a href="/images/params.png" target="_blank"><img src="/images/params.png" alt="Diagram of depth" style='border:1px solid #ccc; margin-bottom:10px'></a>
+
+
+          <p>If the master doesn't have the appropriate custom parameters or the parameter name is different as required, the script will use the default values on the source code. Check example files to see it configured.</p>
+          <p>Once the script is executed it will output the results in the macro window, telling you if it is using the custom parameters or default parameters. </p>
+
+          <h3>Parameter 1: paramArea</h3>
+           <p>The <code>paramArea</code> parameter lets you define how much area (measured in thousand units) do you want between the lowercase letters inside the x-height. A font suitable for text at 1000 UPM typically uses a value between 200 and 400.</p>
+
+        
+           <a href="/images/README-01.png" target="_blank"><img src="/images/README-01.png" alt="Diagram of depth"></a>
+
+
+           <a href="/images/README-02.png" target="_blank"><img src="/images/README-02.png" alt="Diagram of area parameter compensation on left of C"></a>
+
+
+           <a href="/images/README-03.png" target="_blank"><img src="/images/README-03.png" alt="Diagram of area parameter compensation on left of N"></a>
+
+
+
+
+           <a href="/images/README-06.png" target="_blank"><img src="/images/README-06.png" alt="Diagram of depth parameter variations 10 and 20"></a>
+           <h3>Parameter 2: paramDepth</h3>
+         <p>The <code>paramDepth</code> parameter (measured relatively as a % of x-height) lets you define how deep into open counterforms you want to measure the space, from the extreme points of each glyphs to its center. This parameter will affect rounded or open shapes. For example: a square with x-height has no depth, its side is vertical, and this value won't affect it. </p>
+           <a href="/images/README-04.png" target="_blank"><img src="/images/README-04.png" alt="Diagram of area parameter compensation on right of C"></a>
+
+            <a href="/images/README-05.png" target="_blank"><img src="/images/README-05.png" alt="Diagram of depth parameter variations 10 20 and 25"></a>
+
+           <a href="/images/README-07.png" target="_blank"><img src="/images/README-07.png" alt="Diagram of depth parameter not effecting flat sides"></a>
+
+         <p>But a triangle with x-height (a circle, a c-shape or a T) has a long distance and amount of white from its extreme points or sides to the center of the letter. Our eyes doesn't pay attention to the whole area, so the program doesn't do it either. But you need to decide how much of this "big white" you want to measure setting up this parameter.</p>
+         <p>Depending on the design, this value moves between 10 or 25 (percent of x-height).</p>
+         
+         <h3>Parameter 3: paramOvershoot</h3>
+         <p>The <code>paramOvershoot</code> parameter expands the vertical range or height where you measure the space, above and below the shape, by a certain % of x-height. It allows you to make slight differences when a sign has outlines exceeding the height on its group of letters, typically ascenders or descenders. For example: in a sans serif font, a dotless /i/ and and /l/ could have exactly the same shape between the baseline and x-height line. Setting up an overshot will expand the range up and down and will result in a different calculation of space for each sign. In this case, the sign with ascenders (the /l/) will result on a looser space, and its difference depends on how much the overshot is.</p>
+         <p>This parameter is optional and depends on what do you want to do with it, but is intended to be used similar to an overshot</p>
+       </div>
+     </li>
+
+     <li class="accordion-item" data-accordion-item>
+       <a href="#" class="accordion-title">
+        <h5>
+          <span class=" badge">3</span>
+          Configuration file
+        </h5>
+      </a>
+      <div class="accordion-content" data-tab-content>
+        <p>A <a href="#examples">text file</a> in the same Glyphs file folder will define all the different alterations for each category of signs, as well as a reference sign which defines the height or vertical range of the signs group. For example: lowercase vertical range could be defined with <code>x</code>, uppercase with <code>X</code> or <code>H</code>, small caps with <code>x.sc</code>, numbers with <code>one</code>, etc.</p>
+        <h5>Config values and rules</h5>
+        <p>Each line of the configuration files will contain a set of rules to apply to a group of glyphs. Lines should be ordered from general to specific rules. Each field in this line should be separated by comma, with a trailing comma:</p>
+        <pre><code>Script, Category, Subcategory, value, reference glyph, name filter,</code></pre>
+        <hr>
+        <table>
+         <thead>
+          <tr>
+           <th>Item</th>
+           <th>Description</th>
+         </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td>Script</td>
+         <td>The name of the script type. Asterisk <code>*</code> means all</td>
+       </tr>
+       <tr>
+         <td>Category</td>
+         <td>The name of the Glyph category. For the lowercase glyphs is Letter</td>
+       </tr>
+       <tr>
+         <td>Subcategory</td>
+         <td>The name of the Glyph subcategory. For the lowercase glyphs is Lowercase</td>
+       </tr>
+       <tr>
+         <td>Value</td>
+         <td>The number or coefficient of variation that changes the area parameter in each category or rule. In this case the area parameter will be maintained multiplied by 1. If you set up a paramArea of 400 and this value is equal to 2, it means that the area applied will be 800. In this version of script only area parameter is altered by this number.</td>
+       </tr>
+       <tr>
+         <td>Reference glyph</td>
+         <td>It's the name of the glyph that defines the vertical range or area where spacing will be measured. For lowercase we will use the <code>x</code>, but you can use any other glyph with the same height, lower and higher points. (Note: it seems silly to define this if we have values as x-height or caps height on the font. But it is made in this way to make it open to any other group of glyphs without standard values on the font, like small caps, numbers, superscript, devanagari, etc.)</td>
+       </tr>
+       <tr>
+         <td>Filter</td>
+         <td>You can filter the rules by any suffix or part of the glyph name. <code>*</code> means <code>all</code>. But, for example, you can constrain the rule just to the ordinal glyphs writing <code>ord</code> in this rule. So it will be applied to <code>ordfeminine</code>, <code>ordmasculine</code> and <code>mordor</code>, if you have this last one.</td>
+       </tr>
+     </tbody>
+   </table>
+   <p>A simple example of the first 4 lines of a config file for a given font:</p>
+   <pre><code>*,Letter,Uppercase,1.5,H,*,
+     *,Letter,Smallcaps,1.25,h.sc,*,
+     *,Letter,Lowercase,1,x,*,
+     *,Letter,Superscript,0.7,ordfeminine,*,</code></pre>
+     <p>A <a href="/schriftgestalt/HTSpacer/blob/master/<config-code>code></config-default.py">default config file</a> is provided to make the process easier. You must rename this file so it has the same name as your font plus the <code>_autospace</code> suffix. For example if your file is called <code>myserif.glyphs</code> your config file should be renamed to <code>myserif_autospace.py</code>.</p>
+     <p>You can activate or deactivate lines writing a numbersign at the beginning of the line, just as it is in Python language. Each line should contain the 6 values separated by comma, otherwise will result in a traceback error or misconfiguration.</p>
+     <p>Once the script is executed on a selection of glyphs, it will output the results in the macro window, displaying if it is using the custom parameters or default parameters and which line of config was applied in each glyph. In this way, you can have control of what the script is doing and if it is applying the line you want.</p>
+     <p>If a glyph doesn't match any line, the area parameter will be applied and multiplied proportionally to the glyph height.</p>
+
+   </div>
+ </li>
+
+</ul>
+
+
+<!--
+
+				<li class="accordion-item is-active" data-accordion-item>
+  					<a href="#" class="accordion-title">
+  						<h5>
+  							What do I need to set up to use it?
+  						</h5>
+  					</a>
+  					<div class="accordion-content" data-tab-content>
+
+  					</div>
+  				</li>
+
+  			-->
+     </div>
+   </div>
+ </section>          <section id="examples" data-magellan-target="examples">
+  	<div class="row">
+  		<div class="medium-8 medium-offset-3 columns">
+
+  			<h2>Examples</h2>
+        <p>You can download our <a href="https://github.com/huertatipografica/HTLetterspacer" target="_blank">example source files</a> at our <a href="https://github.com/huertatipografica/HTLetterspacer" target="_blank">Github repository</a>.</p>
+        <p>The <a href="http://www.huertatipografica.com/fonts/telder-ht-pro" target="_blank">Telder HT Pro</a> family's spacing was made with the tool around 98%, plus a little 2% of post-adjustment. The family was drawn in parallel with the development of the tool.</p>
+  		</div>
+
+
+      <div class="medium-8 medium-offset-3 columns">
+        <p>This is a screen recording applying the script in two different fonts/families:</p>
+        <div class="flex-video">
+          <iframe width="1280" height="720" src="https://www.youtube-nocookie.com/embed/videoseries?list=PLosdR3A2AyETyiOZWH2A6d_lwWke7zxaQ&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+
+
+      <div class="medium-8 medium-offset-3 columns" style="clear:both;float:none">
+
+        <p>Screencast explaining how to use it:</p>
+        <div class="flex-video">
+          <iframe width="1280" height="720" src="https://www.youtube-nocookie.com/embed/jxntU6c70-s?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+
+
+
+    </div>
+  </section>        <section id="contribute" data-magellan-target="contribute">
+	<div class="row">
+  		<div class="medium-8 medium-offset-3 columns">
+			<h2>Contribute</h2>
+			<p>We want this tool to be open and free to the community, to receive feedback and improvements made by other designers. You can contribute on <a href="https://github.com/huertatipografica/HTLetterspacer"> our repo in Github</a>.
+			</p>
+		</div>
+	</div>
+</section>      </div>
+    </article>
+
+    <footer>
+  <div class="row">
+    <div class="small-12 columns text-center">
+        <p>
+          ©Huerta Tipográfica | <a href="http://www.huertatipografica.com">More info</a> | <a href="https://github.com/huertatipografica/HTLetterspacer">Github</a>
+        </p>
+    </div>
+  </div>
+</footer>  </div>
+
+
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/what-input.min.js"></script>
+  <script src="/js/foundation.min.js"></script>
+
+  <script src="/js/app.js"></script>
+
+
+
+
+</body>
+</html>
