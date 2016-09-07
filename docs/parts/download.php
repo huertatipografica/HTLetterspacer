@@ -43,8 +43,8 @@
 
 
     <div class="medium-9 medium-offset-3  columns">
-      <a href="#" class="button "><i class="fa fa-download"></i> Download</a>
-      <a href="#" class="button secondary"><i class="fa fa-github"></i> Contribute</a>
+      <a href="https://github.com/huertatipografica/HTLetterspacer/archive/master.zip" class="button "><i class="fa fa-download"></i> Download</a>
+      <a href="https://github.com/huertatipografica/HTLetterspacer" class="button secondary"><i class="fa fa-github"></i> Contribute</a>
     </div>
   </div>
 </div>
