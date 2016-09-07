@@ -287,6 +287,7 @@ class HTSpacerLib(object):
 		return lPolygon, rPolygon
 
 	def spaceMain(self, layer, referenceLayer):
+		lp, rp = None, None
 		try:
 			self.output = ""
 			if not layer.name:
@@ -312,9 +313,8 @@ class HTSpacerLib(object):
 			
 			print self.output
 			self.output = ''
-			return lp, rp
 		# traceback
 		except Exception as ex:
 			import traceback
 			print traceback.format_exc()
-			return ()
+		return lp, rp

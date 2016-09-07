@@ -198,7 +198,7 @@ class HTSpacerScript(object):
 			self.setG(layer)
 			lpolygon, rpolygon = self.engine.spaceMain(layer, self.referenceLayer)
 		print(self.output)
-		if len(self.mySelection) < 2 and createProofGlyph:
+		if len(self.mySelection) < 2 and createProofGlyph and lpolygon is not None:
 			htSpacerLib.createAreasGlyph(self.font, self.mySelection[0],
 				self.layerID, [lpolygon, rpolygon])
 
