@@ -5,7 +5,7 @@
           <h1>
             <img src="/images/HTLetterspacerLogo.png" alt="HT Letterspacer">
           </h1>
-          <p>An open source tool for spacing fonts</p>
+          <p>A free tool for spacing fonts</p>
         </div>
       </div>
     </section>

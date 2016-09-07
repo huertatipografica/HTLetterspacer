@@ -33,10 +33,17 @@
           </h5>
         </a>
         <div class="accordion-content" data-tab-content>
-          <p>Parameters are declared in the master parameters field, in the font info.</p>
+          <p>Parameters are declared in the custom master parameters field, in the font info, for each of the masters you want to store the values.</p>
+          <a href="/images/params.png" target="_blank"><img src="/images/params.png" alt="Diagram of depth" style='border:1px solid #ccc; margin-bottom:10px'></a>
+
+
           <p>If the master doesn't have the appropriate custom parameters or the parameter name is different as required, the script will use the default values on the source code. Check example files to see it configured.</p>
           <p>Once the script is executed it will output the results in the macro window, telling you if it is using the custom parameters or default parameters. </p>
 
+          <h3>Parameter 1: paramArea</h3>
+           <p>The <code>paramArea</code> parameter lets you define how much area (measured in thousand units) do you want between the lowercase letters inside the x-height. A font suitable for text at 1000 UPM typically uses a value between 200 and 400.</p>
+
+        
            <a href="/images/README-01.png" target="_blank"><img src="/images/README-01.png" alt="Diagram of depth"></a>
 
 
@@ -46,21 +53,21 @@
            <a href="/images/README-03.png" target="_blank"><img src="/images/README-03.png" alt="Diagram of area parameter compensation on left of N"></a>
 
 
-           <a href="/images/README-04.png" target="_blank"><img src="/images/README-04.png" alt="Diagram of area parameter compensation on right of C"></a>
-
-         <p>The <code>paramArea</code> parameter lets you define how much area (measured in thousand units) do you want between the lowercase letters inside the x-height. A font suitable for text at 1000 UPM typically uses a value between 200 and 400.</p>
-
-           <a href="/images/README-05.png" target="_blank"><img src="/images/README-05.png" alt="Diagram of depth parameter variations 10 20 and 25"></a>
 
 
            <a href="/images/README-06.png" target="_blank"><img src="/images/README-06.png" alt="Diagram of depth parameter variations 10 and 20"></a>
-
+           <h3>Parameter 2: paramDepth</h3>
          <p>The <code>paramDepth</code> parameter (measured relatively as a % of x-height) lets you define how deep into open counterforms you want to measure the space, from the extreme points of each glyphs to its center. This parameter will affect rounded or open shapes. For example: a square with x-height has no depth, its side is vertical, and this value won't affect it. </p>
+           <a href="/images/README-04.png" target="_blank"><img src="/images/README-04.png" alt="Diagram of area parameter compensation on right of C"></a>
+
+            <a href="/images/README-05.png" target="_blank"><img src="/images/README-05.png" alt="Diagram of depth parameter variations 10 20 and 25"></a>
 
            <a href="/images/README-07.png" target="_blank"><img src="/images/README-07.png" alt="Diagram of depth parameter not effecting flat sides"></a>
 
          <p>But a triangle with x-height (a circle, a c-shape or a T) has a long distance and amount of white from its extreme points or sides to the center of the letter. Our eyes doesn't pay attention to the whole area, so the program doesn't do it either. But you need to decide how much of this "big white" you want to measure setting up this parameter.</p>
          <p>Depending on the design, this value moves between 10 or 25 (percent of x-height).</p>
+         
+         <h3>Parameter 3: paramOvershoot</h3>
          <p>The <code>paramOvershoot</code> parameter expands the vertical range or height where you measure the space, above and below the shape, by a certain % of x-height. It allows you to make slight differences when a sign has outlines exceeding the height on its group of letters, typically ascenders or descenders. For example: in a sans serif font, a dotless /i/ and and /l/ could have exactly the same shape between the baseline and x-height line. Setting up an overshot will expand the range up and down and will result in a different calculation of space for each sign. In this case, the sign with ascenders (the /l/) will result on a looser space, and its difference depends on how much the overshot is.</p>
          <p>This parameter is optional and depends on what do you want to do with it, but is intended to be used similar to an overshot</p>
        </div>
@@ -74,8 +81,8 @@
         </h5>
       </a>
       <div class="accordion-content" data-tab-content>
-        <p>A text file in the same Glyphs file folder will define all the different alterations for each category of signs, as well as a reference sign which defines the height or vertical range of the signs group. For example: lowercase vertical range could be defined with <code>x</code>, uppercase with <code>X</code> or <code>H</code>, small caps with <code>x.sc</code>, numbers with <code>one</code>, etc.</p>
-        <p>Config values and rules</p>
+        <p>A <a href="#examples">text file</a> in the same Glyphs file folder will define all the different alterations for each category of signs, as well as a reference sign which defines the height or vertical range of the signs group. For example: lowercase vertical range could be defined with <code>x</code>, uppercase with <code>X</code> or <code>H</code>, small caps with <code>x.sc</code>, numbers with <code>one</code>, etc.</p>
+        <h5>Config values and rules</h5>
         <p>Each line of the configuration files will contain a set of rules to apply to a group of glyphs. Lines should be ordered from general to specific rules. Each field in this line should be separated by comma, with a trailing comma:</p>
         <pre><code>Script, Category, Subcategory, value, reference glyph, name filter,</code></pre>
         <hr>

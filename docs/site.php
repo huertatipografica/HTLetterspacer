@@ -5,6 +5,8 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HT Letterspacer</title>
+  <link href="https://fonts.googleapis.com/css?family=Alegreya:400i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Sarala:400,700" rel="stylesheet">
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.css">
 
@@ -25,9 +27,10 @@
               </a>
             </li>
             <li><a href="#download">Download</a></li>
+            <li><a href="#idea">Fundaments</a></li>
             <li><a href="#start">Start</a></li>
             <li><a href="#examples">Examples</a></li>
-            <li><a href="#idea">Fundaments</a></li>
+            
             <li><a href="#contribute">Contribute</a></li>
           </ul>
         </div>
@@ -40,9 +43,9 @@
       <div class="sections">
         <?php include 'parts/heading.php'; ?>
         <?php include 'parts/download.php'; ?>
+        <?php include 'parts/idea.php'; ?>
         <?php include 'parts/start.php'; ?>
         <?php include 'parts/examples.php'; ?>
-        <?php include 'parts/idea.php'; ?>
         <?php include 'parts/contribute.php'; ?>
       </div>
     </article>
