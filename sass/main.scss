@@ -1,5 +1,7 @@
+// Fonts
 @import 'https://fonts.googleapis.com/css?family=Sarala:400,700';
 @import 'https://fonts.googleapis.com/css?family=Alegreya:400i';
+@import 'https://fonts.googleapis.com/css?family=Alegreya+SC:400';
 header {
     width: 100%;
     background: rgba(#fff, .95);
@@ -26,6 +28,7 @@ header {
             padding-top: 90px;
             p {
                 @extend .bigger;
+                @extend .sc;
                 margin-top: -12px;
                 color: #777;
             }
@@ -72,15 +75,18 @@ footer {
 }
 
 // Type
+.sc {
+    font-family: 'Alegreya SC', serif;
+    letter-spacing: .02em;
+}
+
 .bigger {
     font-size: 200%;
     font-family: 'Alegreya', serif;
     font-style: italic;
     line-height: 1.2;
     span {
-        font-size: 75%;
-        text-transform: uppercase;
-        letter-spacing: .1em;
+        @extend .sc;
         color: lighten($green, 5%);
     }
 }
