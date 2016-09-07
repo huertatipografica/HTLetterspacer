@@ -21,8 +21,8 @@ header {
 .sections {
     section {
         padding: 40px 0 60px;
-        p + p {
-            text-indent: 1.2em;
+        p {
+            margin-bottom: 1.4em;
         }
         &#heading {
             padding-top: 90px;
