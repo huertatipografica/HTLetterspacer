@@ -18,7 +18,7 @@
               'author' => 'Alejandro Paul',
               ],
               [
-              'cite' => 'It works great',
+              'cite' => 'It is very easy to make different spacing tests and you can save a lot of time when you start a project',
               'author' => 'Pablo Impallari',
               ],
             ];
