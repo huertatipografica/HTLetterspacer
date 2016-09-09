@@ -16,8 +16,8 @@ window = False
 import GlyphsApp
 import vanilla
 
-import htSpacerLib
-reload(htSpacerLib)
+import HT_LetterSpacer_lib
+reload(HT_LetterSpacer_lib)
 
 def readConfig():
 	directory, glyphsfile = os.path.split(Glyphs.font.filepath)
