@@ -156,7 +156,7 @@ If you want to work with an window to set the values for different selection and
 You can also put a copy of the main script in your Scripts folder with the window activated and a different name on the first line, and asign two different shortcuts on your OS to each script to use them wisely and quickly.
 
 ### Tabular glyphs and fixed-width fonts
-If you want to work with fixed-width fonts, you need to hardcode the script library and set it as `TabularVersion=True`.
+If you want to work with fixed-width fonts, you need to hardcode the script library and set it as `self.tabVersion = True`.
 If you need to apply tabular values to specific selection of scripts, you can check the Tabular box and enter an advanced width value in the UI. Very useful for figures, math or punctuation.
 
 ### Visualizing area
