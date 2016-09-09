@@ -10,6 +10,7 @@
 # Basic config
 # if window = True, scripts run with a UI
 window = False
+createProofGlyph = True
 
 # program
 #  Dependencies
@@ -199,8 +200,7 @@ class HTSpacerScript(object):
 			lpolygon, rpolygon = self.engine.spaceMain(layer, self.referenceLayer)
 		print(self.output)
 		if len(self.mySelection) < 2 and createProofGlyph and lpolygon is not None:
-			HT_LetterSpacer_lib.createAreasGlyph(self.font, self.mySelection[0],
-				self.layerID, [lpolygon, rpolygon])
+			self.engine.createAreasGlyph(self.font, self.mySelection[0],self.layerID, [lpolygon, rpolygon])
 
 
 HTSpacerScript()
