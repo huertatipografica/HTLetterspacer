@@ -11,7 +11,7 @@ paramArea = 400  # white area in thousand units
 paramDepth = 15  # depth in open counterforms, from extreme points.
 paramOver = 0    # overshoot in spacing vertical range
 color = 1 			 # mark color
-paramFreq = 10   # frequency of vertical measuring. Higher values are faster but less accurate
+paramFreq = 5   # frequency of vertical measuring. Higher values are faster but less accurate
 
 # program dependencies
 import GlyphsApp
@@ -217,13 +217,13 @@ class HTSpacerLib(object):
 	def slant(self, margin):
 		return [self._italicOnOffPoint(p,"on") for p in margin]
 
-	def calcularValorSb(self, poligono):
+	def calculateSBValue(self, polygon):
 		amplitudeY = self.maxYref - self.minYref
 		# calculates proportional area
 		whiteArea = self.paramArea * self.factor * 100
-		areaProporcional = (amplitudeY * whiteArea) / self.xHeight
+		propArea = (amplitudeY * whiteArea) / self.xHeight
 
-		valor = areaProporcional - area(poligono)
+		valor = propArea - area(polygon)
 		return valor / amplitudeY
 
 	def setSpace(self, layer, referenceLayer):
@@ -254,28 +254,28 @@ class HTSpacerLib(object):
 		lExtreme, rExtreme = self.maxPoints(lMargins + rMargins, self.minYref, self.maxYref)
 
 		# dif between extremes full and zone
-		distanciaL = math.ceil(lExtreme.x - lFullExtreme.x)
-		distanciaR = math.ceil(rFullExtreme.x - rExtreme.x)
+		distanceL = math.ceil(lExtreme.x - lFullExtreme.x)
+		distanceR = math.ceil(rFullExtreme.x - rExtreme.x)
 
 		# set new sidebearings
-		self.newL = math.ceil(0 - distanciaL + self.calcularValorSb(lPolygon))
-		self.newR = math.ceil(0 - distanciaR + self.calcularValorSb(rPolygon))
+		self.newL = math.ceil(0 - distanceL + self.calculateSBValue(lPolygon))
+		self.newR = math.ceil(0 - distanceR + self.calculateSBValue(rPolygon))
 
 		# tabVersion
 		if '.tosf' in layer.parent.name or '.tf' in layer.parent.name or self.tabVersion:
 			if self.width:
-				self.ancho = self.width
+				self.layerWidth = self.width
 			else:
-				self.ancho = layer.width
-			anchoForma = rFullExtreme.x - lFullExtreme.x
-			anchoActual = anchoForma + self.newL + self.newR
-			anchoDiff = (self.ancho - anchoActual) / 2
+				self.layerWidth = layer.width
+			widthShape = rFullExtreme.x - lFullExtreme.x
+			widthActual = widthShape + self.newL + self.newR
+			widthDiff = (self.layerWidth - widthActual) / 2
 
-			self.newL += anchoDiff
-			self.newR += anchoDiff
-			self.newWidth = self.ancho
+			self.newL += widthDiff
+			self.newR += widthDiff
+			self.newWidth = self.layerWidth
 
-			self.output += layer.parent.name + ' Fue ajustado tabularmente a ' + str(self.ancho)
+			self.output += layer.parent.name + ' is tabular and adjusted at width = ' + str(self.layerWidth)
 		# fin tabVersion
 
 		# if there is a metric rule
