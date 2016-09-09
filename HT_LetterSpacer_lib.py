@@ -1,5 +1,5 @@
 #
-# LetterSpacer, an auto-spacing tool
+# HT LetterSpacer, an auto-spacing tool
 # Copyright (C) 2009 - 2016, The LetterSpacer Project Authors
 #
 # This script can only be used with permission
