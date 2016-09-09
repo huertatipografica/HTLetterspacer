@@ -1,3 +1,7 @@
+#this file should be in the same folder than the glyphs file
+#and, in order to be linked to your font, should be renamed as
+#<your glyphs file name without extension>_autospacer.py
+
 # CATEGORIES / CATEGORIAS
 # Script, Category, Subcategory, value, referenceGlyph, filter
 # Declare the general and specific / declarar de general a particular
