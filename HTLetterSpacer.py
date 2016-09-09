@@ -1,4 +1,4 @@
-#MenuTitle: HT Spacer (Lib version)
+#MenuTitle: HT LetterSpacer (Lib version)
 #
 # LetterSpacer, an auto-spacing tool
 # Copyright (C) 2009 - 2016, The LetterSpacer Project Authors
