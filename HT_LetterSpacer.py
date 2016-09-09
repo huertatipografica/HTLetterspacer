@@ -69,8 +69,9 @@ class HTSpacerScript(object):
 		for param in ["paramArea", "paramDepth", "paramOver"]:
 			customParam = self.master.customParameters[param]
 			if customParam:
-				setattr(self.engine, param, int(customParam))
-				self.output += 'Using master custom parameter, %s: %i\n' % (param, int(customParam))
+				setattr(self.engine, param, float(customParam))
+				self.output += 'Using master custom parameter, %s: %s\n' % (param, float(customParam))
+				# print float(customParam)
 			else:
 				self.output += 'Using default parameter %s: %i\n' % (param, getattr(self.engine, param))
 
@@ -103,7 +104,7 @@ class HTSpacerScript(object):
 	def dialogCallback(self, sender):
 		self.output = ""
 		self.engine.paramArea = int(self.w.area.get())
-		self.engine.paramDepth = int(self.w.prof.get())
+		self.engine.paramDepth = float(self.w.prof.get())
 		self.engine.paramOver = int(self.w.ex.get())
 		self.engine.tabVersion = self.w.tab.get()
 		self.engine.LSB = self.w.LSB.get()
