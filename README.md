@@ -152,12 +152,18 @@ In this way, you can have control of what the script is doing and if it is apply
 If a glyph doesn't match any line, the area parameter will be applied and multiplied proportionally to the glyph height.
 
 ### Working with UI
-If you want to work with an window to set the values for different selection and override default or custom parameters, just change the 'window' value to 'True'.
+If you want to work with an window to set the values for different selection and override default or custom parameters, just set `window=True`.
 You can also put a copy of the main script in your Scripts folder with the window activated and a different name on the first line, and asign two different shortcuts on your OS to each script to use them wisely and quickly.
 
 ### Tabular glyphs and fixed-width fonts
-If you want to work with fixed-width fonts, you need to hardcode the script library and set it as 'TabularVersion=True'.
+If you want to work with fixed-width fonts, you need to hardcode the script library and set it as `TabularVersion=True`.
 If you need to apply tabular values to specific selection of scripts, you can check the Tabular box and enter an advanced width value in the UI. Very useful for figures, math or punctuation.
+
+### Visualizing area
+To visualize the result area of your paramters in a specific glyph, turn on `createProofGlyph = False` on the script first lines. After this you will have glyph named `areas` with an outline representation of both sides of the box, and it will be updated updated every time the script runs over one specific glyph.
+This function needs robofab installed.
+![The resulting 'area' glyph](images/README-08_area.png)
+
 
 ### Project History
 
