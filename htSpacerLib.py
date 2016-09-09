@@ -10,28 +10,17 @@
 paramArea = 400  # white area in thousand units
 paramDepth = 15  # depth in open counterforms, from extreme points.
 paramOver = 0    # overshoot in spacing vertical range
+color = 1 			 # mark color
+paramFreq = 5   # frequency of vertical measuring. Higher values are faster but less accurate
 
-# ADVANCED CONFIG
-# mark color
-color = 1
-# creates -areas- glyph, with a drawing of the white space in letter. Requires robofab.
-createProofGlyph = False
-# frequency of vertical measuring. Higher values are faster but less accurate
-paramFreq = 10
-
-
-# program
-#  Dependencies
+# program dependencies
 import GlyphsApp
 import math
 import numpy as np
-from Foundation import NSMinY, NSMaxY, NSMakePoint
-if createProofGlyph:
-	from objectsGS import *
-	f = CurrentFont()
+from Foundation import NSMinX, NSMaxX, NSMinY, NSMaxY, NSMakePoint
+from objectsGS import *
 
 #  Functions
-
 def setSidebearings(layer, newL, newR, width, color):
 	layer.LSB = newL
 	layer.RSB = newR
@@ -51,107 +40,42 @@ def rectCateto(angle, cat):
 	#result = round(result)
 	return result
 
-
 # point list area
 def area(points):
 	s = 0
 	for ii in np.arange(len(points)) - 1:
-		s = s + (points[ii][0] * points[ii + 1][1] - points[ii + 1][0] * points[ii][1])
+		s = s + (points[ii].x * points[ii + 1].y - points[ii + 1].x * points[ii].y)
 	return abs(s) * 0.5
-
 
 # get margins in Glyphs
 def getMargins(layer, y):
-	startPoint = NSMakePoint(-1000, y)
-	endPoint = NSMakePoint(3000, y)
+	startPoint = NSMakePoint(NSMinX(layer.bounds), y)
+	endPoint = NSMakePoint(NSMaxX(layer.bounds), y)
 
 	result = layer.calculateIntersectionsStartPoint_endPoint_(startPoint, endPoint)
-	
 	count = len(result)
-	if (count > 2):
-		left = 1
-		right = count - 2
-		margins = (result[left].pointValue().x, result[right].pointValue().x)
-	else:
-		margins = (None, None)
-	return margins
+	if (count <= 2):
+		return (None, None)
 
+	left = 1
+	right = count - 2
+	return (result[left].pointValue().x, result[right].pointValue().x)
 
 # a list of margins
-def marginList(layer, bottom, top):
-	y = bottom
+def marginList(layer):
+	y = NSMinY(layer.bounds)
 	listL = []
 	listR = []
 	# works over glyph copy
 	cleanLayer = layer.copyDecomposedLayer()
-	while y <= top:
-		margins = getMargins(cleanLayer, y)
-		lpos = margins[0]
-		rpos = margins[1]
-		listL.append([lpos, y])
-		listR.append([rpos, y])
+	while y <= NSMaxY(layer.bounds):
+		lpos, rpos = getMargins(cleanLayer, y)
+		if lpos is not None:
+			listL.append(NSMakePoint(lpos, y))
+		if rpos is not None:
+			listR.append(NSMakePoint(rpos, y))
 		y += paramFreq
-	lista = [listL, listR]
-	return lista
-
-
-def marginsZone(margins, bottom, top):
-	marginsNew = [[], []]
-	for index in range(len(margins[0])):
-		if margins[0][index][1] >= bottom and margins[0][index][1] <= top:
-			marginsNew[0].append(margins[0][index])
-			marginsNew[1].append(margins[1][index])
-	return marginsNew
-
-
-# sets depth for each point in list
-# left
-def setDepthInListL(lista, depth, puntosExtremos):
-	list = []
-	for p in lista:
-		# si es nulo lo pone a la profundiad
-		if p[0] is not None:
-			x = p[0]
-			if p[0] > (puntosExtremos[0][0] + depth):
-				x = puntosExtremos[0][0] + depth
-		else:
-			x = puntosExtremos[0][0] + depth
-		list.append([x, p[1]])
-	return list
-
-
-# right
-def setDepthInListR(lista, depth, puntosExtremos):
-	list = []
-	for p in lista:
-		if p[0] is not None:
-			x = p[0]
-			if p[0] < (puntosExtremos[1][0] - depth):
-				x = puntosExtremos[1][0] - depth
-		else:
-			x = puntosExtremos[1][0] - depth
-		list.append([x, p[1]])
-	return list
-
-
-# creates proof glyph
-def createAreasGlyph(font, origenLayer, layerIndex, margins):
-	from robofab.pens.marginPen import MarginPen
-	if 'areas' in f:
-		areaLayer = font.glyphs['areas'].layers[layerIndex]
-		# f.removeGlyph('areas')
-		#del font.glyphs["areas"]
-		# removeSegment(index)
-
-		for i in range(len(areaLayer.paths))[::-1]:
-			del areaLayer.paths[i]
-	else:
-		f.newGlyph("areas")
-	origen = f[origenLayer.parent.name]
-
-	drawArea(origen, f['areas'], margins[0])
-	drawArea(origen, f['areas'], margins[1])
-
+	return listL, listR
 
 # draw outlines on areas glyph
 def drawArea(origen, destination, puntos):
@@ -178,6 +102,25 @@ class HTSpacerLib(object):
 		self.paramOver = paramOver
 		self.tabVersion = False
 
+	def createAreasGlyph(self, font, origenLayer, layerIndex, margins):
+		from robofab.pens.marginPen import MarginPen
+		f = CurrentFont()
+		if 'areas' in f:
+			areaLayer = font.glyphs['areas'].layers[layerIndex]
+			# f.removeGlyph('areas')
+			#del font.glyphs["areas"]
+			# removeSegment(index)
+
+			for i in range(len(areaLayer.paths))[::-1]:
+				del areaLayer.paths[i]
+		else:
+			f.newGlyph("areas")
+		origen = f[origenLayer.parent.name]
+
+		drawArea(origen, f['areas'], margins[0])
+		drawArea(origen, f['areas'], margins[1])
+
+
 	def overshoot(self):
 		return self.xHeight * self.paramOver / 100
 
@@ -185,34 +128,42 @@ class HTSpacerLib(object):
 		right = -10000
 		left = 10000
 		for p in points:
-			if p[1] >= minY and p[1] <= maxY:
-				if p[0] > right and p[0] is not None:
-					right = p[0]
-					righty = p[1]
-				if p[0] < left and p[0] is not None:
-					left = p[0]
-					lefty = p[1]
-		return ((left, lefty), (right, righty))
+			if p.y >= minY and p.y <= maxY:
+				if p.x > right:
+					right = p.x
+					righty = p.y
+				if p.x < left:
+					left = p.x
+					lefty = p.y
+		return NSMakePoint(left, lefty), NSMakePoint(right, righty)
 
-	def processMargins(self, margins):
+	def processMargins(self, lMargin, rMargin):
 		# deSlant if is italic
-		margins = self.deSlant(margins)
+		lMargin = self.deSlant(lMargin)
+		rMargin = self.deSlant(rMargin)
+
 		# get extremes
-		puntosExtremos = self.maxPoints(margins[0] + margins[1], self.minYref, self.maxYref)
+		lExtreme, rExtreme = self.maxPoints(lMargin + rMargin, self.minYref, self.maxYref)
 
 		# set depth
-		margins = self.setDepth(margins[0], margins[1], puntosExtremos)
+		lMargin, rMargin = self.setDepth(lMargin, rMargin, lExtreme, rExtreme)
+
 		# close open counterforms at 45 degrees
-		margins = self.diagonize(margins[0], margins[1])
-		margins = self.closeOpenCounters(margins[0], margins[1], puntosExtremos)
-		margins = self.slant(margins)
-		return margins[0], margins[1]
+		lMargin, rMargin = self.diagonize(lMargin, rMargin)
+		lMargin = self.closeOpenCounters(lMargin, lExtreme)
+		rMargin = self.closeOpenCounters(rMargin, rExtreme)
+
+		lMargin = self.slant(lMargin)
+		rMargin = self.slant(rMargin)
+		return lMargin, rMargin
 
 	# process lists with depth, proportional to xheight
-	def setDepth(self, marginsL, marginsR, puntosExtremos):
+	def setDepth(self, marginsL, marginsR, lExtreme, rExtreme):
 		depth = self.xHeight * self.paramDepth / 100
-		marginsL = setDepthInListL(marginsL, depth, puntosExtremos)
-		marginsR = setDepthInListR(marginsR, depth, puntosExtremos)
+		maxdepth = lExtreme.x + depth
+		mindepth = rExtreme.x - depth
+		marginsL = [NSMakePoint(min(p.x, maxdepth), p.y) for p in marginsL]
+		marginsR = [NSMakePoint(max(p.x, mindepth), p.y) for p in marginsR]
 		return marginsL, marginsR
 
 	# close counterforms at 45 degrees
@@ -224,147 +175,120 @@ class HTSpacerLib(object):
 			# left
 			actualPoint = marginsL[index]
 			nextPoint = marginsL[index + 1]
-			if nextPoint[0] > (actualPoint[0] + valueFreq) and nextPoint[1] > actualPoint[1]:
-				marginsL[index + 1][0] = actualPoint[0] + valueFreq
+			if nextPoint.x > (actualPoint.x + valueFreq) and nextPoint.y > actualPoint.y:
+				marginsL[index + 1].x = actualPoint.x + valueFreq
 			# right
 			actualPoint = marginsR[index]
 			nextPoint = marginsR[index + 1]
-			if nextPoint[0] < (actualPoint[0] - valueFreq) and nextPoint[1] > actualPoint[1]:
-				marginsR[index + 1][0] = actualPoint[0] - valueFreq
+			if nextPoint.x < (actualPoint.x - valueFreq) and nextPoint.y > actualPoint.y:
+				marginsR[index + 1].x = actualPoint.x - valueFreq
 
 			# left
 			actualPoint = marginsL[total - index]
 			nextPoint = marginsL[total - index - 1]
-			if nextPoint[0] > (actualPoint[0] + valueFreq) and nextPoint[1] < actualPoint[1]:
-				marginsL[total - index - 1][0] = actualPoint[0] + valueFreq
+			if nextPoint.x > (actualPoint.x + valueFreq) and nextPoint.y < actualPoint.y:
+				marginsL[total - index - 1].x = actualPoint.x + valueFreq
 			# right
 			actualPoint = marginsR[total - index]
 			nextPoint = marginsR[total - index - 1]
-			if nextPoint[0] < (actualPoint[0] - valueFreq) and nextPoint[1] < actualPoint[1]:
-				marginsR[total - index - 1][0] = actualPoint[0] - valueFreq
+			if nextPoint.x < (actualPoint.x - valueFreq) and nextPoint.y < actualPoint.y:
+				marginsR[total - index - 1].x = actualPoint.x - valueFreq
 
 		return marginsL, marginsR
 
 	# close counterforms, creating a polygon
-	def closeOpenCounters(self, marginsL, marginsR, puntosExtremos):
-		initPoint = puntosExtremos[0][0], self.minYref
-		endPoint = puntosExtremos[0][0], self.maxYref
-		marginsL.insert(0, initPoint)
-		marginsL.append(endPoint)
+	def closeOpenCounters(self, margin, extreme):
+		initPoint = NSMakePoint(extreme.x, self.minYref)
+		endPoint = NSMakePoint(extreme.x, self.maxYref)
+		margin.insert(0, initPoint)
+		margin.append(endPoint)
+		return margin
 
-		initPoint = puntosExtremos[1][0], self.minYref
-		endPoint = puntosExtremos[1][0], self.maxYref
-		marginsR.insert(0, initPoint)
-		marginsR.append(endPoint)
-		return marginsL, marginsR
+	def _italicOnOffPoint(self, p, onoff):
+		mline = self.xHeight / 2
+		cateto = -p.y + mline
+		if onoff == "off": cateto = -cateto
+		xvar = -rectCateto(self.angle, cateto)
+		return NSMakePoint(p.x+xvar, p.y)
 
-	def italizePoint(self, p):
-		if p[0] is not None:
-			px = p[0]
-			py = p[1]
-			cateto = self.mline - p[1]
-			xvar = -rectCateto(self.angle, cateto)
-			p = [px + xvar, py]
-		return p
+	def deSlant(self, margin):
+		return [self._italicOnOffPoint(p,"off") for p in margin]
 
-	def deItalizePoint(self, p):
-		if p[0] is not None:
-			px = p[0]
-			py = p[1]
-			cateto = p[1] - self.mline
-			xvar = -rectCateto(self.angle, cateto)
-			p = [px + xvar, py]
-		return p
+	def slant(self, margin):
+		return [self._italicOnOffPoint(p,"on") for p in margin]
 
-	def deSlant(self, margins):
-		if self.angle > 0:
-			for index in range(len(margins[0])):
-				margins[0][index] = self.deItalizePoint(margins[0][index])
-				margins[1][index] = self.deItalizePoint(margins[1][index])
-		return margins
-
-	def slant(self, margins):
-		for index in range(len(margins[0])):
-			margins[0][index] = self.italizePoint(margins[0][index])
-			margins[1][index] = self.italizePoint(margins[1][index])
-		return margins
-
-	def calcularValorSb(self, poligono):
+	def calculateSBValue(self, polygon):
 		amplitudeY = self.maxYref - self.minYref
 		# calculates proportional area
-		areaProporcional = (amplitudeY * self.area) / self.xHeight
-		areaPoligono = area(poligono)
-		valor = areaProporcional - areaPoligono
-		nuevoValor = valor / amplitudeY
-		return nuevoValor
+		whiteArea = self.paramArea * self.factor * 100
+		propArea = (amplitudeY * whiteArea) / self.xHeight
+
+		valor = propArea - area(polygon)
+		return valor / amplitudeY
 
 	def setSpace(self, layer, referenceLayer):
-		
-		self.layer = layer
-		self.area = self.paramArea * self.factor * 100
-
 		# get reference glyph maximum points
-		bounds = referenceLayer.bounds
 		overshoot = self.overshoot()
 
 		# store min and max y
-		self.minYref = NSMinY(bounds) - overshoot
-		self.maxYref = NSMaxY(bounds) + overshoot
+		self.minYref = NSMinY(referenceLayer.bounds) - overshoot
+		self.maxYref = NSMaxY(referenceLayer.bounds) + overshoot
 
 		# bounds
-		bounds = self.layer.bounds
+		lFullMargin, rFullMargin = marginList(layer)
 
-		# all the margins
-		marginsOne = marginList(self.layer, NSMinY(bounds), NSMaxY(bounds))
-
-		# creates a list with left and right margins
-		marginsFull = [marginsOne[0], marginsOne[1]]
-
-		# filter values between min and max
-		margins = marginsZone(marginsFull, self.minYref, self.maxYref)
+		lMargins = filter(lambda p: p.y >= self.minYref and p.y <= self.maxYref, lFullMargin)
+		rMargins = filter(lambda p: p.y >= self.minYref and p.y <= self.maxYref, rFullMargin)
 
 		# create a closed polygon
-		poligonos = self.processMargins(margins)
+		lPolygon, rPolygon = self.processMargins(lMargins, rMargins)
+		lMargins = self.deSlant(lMargins)
+		rMargins = self.deSlant(rMargins)
 
-		# deitalize margins
-		marginsFull = self.deSlant(marginsFull)
+		lFullMargin = self.deSlant(lFullMargin)
+		rFullMargin = self.deSlant(rFullMargin)
+
 		# get extreme points deitalized
-		extremosFull = self.maxPoints(marginsFull[0] + marginsFull[1], NSMinY(bounds), NSMaxY(bounds))
+		lFullExtreme, rFullExtreme = self.maxPoints(lFullMargin + rFullMargin, NSMinY(layer.bounds), NSMaxY(layer.bounds))
 		# get zone extreme points
-		extremos = self.maxPoints(margins[0] + margins[1], self.minYref, self.maxYref)
+		lExtreme, rExtreme = self.maxPoints(lMargins + rMargins, self.minYref, self.maxYref)
 
 		# dif between extremes full and zone
-		distanciaL = math.ceil(extremos[0][0] - extremosFull[0][0])
-		distanciaR = math.ceil(extremosFull[1][0] - extremos[1][0])
+		distanceL = math.ceil(lExtreme.x - lFullExtreme.x)
+		distanceR = math.ceil(rFullExtreme.x - rExtreme.x)
 
 		# set new sidebearings
-		self.newL = math.ceil(0 - distanciaL + self.calcularValorSb(poligonos[0]))
-		self.newR = math.ceil(0 - distanciaR + self.calcularValorSb(poligonos[1]))
+		self.newL = math.ceil(0 - distanceL + self.calculateSBValue(lPolygon))
+		self.newR = math.ceil(0 - distanceR + self.calculateSBValue(rPolygon))
 
 		# tabVersion
-		if '.tosf' in layer.parent.name or '.tf' in layer.parent.name or self.tab or self.tabVersion:
-			if not window:
-				self.ancho = self.layer.width
-			anchoForma = extremosFull[1][0] - extremosFull[0][0]
-			anchoActual = anchoForma + self.newL + self.newR
-			anchoDiff = (self.ancho - anchoActual) / 2
+		if '.tosf' in layer.parent.name or '.tf' in layer.parent.name or self.tabVersion:
+			if self.width:
+				self.layerWidth = self.width
+			else:
+				self.layerWidth = layer.width
+			widthShape = rFullExtreme.x - lFullExtreme.x
+			widthActual = widthShape + self.newL + self.newR
+			widthDiff = (self.layerWidth - widthActual) / 2
 
-			self.newL += anchoDiff
-			self.newR += anchoDiff
-			self.newWidth = self.ancho
+			self.newL += widthDiff
+			self.newR += widthDiff
+			self.newWidth = self.layerWidth
 
-			self.output += layer.parent.name + ' Fue ajustado tabularmente a ' + str(self.ancho)
+			self.output += layer.parent.name + ' is tabular and adjusted at width = ' + str(self.layerWidth)
 		# fin tabVersion
 
 		# if there is a metric rule
 		else:
 			if layer.parent.leftMetricsKey is not None or self.LSB == False:
-				self.newL = self.layer.LSB
+				self.newL = layer.LSB
 
 			if layer.parent.rightMetricsKey is not None or self.RSB == False:
-				self.newR = self.layer.RSB
+				self.newR = layer.RSB
+		return lPolygon, rPolygon
 
 	def spaceMain(self, layer, referenceLayer):
+		lp, rp = None, None
 		try:
 			self.output = ""
 			if not layer.name:
@@ -384,14 +308,14 @@ class HTSpacerLib(object):
 				self.output += 'Glyph ' + layer.parent.name + ': should be checked and done manually.\n'
 			# if not...
 			else:
-				self.setSpace(layer, referenceLayer)
+				lp, rp = self.setSpace(layer, referenceLayer)
 				# store values in a list
 				setSidebearings(layer, self.newL, self.newR, self.newWidth, color)
 			
 			print self.output
 			self.output = ''
-			
 		# traceback
 		except Exception as ex:
 			import traceback
 			print traceback.format_exc()
+		return lp, rp

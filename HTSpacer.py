@@ -11,47 +11,20 @@
 # if window = True, scripts run with a UI
 window = False
 
-# ADVANCED CONFIG
-# mark color
-color = 1
-# creates -areas- glyph, with a drawing of the white space in letter. Requires robofab.
-createProofGlyph = False
-
-
 # program
 #  Dependencies
 import GlyphsApp
-import math
-import numpy as np
 import vanilla
 
 import htSpacerLib
 reload(htSpacerLib)
 
-if createProofGlyph:
-	from objectsGS import *
-	f = CurrentFont()
-
-#  Functions
-
-# file
-def fileLocation():
-	path = Glyphs.font.filepath.split('/')
-	del path[len(path) - 1]
-	output = ''
-	for f in path:
-		output += f + '/'
-	return output
-
-
-def config():
-	path = fileLocation()
-	filename = Glyphs.font.filepath.split('/')
-	filename = filename[-1].split('.')
-	filename = filename[0]
-	filename = path + filename + "_autospace.py"
+def readConfig():
+	directory, glyphsfile = os.path.split(Glyphs.font.filepath)
+	conffile = glyphsfile.split('.')[0] + "_autospace.py"
+	confpath = os.path.join(directory, conffile)
 	array = []
-	with open(filename) as f:
+	with open(confpath) as f:
 		for line in f:
 			if line[0] != '#' and len(line) > 5:
 				newline = line.split(",")
@@ -59,7 +32,6 @@ def config():
 				newline[3] = float(newline[3])
 				array.append(newline)
 	return array
-
 
 class HTSpacerScript(object):
 
@@ -69,54 +41,37 @@ class HTSpacerScript(object):
 		
 		self.font = Glyphs.font
 		selectedLayers = Glyphs.font.selectedLayers
-		if len(selectedLayers) == 0:
-			self.output += "Nothing selected\n"
+		if selectedLayers is None:
+			print("Nothing selected\n")
 			return
 		self.mySelection = list(set(selectedLayers))
 		self.output = ''
 		self.layerID = self.mySelection[0].associatedMasterId
 		self.master = self.font.masters[self.layerID]
-		
-		
+		self.config = readConfig()
+
 		self.engine.angle = self.master.italicAngle
 		self.engine.xHeight = self.master.xHeight
-		self.engine.mline = self.master.xHeight / 2
 
 		self.getParams()
-		self.engine.paramDepth = int(self.engine.paramDepth)
-		self.engine.paramOver = int(self.engine.paramOver)
 
-		self.engine.tab = False
+		self.engine.tabVersion = False
 		self.engine.LSB = True
 		self.engine.RSB = True
 
 		if window:
 			self.window()
 		else:
-			for layer in self.mySelection:
-				self.setG(layer)
-				self.engine.spaceMain(layer, self.referenceLayer)
+			self.spaceMain()
 
 	def getParams(self):
-		customArea = self.master.customParameters["paramArea"]
-		if customArea:
-			self.engine.paramArea = customArea
-			self.output += 'Using master custom parameter, paramArea: ' + str(self.engine.paramArea) + "\n"
-		else:
-			self.output += 'Using DEFAULT PARAMETERS, paramArea: ' + str(self.engine.paramArea) + "\n"
-
-		customDepth = self.master.customParameters["paramDepth"]
-		if customDepth:
-			self.output += 'Using master custom parameter, paramDepth: ' + str(self.engine.paramDepth) + "\n"
-		else:
-			self.output += 'Using DEFAULT PARAMETERS, paramDepth: ' + str(self.engine.paramDepth) + "\n"
-
-		customOver = self.master.customParameters["paramOver"]
-		if customOver:
-			self.engine.paramOver = customOver
-			self.output += 'Using master custom parameter, paramOver: ' + str(self.engine.paramOver) + "\n"
-		else:
-			self.output += 'Using DEFAULT PARAMETERS, paramOver: ' + str(self.engine.paramOver) + "\n"
+		for param in ["paramArea", "paramDepth", "paramOver"]:
+			customParam = self.master.customParameters[param]
+			if customParam:
+				setattr(self.engine, param, int(customParam))
+				self.output += 'Using master custom parameter, %s: %i\n' % (param, int(customParam))
+			else:
+				self.output += 'Using default parameter %s: %i\n' % (param, getattr(self.engine, param))
 
 	def window(self):
 		self.w = vanilla.FloatingWindow((250, 200), "AutoSpacer", minSize=(225, 200), maxSize=(225, 200), autosaveName="com.ht.spacer")
@@ -125,7 +80,7 @@ class HTSpacerScript(object):
 		self.w.text_4b = vanilla.TextBox((140, 50, 50, 14), self.engine.paramArea, sizeStyle='small')
 		self.w.text_5 = vanilla.TextBox((15, 75, 100, 14), "Depth", sizeStyle='small')
 		self.w.text_5b = vanilla.TextBox((140, 75, 50, 14), self.engine.paramDepth, sizeStyle='small')
-		self.w.text_6 = vanilla.TextBox((15, 100, 100, 14), "Overshot", sizeStyle='small')
+		self.w.text_6 = vanilla.TextBox((15, 100, 100, 14), "Overshoot", sizeStyle='small')
 		self.w.text_6b = vanilla.TextBox((140, 100, 50, 14), self.engine.paramOver, sizeStyle='small')
 		self.w.LSB = vanilla.CheckBox((15, 25, 40, 18), "LSB", value=True, sizeStyle='small', callback=self.SavePreferences)
 		self.w.RSB = vanilla.CheckBox((15 + 45, 25, 40, 18), "RSB", value=True, sizeStyle='small', callback=self.SavePreferences)
@@ -145,10 +100,11 @@ class HTSpacerScript(object):
 		self.w.open()
 
 	def dialogCallback(self, sender):
+		self.output = ""
 		self.engine.paramArea = int(self.w.area.get())
 		self.engine.paramDepth = int(self.w.prof.get())
 		self.engine.paramOver = int(self.w.ex.get())
-		self.engine.tab = self.w.tab.get()
+		self.engine.tabVersion = self.w.tab.get()
 		self.engine.LSB = self.w.LSB.get()
 		self.engine.RSB = self.w.RSB.get()
 		self.engine.width = float(self.w.width.get())
@@ -195,16 +151,12 @@ class HTSpacerScript(object):
 	def findException(self):
 		exception = False
 		items = []
-		for item in config():
+		for item in self.config:
 			if self.script == item[0] or item[0] == '*':
 				if self.category == item[1] or item[1] == '*':
 					if self.subCategory == item[2] or item[2] == '*':
-						items.append(item)
-		if len(items) > 0:
-			exception = items[0]
-			for item in items:
-				if item[5] in self.glyph.name:
-					exception = item
+						if not exception or item[5] in self.glyph.name:
+							exception = item
 		return exception
 
 	def setG(self, layer):
@@ -221,40 +173,34 @@ class HTSpacerScript(object):
 		self.subCategory = layer.parent.subCategory
 		self.script = layer.parent.script
 		self.engine.reference = self.glyph.name
-		self.exception = self.findException()
 
-		if (self.exception):
-			self.engine.factor = self.exception[3]
-		
-		self.engine.minYref = 0
-		self.engine.maxYref = 0
+		exception = self.findException()
+		if (exception):
+			self.engine.factor = exception[3]
+			item = exception[4]
+			if item != '*':
+				self.engine.reference = item
 
-		self.engine.newL = layer.LSB
-		self.engine.newR = layer.RSB
 		self.engine.newWidth = False
 
-		self.setReference()
-
 		# check reference layer existance and contours
-		if self.font.glyphs[self.reference]:
-			self.referenceLayer = self.font.glyphs[self.reference].layers[self.layerID]
+		if self.font.glyphs[self.engine.reference]:
+			self.referenceLayer = self.font.glyphs[self.engine.reference].layers[self.layerID]
 			if len(self.referenceLayer.paths) < 1:
-				self.output += "WARNING: The reference glyph declared (" + self.reference + ") doesn't have contours. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
+				self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't have contours. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
 				self.referenceLayer = self.layer
 		else:
 			self.referenceLayer = self.layer
-			self.output += "WARNING: The reference glyph declared (" + self.reference + ") doesn't exist. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
-	
-	def setReference(self):
-		if (self.exception):
-			item = self.exception[4]
-			if item != '*':
-				self.reference = item
+			self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't exist. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
 	
 	def spaceMain(self):
 		for layer in self.mySelection:
 			self.setG(layer)
-			self.engine.spaceMain(layer)
+			lpolygon, rpolygon = self.engine.spaceMain(layer, self.referenceLayer)
+		print(self.output)
+		if len(self.mySelection) < 2 and createProofGlyph and lpolygon is not None:
+			htSpacerLib.createAreasGlyph(self.font, self.mySelection[0],
+				self.layerID, [lpolygon, rpolygon])
 
 
 HTSpacerScript()
