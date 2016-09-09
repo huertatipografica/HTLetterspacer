@@ -37,7 +37,7 @@ class HTSpacerScript(object):
 
 	def __init__(self):
 		
-		self.engine = htSpacerLib.HTSpacerLib()
+		self.engine = HT_LetterSpacer_lib.HTSpacerLib()
 		
 		self.font = Glyphs.font
 		selectedLayers = Glyphs.font.selectedLayers
@@ -199,7 +199,7 @@ class HTSpacerScript(object):
 			lpolygon, rpolygon = self.engine.spaceMain(layer, self.referenceLayer)
 		print(self.output)
 		if len(self.mySelection) < 2 and createProofGlyph and lpolygon is not None:
-			htSpacerLib.createAreasGlyph(self.font, self.mySelection[0],
+			HT_LetterSpacer_lib.createAreasGlyph(self.font, self.mySelection[0],
 				self.layerID, [lpolygon, rpolygon])
 
 
