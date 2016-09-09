@@ -162,7 +162,7 @@ If you need to apply tabular values to specific selection of scripts, you can ch
 ### Visualizing area
 To visualize the result area of your paramters in a specific glyph, turn on `createProofGlyph = False` on the script first lines. After this you will have glyph named `areas` with an outline representation of both sides of the box, and it will be updated updated every time the script runs over one specific glyph.
 This function needs robofab installed.
-![The resulting 'area' glyph](images/README-08_area.png)
+![The resulting 'area' glyph](images/README-08_areas.png)
 
 
 ### Project History
