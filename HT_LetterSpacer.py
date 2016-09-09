@@ -10,7 +10,7 @@
 # Basic config
 # if window = True, scripts run with a UI
 window = False
-createProofGlyph = True
+createProofGlyph = False
 
 # program
 #  Dependencies
