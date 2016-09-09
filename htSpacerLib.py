@@ -242,6 +242,11 @@ class HTSpacerLib(object):
 
 		# create a closed polygon
 		lPolygon, rPolygon = self.processMargins(lMargins, rMargins)
+		lMargins = self.deSlant(lMargins)
+		rMargins = self.deSlant(rMargins)
+
+		lFullMargin = self.deSlant(lFullMargin)
+		rFullMargin = self.deSlant(rFullMargin)
 
 		# get extreme points deitalized
 		lFullExtreme, rFullExtreme = self.maxPoints(lFullMargin + rFullMargin, NSMinY(layer.bounds), NSMaxY(layer.bounds))
