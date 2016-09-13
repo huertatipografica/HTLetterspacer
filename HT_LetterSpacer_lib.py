@@ -92,7 +92,7 @@ def drawArea(origen, destination, puntos):
 	# destination.update()
 
 
-class HTSpacerLib(object):
+class HTLetterpacerLib(object):
 
 	def __init__(self):
 		self.paramArea = paramArea

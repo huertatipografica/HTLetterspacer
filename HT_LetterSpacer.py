@@ -32,11 +32,11 @@ def readConfig():
 				array.append(newline)
 	return array
 
-class HTSpacerScript(object):
+class HTLetterspacerScript(object):
 
 	def __init__(self):
 
-		self.engine = HT_Letterspacer_lib.HTSpacerLib()
+		self.engine = HT_Letterspacer_lib.HTLetterpacerLib()
 
 		self.font = Glyphs.font
 		selectedLayers = Glyphs.font.selectedLayers
@@ -202,4 +202,4 @@ class HTSpacerScript(object):
 			self.engine.createAreasGlyph(self.font, self.mySelection[0],self.layerID, [lpolygon, rpolygon])
 
 
-HTSpacerScript()
+HTLetterspacerScript()
