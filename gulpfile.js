@@ -21,9 +21,9 @@ elixir.config.publicDir = '';
  */
 
 elixir(function(mix) {
-    mix.sass('app.scss', 'docs/css/app.css')
+    mix.sass('app.scss', 'css/app.css')
         .scripts([
             '../js-dev/vendor/*',
             '../js-dev/*.js'
-        ], 'docs/js/app.js')
+        ], 'js/app.js')
 });
