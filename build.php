@@ -12,7 +12,7 @@
   <body>
     <div data-sticky-container>
 
-      <header class="sticky" data-sticky data-margin-top="0">
+      <header class="sticky show-for-medium" data-sticky data-margin-top="0">
         <div class="row">
           <div class="large-12 columns text-center">
             <ul class="horizontal menu" data-magellan>
