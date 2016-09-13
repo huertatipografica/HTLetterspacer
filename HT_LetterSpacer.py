@@ -1,4 +1,4 @@
-#MenuTitle: HT Letterspacer
+#MenuTitle: HT LetterSpacer
 #
 # Letterspacer, an auto-spacing tool
 # Copyright (C) 2009 - 2016, The Letterspacer Project Authors
@@ -15,8 +15,8 @@ createProofGlyph = False
 import GlyphsApp
 import vanilla
 
-import HT_Letterspacer_lib
-reload(HT_Letterspacer_lib)
+import HT_LetterSpacer_lib
+reload(HT_LetterSpacer_lib)
 
 def readConfig():
 	directory, glyphsfile = os.path.split(Glyphs.font.filepath)
@@ -36,7 +36,7 @@ class HTLetterspacerScript(object):
 
 	def __init__(self):
 
-		self.engine = HT_Letterspacer_lib.HTLetterpacerLib()
+		self.engine = HT_LetterSpacer_lib.HTLetterpacerLib()
 
 		self.font = Glyphs.font
 		selectedLayers = Glyphs.font.selectedLayers
