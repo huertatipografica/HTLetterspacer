@@ -1,10 +1,8 @@
-#MenuTitle: HT LetterSpacer (Lib version)
+#MenuTitle: HT Letterspacer
 #
-# LetterSpacer, an auto-spacing tool
-# Copyright (C) 2009 - 2016, The LetterSpacer Project Authors
+# Letterspacer, an auto-spacing tool
+# Copyright (C) 2009 - 2016, The Letterspacer Project Authors
 #
-# This script can only be used with permission
-# 
 # Version 1.0.0
 
 # Basic config
@@ -17,8 +15,8 @@ createProofGlyph = False
 import GlyphsApp
 import vanilla
 
-import HT_LetterSpacer_lib
-reload(HT_LetterSpacer_lib)
+import HT_Letterspacer_lib
+reload(HT_Letterspacer_lib)
 
 def readConfig():
 	directory, glyphsfile = os.path.split(Glyphs.font.filepath)
@@ -37,9 +35,9 @@ def readConfig():
 class HTSpacerScript(object):
 
 	def __init__(self):
-		
-		self.engine = HT_LetterSpacer_lib.HTSpacerLib()
-		
+
+		self.engine = HT_Letterspacer_lib.HTSpacerLib()
+
 		self.font = Glyphs.font
 		selectedLayers = Glyphs.font.selectedLayers
 		if selectedLayers is None:
@@ -111,7 +109,7 @@ class HTSpacerScript(object):
 		self.engine.RSB = self.w.RSB.get()
 		self.engine.width = float(self.w.width.get())
 		self.spaceMain()
-		
+
 		if not self.SavePreferences(self):
 			print "Note: Couldn't save preferences."
 
@@ -165,10 +163,10 @@ class HTSpacerScript(object):
 		if layer.isKindOfClass_(objc.lookUpClass("GSControlLayer")):
 			return
 		self.output = '\\' + layer.parent.name + '\\\n' + self.output
-		
+
 		self.layerID = layer.associatedMasterId
 		self.master = self.font.masters[self.layerID]
-		
+
 		self.glyph = layer.parent
 		self.layer = layer
 		self.category = layer.parent.category
@@ -194,7 +192,7 @@ class HTSpacerScript(object):
 		else:
 			self.referenceLayer = self.layer
 			self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't exist. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
-	
+
 	def spaceMain(self):
 		for layer in self.mySelection:
 			self.setG(layer)

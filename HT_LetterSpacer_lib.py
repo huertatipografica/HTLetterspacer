@@ -1,9 +1,7 @@
 #
-# HT LetterSpacer, an auto-spacing tool
-# Copyright (C) 2009 - 2016, The LetterSpacer Project Authors
+# HT Letterspacer, an auto-spacing tool
+# Copyright (C) 2009 - 2016, The Letterspacer Project Authors
 #
-# This script can only be used with permission
-# 
 # Version 1.0.0
 
 # Default parameters
@@ -311,7 +309,7 @@ class HTSpacerLib(object):
 				lp, rp = self.setSpace(layer, referenceLayer)
 				# store values in a list
 				setSidebearings(layer, self.newL, self.newR, self.newWidth, color)
-			
+
 			print self.output
 			self.output = ''
 		# traceback
