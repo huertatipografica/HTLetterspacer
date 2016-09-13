@@ -18,7 +18,7 @@
             <ul class="horizontal menu" data-magellan>
               <li class="show-for-large">
                 <a target="_blank" href="http://www.huertatipografica.com/">
-                <img src="/images/ht.png" alt="Huerta Tipográfica">
+                <img src="images/ht.png" alt="Huerta Tipográfica">
                 </a>
               </li>
               <li><a href="#download">Download</a></li>

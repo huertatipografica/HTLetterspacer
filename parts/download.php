@@ -29,7 +29,7 @@
               <div class="row">
                 <div class="large-7 large-offset-3 medium-8 medium-offset-2  columns">
                  <p>
-                  <img src="/images/q.png">
+                  <img src="images/q.png">
                   <?php echo $q['cite'] ?>
                   <span>– <?php echo $q['author'] ?></span>
                 </p>
