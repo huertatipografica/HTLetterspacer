@@ -33,15 +33,15 @@
 
       <article>
         <div class="sections">
-          <?php include '../parts/heading.php'; ?>
-          <?php include '../parts/download.php'; ?>
-          <?php include '../parts/idea.php'; ?>
-          <?php include '../parts/start.php'; ?>
-          <?php include '../parts/examples.php'; ?>
-          <?php include '../parts/contribute.php'; ?>
+          <?php include 'parts/heading.php'; ?>
+          <?php include 'parts/download.php'; ?>
+          <?php include 'parts/idea.php'; ?>
+          <?php include 'parts/start.php'; ?>
+          <?php include 'parts/examples.php'; ?>
+          <?php include 'parts/contribute.php'; ?>
         </div>
       </article>
-      <?php include '../parts/footer.php'; ?>
+      <?php include 'parts/footer.php'; ?>
     </div>
 
     <script src="/js/jquery.min.js"></script>
@@ -56,7 +56,7 @@
   // Clean (erase) the output buffer and turn off output buffering
   ob_end_clean();
   // Write final string to file
-  file_put_contents('letterspacer.html', $htmlStr);
+  file_put_contents('index.html', $htmlStr);
 
   // Return content
   echo $htmlStr;
