@@ -9,6 +9,6 @@
 Andrés Torresi <andres@huertatipografica.com>
 Dave Crossland <dave@lab6.com>
 Georg Seifert <gs@schriftgestaltung.de>
-Simon Cozens 
+Simon Cozens <simon@simon-cozens.org>
 Pablo Impallari <impallari@gmail.com>
 Juan Pablo del Peral <juan@huertatipografica.com>
