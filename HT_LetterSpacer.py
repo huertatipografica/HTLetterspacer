@@ -14,6 +14,7 @@ createProofGlyph = False
 #  Dependencies
 import GlyphsApp
 import vanilla
+from vanilla import dialogs
 
 import HT_LetterSpacer_lib
 reload(HT_LetterSpacer_lib)
@@ -29,7 +30,7 @@ def readConfig():
 	if os.path.isfile(confpath) == True:
 		print 'Config file exists'
 	else :
-		createFilePrompt = vanilla.dialogs.askYesNo(\
+		createFilePrompt = dialogs.askYesNo(\
 			messageText='\nMissing config file for this font.',\
 			informativeText='want to create one?')
 		if createFilePrompt == 1:
@@ -220,7 +221,6 @@ class HTLetterspacerScript(object):
 		print(self.output)
 		if len(self.mySelection) < 2 and createProofGlyph and lpolygon is not None:
 			self.engine.createAreasGlyph(self.font, self.mySelection[0],self.layerID, [lpolygon, rpolygon])
-
 
 
 
