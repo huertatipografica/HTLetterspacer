@@ -1,3 +1,5 @@
+defaultConfigFile =\
+"""
 # Reference
 # Script, Category, Subcategory, value, referenceGlyph, filter
 *,Letter,Uppercase,1.25,H,*,
@@ -30,3 +32,4 @@
 # Devanagari
 devanagari,Letter,Other,1,devaHeight,*,
 devanagari,Letter,Ligature,1,devaHeight,*,
+"""

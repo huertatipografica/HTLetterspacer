@@ -18,11 +18,30 @@ import vanilla
 import HT_LetterSpacer_lib
 reload(HT_LetterSpacer_lib)
 
+from defaultConfigFile import *
+
 def readConfig():
 	directory, glyphsfile = os.path.split(Glyphs.font.filepath)
 	conffile = glyphsfile.split('.')[0] + "_autospace.py"
 	confpath = os.path.join(directory, conffile)
 	array = []
+
+	if os.path.isfile(confpath) == True:
+		print 'Config file exists'
+	else :
+		createFilePrompt = vanilla.dialogs.askYesNo(\
+			messageText='\nMissing config file for this font.',\
+			informativeText='want to create one?')
+		if createFilePrompt == 1:
+			newFile = open(confpath,'w')
+			newFile.write(defaultConfigFile)
+			newFile.close()
+		elif createFilePrompt == 0 or createFilePrompt == -1:
+			Glyphs.clearLog()
+			Glyphs.showMacroWindow()
+			print "HT Letterspacer can't work without a config file"
+			return None
+
 	with open(confpath) as f:
 		for line in f:
 			if line[0] != '#' and len(line) > 5:
@@ -52,16 +71,17 @@ class HTLetterspacerScript(object):
 		self.engine.angle = self.master.italicAngle
 		self.engine.xHeight = self.master.xHeight
 
-		self.getParams()
+		if self.config :
+			self.getParams()
 
-		self.engine.tabVersion = False
-		self.engine.LSB = True
-		self.engine.RSB = True
+			self.engine.tabVersion = False
+			self.engine.LSB = True
+			self.engine.RSB = True
 
-		if window:
-			self.window()
-		else:
-			self.spaceMain()
+			if window:
+				self.window()
+			else:
+				self.spaceMain()
 
 	def getParams(self):
 		for param in ["paramArea", "paramDepth", "paramOver"]:
@@ -200,6 +220,8 @@ class HTLetterspacerScript(object):
 		print(self.output)
 		if len(self.mySelection) < 2 and createProofGlyph and lpolygon is not None:
 			self.engine.createAreasGlyph(self.font, self.mySelection[0],self.layerID, [lpolygon, rpolygon])
+
+
 
 
 HTLetterspacerScript()
