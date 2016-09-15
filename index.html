@@ -190,7 +190,7 @@
                 <p>A configuration file in the same folder than your Glyphs file, named like <code>yourfontname_autospace.py</code>, with all the glyph categories, they area value and glyph of reference to define the vertical range where the group will be measured. If there is no file in the same folder, or with incompatible name, you will get an error.</p>
               </li>
               <li>To use the script with an UI window, set <code>window = True</code> on the script.</li>
-              <li>To create a proofGlyph called <code>areas</code> with the measured outlines when used on a single glyph, set <code>createProofGlyph = True</code> on the script. (Requires Robofab)</li>
+              <li>To create a proof glyph called <code>areas</code> with the measured outlines when used on a single glyph, set <code>createProofGlyph = True</code> on the script. It is useful if you want to check what you are measuring in a particular case. (Requires Robofab)</li>
               <li>To work with fixed-width fonts blocking the advanced width set <code>self.engine.tabVersion = True</code> on the script</li>
               <li>If you want to have different usages in different moments, just duplicate the script with different configurations (with UI, tabVersion of createProofGlyphs) and change the menu name at the begining. In this case is highly usefull and recommendable to assign keyboard shortcuts to the different script versions on your OSX system configuration.</li>
             </ol>
