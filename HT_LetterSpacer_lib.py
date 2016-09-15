@@ -8,8 +8,8 @@
 paramArea = 400  # white area in thousand units
 paramDepth = 15  # depth in open counterforms, from extreme points.
 paramOver = 0    # overshoot in spacing vertical range
-color = 1 			 # mark color
-paramFreq = 5   # frequency of vertical measuring. Higher values are faster but less accurate
+color = 1 	 # mark color
+paramFreq = 5    # frequency of vertical measuring. Higher values are faster but less accurate
 
 # program dependencies
 import GlyphsApp
@@ -23,7 +23,7 @@ def setSidebearings(layer, newL, newR, width, color):
 	layer.LSB = newL
 	layer.RSB = newR
 
-	# ajusta el error de calculo tabular
+	# adjusts the tabular miscalculation
 	if width:
 		layer.width = width
 
