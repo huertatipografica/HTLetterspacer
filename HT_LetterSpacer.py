@@ -8,7 +8,7 @@
 # Basic config
 # if window = True, scripts run with a UI
 window = False
-createProofGlyph = True
+createProofGlyph = False
 
 # program
 #  Dependencies
@@ -129,6 +129,7 @@ class HTLetterspacerScript(object):
 		self.engine.LSB = self.w.LSB.get()
 		self.engine.RSB = self.w.RSB.get()
 		self.engine.width = float(self.w.width.get())
+		self.mySelection = list(set(Glyphs.font.selectedLayers))
 		self.spaceMain()
 
 		if not self.SavePreferences(self):
