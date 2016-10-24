@@ -88,7 +88,7 @@ def drawArea(origen, destination, puntos):
 
 	# Done drawing: close the path
 	pen.closePath()
-	print destination
+	print 'Glyph named /'+destination.name+' was created with area preview.'
 	# destination.update()
 
 
@@ -141,6 +141,7 @@ class HTLetterpacerLib(object):
 		rMargin = self.deSlant(rMargin)
 
 		# get extremes
+		# lExtreme, rExtreme = self.maxPoints(lMargin + rMargin, self.minYref, self.maxYref)
 		lExtreme, rExtreme = self.maxPoints(lMargin + rMargin, self.minYref, self.maxYref)
 
 		# set depth
@@ -162,6 +163,27 @@ class HTLetterpacerLib(object):
 		mindepth = rExtreme.x - depth
 		marginsL = [NSMakePoint(min(p.x, maxdepth), p.y) for p in marginsL]
 		marginsR = [NSMakePoint(max(p.x, mindepth), p.y) for p in marginsR]
+
+		#add all the points at maximum depth if glyph is shorter than overshoot
+		y=marginsL[0].y-paramFreq
+		while y>self.minYref:
+			marginsL.insert(0,NSMakePoint(maxdepth, y))
+			marginsR.insert(0,NSMakePoint(mindepth, y))
+			y-=paramFreq
+
+		y=marginsL[-1].y+paramFreq
+		while y<self.maxYref:
+			marginsL.append(NSMakePoint(maxdepth, y))
+			marginsR.append(NSMakePoint(mindepth, y))
+			y+=paramFreq
+
+		# if marginsL[-1].y<(self.maxYref-paramFreq):
+		# 	marginsL.append(NSMakePoint(min(p.x, maxdepth), self.maxYref))
+		# 	marginsR.append(NSMakePoint(max(p.x, mindepth), self.maxYref))
+		# if marginsL[0].y>(self.minYref):
+		# 	marginsL.insert(0,NSMakePoint(min(p.x, maxdepth), self.minYref))
+		# 	marginsR.insert(0,NSMakePoint(max(p.x, mindepth), self.minYref))
+		
 		return marginsL, marginsR
 
 	# close counterforms at 45 degrees
@@ -173,24 +195,27 @@ class HTLetterpacerLib(object):
 			# left
 			actualPoint = marginsL[index]
 			nextPoint = marginsL[index + 1]
-			if nextPoint.x > (actualPoint.x + valueFreq) and nextPoint.y > actualPoint.y:
-				marginsL[index + 1].x = actualPoint.x + valueFreq
+			diff=nextPoint.y - actualPoint.y
+			if nextPoint.x > (actualPoint.x + diff) and nextPoint.y > actualPoint.y:
+				marginsL[index + 1].x = actualPoint.x + diff
 			# right
 			actualPoint = marginsR[index]
 			nextPoint = marginsR[index + 1]
-			if nextPoint.x < (actualPoint.x - valueFreq) and nextPoint.y > actualPoint.y:
-				marginsR[index + 1].x = actualPoint.x - valueFreq
+			#if nextPoint.x < (actualPoint.x - valueFreq) and nextPoint.y > actualPoint.y:
+			if nextPoint.x < (actualPoint.x - diff) and nextPoint.y > actualPoint.y:
+				marginsR[index + 1].x = actualPoint.x - diff
 
 			# left
 			actualPoint = marginsL[total - index]
 			nextPoint = marginsL[total - index - 1]
+			diff=actualPoint.y-nextPoint.y
 			if nextPoint.x > (actualPoint.x + valueFreq) and nextPoint.y < actualPoint.y:
-				marginsL[total - index - 1].x = actualPoint.x + valueFreq
+				marginsL[total - index - 1].x = actualPoint.x + diff
 			# right
 			actualPoint = marginsR[total - index]
 			nextPoint = marginsR[total - index - 1]
-			if nextPoint.x < (actualPoint.x - valueFreq) and nextPoint.y < actualPoint.y:
-				marginsR[total - index - 1].x = actualPoint.x - valueFreq
+			if nextPoint.x < (actualPoint.x - diff) and nextPoint.y < actualPoint.y:
+				marginsR[total - index - 1].x = actualPoint.x - diff
 
 		return marginsL, marginsR
 

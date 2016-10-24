@@ -1,4 +1,4 @@
-#MenuTitle: HT LetterSpacer UI
+#MenuTitle: HT LetterSpacer
 #
 # Letterspacer, an auto-spacing tool
 # Copyright (C) 2009 - 2016, The Letterspacer Project Authors
@@ -14,6 +14,7 @@ createProofGlyph = False
 #  Dependencies
 import GlyphsApp
 import vanilla
+from vanilla import dialogs
 
 import HT_LetterSpacer_lib
 reload(HT_LetterSpacer_lib)
@@ -29,7 +30,7 @@ def readConfig():
 	if os.path.isfile(confpath) == True:
 		print 'Config file exists'
 	else :
-		createFilePrompt = vanilla.dialogs.askYesNo(\
+		createFilePrompt = dialogs.askYesNo(\
 			messageText='\nMissing config file for this font.',\
 			informativeText='want to create one?')
 		if createFilePrompt == 1:
