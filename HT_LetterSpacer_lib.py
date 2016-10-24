@@ -164,7 +164,7 @@ class HTLetterpacerLib(object):
 		marginsL = [NSMakePoint(min(p.x, maxdepth), p.y) for p in marginsL]
 		marginsR = [NSMakePoint(max(p.x, mindepth), p.y) for p in marginsR]
 
-		#make overshoot work from previous version
+		#make overshoot work / under development
 		y=marginsL[0].y-paramFreq
 		while y>self.minYref:
 			marginsL.insert(0,NSMakePoint(min(p.x, maxdepth), y))
