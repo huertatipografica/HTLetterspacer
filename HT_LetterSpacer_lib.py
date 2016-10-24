@@ -148,7 +148,7 @@ class HTLetterpacerLib(object):
 		lMargin, rMargin = self.setDepth(lMargin, rMargin, lExtreme, rExtreme)
 
 		# close open counterforms at 45 degrees
-		# lMargin, rMargin = self.diagonize(lMargin, rMargin)
+		lMargin, rMargin = self.diagonize(lMargin, rMargin)
 		lMargin = self.closeOpenCounters(lMargin, lExtreme)
 		rMargin = self.closeOpenCounters(rMargin, rExtreme)
 
@@ -164,17 +164,17 @@ class HTLetterpacerLib(object):
 		marginsL = [NSMakePoint(min(p.x, maxdepth), p.y) for p in marginsL]
 		marginsR = [NSMakePoint(max(p.x, mindepth), p.y) for p in marginsR]
 
-		#make overshoot work / under development
+		#add all the points at maximum depth if glyph is shorter than overshoot
 		y=marginsL[0].y-paramFreq
 		while y>self.minYref:
-			marginsL.insert(0,NSMakePoint(min(p.x, maxdepth), y))
-			marginsR.insert(0,NSMakePoint(max(p.x, mindepth), y))
+			marginsL.insert(0,NSMakePoint(maxdepth, y))
+			marginsR.insert(0,NSMakePoint(mindepth, y))
 			y-=paramFreq
 
 		y=marginsL[-1].y+paramFreq
 		while y<self.maxYref:
-			marginsL.append(NSMakePoint(min(p.x, maxdepth), y))
-			marginsR.append(NSMakePoint(max(p.x, mindepth), y))
+			marginsL.append(NSMakePoint(maxdepth, y))
+			marginsR.append(NSMakePoint(mindepth, y))
 			y+=paramFreq
 
 		# if marginsL[-1].y<(self.maxYref-paramFreq):
