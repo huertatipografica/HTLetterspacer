@@ -8,7 +8,7 @@
 # Basic config
 # if window = True, scripts run with a UI
 window = False
-createProofGlyph = False
+createProofGlyph = True
 
 # program
 #  Dependencies
