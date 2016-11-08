@@ -222,7 +222,8 @@ class HTLetterspacerScript(object):
 		print(self.output)
 		if len(self.mySelection) < 2 and createProofGlyph and lpolygon is not None:
 			self.engine.createAreasGlyph(self.font, self.mySelection[0],self.layerID, [lpolygon, rpolygon])
-		self.font.currentTab.forceRedraw()
+		if self.font.currentTab:
+			self.font.currentTab.forceRedraw()
 
 
 
