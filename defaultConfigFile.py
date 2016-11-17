@@ -3,9 +3,6 @@ defaultConfigFile =\
 # Reference
 # Script, Category, Subcategory, value, referenceGlyph, filter
 
-# Global fallback
-*,*,*,1,*,*,
-
 # Letters
 *,Letter,Uppercase,1.25,H,*,
 *,Letter,Smallcaps,1.1,h.sc,*,
