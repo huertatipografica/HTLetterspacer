@@ -59,6 +59,7 @@ class HTLetterspacerScript(object):
 		self.engine = HT_LetterSpacer_lib.HTLetterpacerLib()
 
 		self.font = Glyphs.font
+
 		selectedLayers = Glyphs.font.selectedLayers
 		if selectedLayers is None:
 			print("Nothing selected\n")
@@ -69,6 +70,7 @@ class HTLetterspacerScript(object):
 		self.master = self.font.masters[self.layerID]
 		self.config = readConfig()
 
+		self.engine.upm = self.font.upm
 		self.engine.angle = self.master.italicAngle
 		self.engine.xHeight = self.master.xHeight
 

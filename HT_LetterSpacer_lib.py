@@ -242,8 +242,13 @@ class HTLetterpacerLib(object):
 
 	def calculateSBValue(self, polygon):
 		amplitudeY = self.maxYref - self.minYref
+		
+		#recalculates area based on UPM
+		areaUPM = self.paramArea*((self.upm/1000)**2)
+
 		# calculates proportional area
-		whiteArea = self.paramArea * self.factor * 100
+		whiteArea = areaUPM * self.factor * 100
+
 		propArea = (amplitudeY * whiteArea) / self.xHeight
 
 		valor = propArea - area(polygon)
