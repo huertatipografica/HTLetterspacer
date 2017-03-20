@@ -69,6 +69,7 @@ class HTLetterspacerScript(object):
 		self.master = self.font.masters[self.layerID]
 		self.config = readConfig()
 
+		self.engine.upm = self.font.upm
 		self.engine.angle = self.master.italicAngle
 		self.engine.xHeight = self.master.xHeight
 
