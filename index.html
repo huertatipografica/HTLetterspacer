@@ -291,9 +291,7 @@
                                                             last version of HTLetterspacer
                                                         </a>
                                                         and put the
-                                                        <code>
-                                                            HTLetterspacer
-                                                        </code>
+                                                        <code>HTLetterspacer</code>
                                                         folder into the
                                                         <strong>
                                                             Scripts
@@ -316,13 +314,9 @@
                                                             download
                                                         </a>
                                                         and put the file
-                                                        <code>
-                                                            objectsGS.py
-                                                        </code>
+                                                        <code>objectsGS.py</code>
                                                         and
-                                                        <code>
-                                                            GSPen.py
-                                                        </code>
+                                                        <code>GSPen.py</code>
                                                         directly in the
                                                         <strong>
                                                             Scripts
@@ -350,51 +344,35 @@
                                                 <li>
                                                     <p>
                                                         Declare custom parameters on each master of your Glyphs file or a general default one in the script code. The parameters are
-                                                        <code>
-                                                            paramArea
-                                                        </code>
+                                                        <code>paramArea</code>
                                                         ,
-                                                        <code>
-                                                            paramDepth
-                                                        </code>
+                                                        <code>paramDepth</code>
                                                         and
-                                                        <code>
-                                                            paramOver
-                                                        </code>
+                                                        <code>paramOver</code>
                                                     </p>
                                                 </li>
                                                 <li>
                                                     <p>
                                                         A configuration file in the same folder than your Glyphs file, named like
-                                                        <code>
-                                                            yourfontname_autospace.py
-                                                        </code>
+                                                        <code>yourfontname_autospace.py</code>
                                                         , with all the glyph categories, they area value and glyph of reference to define the vertical range where the group will be measured. If there is no file in the same folder, or with incompatible name, you will get an error.
                                                     </p>
                                                 </li>
                                                 <li>
                                                     To use the script with an UI window, set
-                                                    <code>
-                                                        window = True
-                                                    </code>
+                                                    <code>window = True</code>
                                                     on the script.
                                                 </li>
                                                 <li>
                                                     To create a proof glyph called
-                                                    <code>
-                                                        areas
-                                                    </code>
+                                                    <code>areas</code>
                                                     with the measured outlines when used on a single glyph, set
-                                                    <code>
-                                                        createProofGlyph = True
-                                                    </code>
+                                                    <code>createProofGlyph = True</code>
                                                     on the script. It is useful if you want to check what you are measuring in a particular case. (Requires Robofab)
                                                 </li>
                                                 <li>
                                                     To work with fixed-width fonts blocking the advanced width set
-                                                    <code>
-                                                        self.engine.tabVersion = True
-                                                    </code>
+                                                    <code>self.engine.tabVersion = True</code>
                                                     on the script
                                                 </li>
                                                 <li>
@@ -430,9 +408,7 @@
                                             </h3>
                                             <p>
                                                 The
-                                                <code>
-                                                    paramArea
-                                                </code>
+                                                <code>paramArea</code>
                                                 parameter lets you define how much area (measured in thousand units) do you want between the lowercase letters inside the x-height. A font suitable for text at 1000 UPM typically uses a value between 200 and 400.
                                             </p>
                                             <a href="images/README-01.png" target="_blank">
@@ -452,9 +428,7 @@
                                             </h3>
                                             <p>
                                                 The
-                                                <code>
-                                                    paramDepth
-                                                </code>
+                                                <code>paramDepth</code>
                                                 parameter (measured relatively as a % of x-height) lets you define how deep into open counterforms you want to measure the space, from the extreme points of each glyphs to its center. This parameter will affect rounded or open shapes. For example: a square with x-height has no depth, its side is vertical, and this value won't affect it.
                                             </p>
                                             <a href="images/README-04.png" target="_blank">
@@ -477,9 +451,7 @@
                                             </h3>
                                             <p>
                                                 The
-                                                <code>
-                                                    paramOver
-                                                </code>
+                                                <code>paramOver</code>
                                                 parameter expands the vertical range or height where you measure the space, above and below the shape, by a certain % of x-height. It allows you to make slight differences when a sign has outlines exceeding the height on its group of letters, typically ascenders or descenders. For example: in a sans serif font, a dotless /i/ and and /l/ could have exactly the same shape between the baseline and x-height line. Setting up an overshot will expand the range up and down and will result in a different calculation of space for each sign. In this case, the sign with ascenders (the /l/) will result on a looser space, and its difference depends on how much the overshot is.
                                             </p>
                                             <p>
@@ -503,25 +475,15 @@
                                                     text file
                                                 </a>
                                                 in the same Glyphs file folder will define all the different alterations for each category of signs, as well as a reference sign which defines the height or vertical range of the signs group. For example: lowercase vertical range could be defined with
-                                                <code>
-                                                    x
-                                                </code>
+                                                <code>x</code>
                                                 , uppercase with
-                                                <code>
-                                                    X
-                                                </code>
+                                                <code>X</code>
                                                 or
-                                                <code>
-                                                    H
-                                                </code>
+                                                <code>H</code>
                                                 , small caps with
-                                                <code>
-                                                    x.sc
-                                                </code>
+                                                <code>x.sc</code>
                                                 , numbers with
-                                                <code>
-                                                    one
-                                                </code>
+                                                <code>one</code>
                                                 , etc.
                                             </p>
                                             <h5>
@@ -530,9 +492,7 @@
                                             <p>
                                                 Each line of the configuration files will contain a set of rules to apply to a group of glyphs. Lines should be ordered from general to specific rules. Each field in this line should be separated by comma, with a trailing comma:
                                             </p>
-                                            <pre><code>Script, Category, Subcategory, value, reference glyph, name filter,</code></pre>
-                                            <hr>
-                                                <table>
+                                            <pre><code>Script, Category, Subcategory, value, reference glyph, name filter,</code></pre> <hr> <table>
                                                     <thead>
                                                         <tr>
                                                             <th>
@@ -550,9 +510,7 @@
                                                             </td>
                                                             <td>
                                                                 The name of the script type. Asterisk
-                                                                <code>
-                                                                    *
-                                                                </code>
+                                                                <code>*</code>
                                                                 means all
                                                             </td>
                                                         </tr>
@@ -586,9 +544,7 @@
                                                             </td>
                                                             <td>
                                                                 It's the name of the glyph that defines the vertical range or area where spacing will be measured. For lowercase we will use the
-                                                                <code>
-                                                                    x
-                                                                </code>
+                                                                <code>x</code>
                                                                 , but you can use any other glyph with the same height, lower and higher points. (Note: it seems silly to define this if we have values as x-height or caps height on the font. But it is made in this way to make it open to any other group of glyphs without standard values on the font, like small caps, numbers, superscript, devanagari, etc.)
                                                             </td>
                                                         </tr>
@@ -598,29 +554,17 @@
                                                             </td>
                                                             <td>
                                                                 You can filter the rules by any suffix or part of the glyph name.
-                                                                <code>
-                                                                    *
-                                                                </code>
+                                                                <code>*</code>
                                                                 means
-                                                                <code>
-                                                                    all
-                                                                </code>
+                                                                <code>all</code>
                                                                 . But, for example, you can constrain the rule just to the ordinal glyphs writing
-                                                                <code>
-                                                                    ord
-                                                                </code>
+                                                                <code>ord</code>
                                                                 in this rule. So it will be applied to
-                                                                <code>
-                                                                    ordfeminine
-                                                                </code>
+                                                                <code>ordfeminine</code>
                                                                 ,
-                                                                <code>
-                                                                    ordmasculine
-                                                                </code>
+                                                                <code>ordmasculine</code>
                                                                 and
-                                                                <code>
-                                                                    mordor
-                                                                </code>
+                                                                <code>mordor</code>
                                                                 , if you have this last one.
                                                             </td>
                                                         </tr>
@@ -629,27 +573,19 @@
                                                 <p>
                                                     A simple example of the first 4 lines of a config file for a given font:
                                                 </p>
-                                                <pre><code>*,Letter,Uppercase,1.5,H,*,
-     *,Letter,Smallcaps,1.25,h.sc,*,
-     *,Letter,Lowercase,1,x,*,
+                                                <pre><code>*,Letter,Uppercase,1.5,H,*, *,Letter,Smallcaps,1.25,h.sc,*, *,Letter,Lowercase,1,x,*,
      *,Letter,Superscript,0.7,ordfeminine,*,</code></pre>
                                                 <p>
                                                     A
-                                                    <a href="/schriftgestalt/HTSpacer/blob/master/<config-code>code></config-default.py">
+                                                    <a href="https://github.com/huertatipografica/HTLetterspacer/blob/master/defaultConfigFile.py">
                                                         default config file
                                                     </a>
                                                     is provided to make the process easier. You must rename this file so it has the same name as your font plus the
-                                                    <code>
-                                                        _autospace
-                                                    </code>
+                                                    <code>_autospace</code>
                                                     suffix. For example if your file is called
-                                                    <code>
-                                                        myserif.glyphs
-                                                    </code>
+                                                    <code>myserif.glyphs</code>
                                                     your config file should be renamed to
-                                                    <code>
-                                                        myserif_autospace.py
-                                                    </code>
+                                                    <code>myserif_autospace.py</code>
                                                     .
                                                 </p>
                                                 <p>
