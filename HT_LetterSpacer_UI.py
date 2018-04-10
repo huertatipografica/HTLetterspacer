@@ -1,4 +1,4 @@
-#MenuTitle: HT LetterSpacer
+#MenuTitle: HT LetterSpacer UI
 #
 # Letterspacer, an auto-spacing tool
 # Copyright (C) 2009 - 2016, The Letterspacer Project Authors
