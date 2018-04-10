@@ -1,4 +1,4 @@
-#MenuTitle: HT LetterSpacer UI
+#MenuTitle: HT LetterSpacer
 #
 # Letterspacer, an auto-spacing tool
 # Copyright (C) 2009 - 2016, The Letterspacer Project Authors
@@ -38,9 +38,7 @@ def readConfig():
 			newFile.write(defaultConfigFile)
 			newFile.close()
 		elif createFilePrompt == 0 or createFilePrompt == -1:
-			Glyphs.clearLog()
-			Glyphs.showMacroWindow()
-			print "HT Letterspacer can't work without a config file"
+			Message("Error :(", "HT Letterspacer can't work without a config file", OKButton="OK")
 			return None
 
 	with open(confpath) as f:
@@ -59,9 +57,10 @@ class HTLetterspacerScript(object):
 		self.engine = HT_LetterSpacer_lib.HTLetterpacerLib()
 
 		self.font = Glyphs.font
+
 		selectedLayers = Glyphs.font.selectedLayers
 		if selectedLayers is None:
-			print("Nothing selected\n")
+			Message("Error :(", "Nothing selected", OKButton="OK")
 			return
 		self.mySelection = list(set(selectedLayers))
 		self.output = ''
@@ -117,7 +116,7 @@ class HTLetterspacerScript(object):
 		self.w.setDefaultButton(self.w.runButton)
 
 		if not self.LoadPreferences():
-			print "Error: Could not load preferences. Will resort to defaults."
+			Message("Error :(", "Could not load preferences. Will resort to defaults.", OKButton="OK")
 
 		self.w.open()
 
@@ -134,7 +133,7 @@ class HTLetterspacerScript(object):
 		self.spaceMain()
 
 		if not self.SavePreferences(self):
-			print "Note: Couldn't save preferences."
+			Message("Note", "Couldn't save preferences.", OKButton="OK")
 
 	def SavePreferences(self, sender):
 		try:
@@ -161,15 +160,6 @@ class HTLetterspacerScript(object):
 			return False
 
 		return True
-
-
-	# progress bar
-	def progressBar(self):
-		self.p = vanilla.Window((300, 40))
-		self.p.bar = vanilla.ProgressBar((10, 10, -10, 16))
-		self.p.open()
-		self.p.bar.set(0)
-		self.wunit = 100.000 / len(self.mySelection)
 
 	def findException(self):
 		exception = False
