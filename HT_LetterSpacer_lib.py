@@ -1,8 +1,8 @@
 #
 # HT Letterspacer, an auto-spacing tool
-# Copyright (C) 2009 - 2016, The Letterspacer Project Authors
+# Copyright (C) 2009 - 2018, The Letterspacer Project Authors
 #
-# Version 1.0.0
+# Version 1.1
 
 # Default parameters
 paramArea = 400  # white area in thousand units
@@ -97,7 +97,7 @@ def readConfig():
 			newFile.write(defaultConfigFile)
 			newFile.close()
 		elif createFilePrompt == 0 or createFilePrompt == -1:
-			Message("Error :(", "HT Letterspacer can't work without a config file", OKButton="OK")
+			GlyphsApp.Message("Error :(", "HT Letterspacer can't work without a config file", OKButton="OK")
 			return None
 
 	with open(confpath) as f:
