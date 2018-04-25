@@ -75,22 +75,6 @@ def marginList(layer):
 		y += paramFreq
 	return listL, listR
 
-# draw outlines on areas glyph
-def drawArea(origen, destination, puntos):
-	destination.width = origen.width
-	# pen
-	pen = destination.getPen()
-
-	# Tell the pen to draw things
-	pen.moveTo(puntos[0])
-	for p in puntos:
-		pen.lineTo(p)
-
-	# Done drawing: close the path
-	pen.closePath()
-	print 'Glyph named /'+destination.name+' was created with area preview.'
-	# destination.update()
-
 
 class HTLetterpacerLib(object):
 
@@ -100,23 +84,36 @@ class HTLetterpacerLib(object):
 		self.paramOver = paramOver
 		self.tabVersion = False
 
-	def createAreasGlyph(self, font, origenLayer, layerIndex, margins):
-		from robofab.pens.marginPen import MarginPen
-		f = CurrentFont()
-		if 'areas' in f:
-			areaLayer = font.glyphs['areas'].layers[layerIndex]
-			# f.removeGlyph('areas')
-			#del font.glyphs["areas"]
-			# removeSegment(index)
+	def createAreasGlyph(self, font, layer, margins):
+		layerId = layer.layerId
 
-			for i in range(len(areaLayer.paths))[::-1]:
-				del areaLayer.paths[i]
-		else:
-			f.newGlyph("areas")
-		origen = f[origenLayer.parent.name]
+		# try to create glyph
+		try:
+			font.glyphs.append(GlyphsApp.GSGlyph('_areas'))
+		except Exception as e: pass
 
-		drawArea(origen, f['areas'], margins[0])
-		drawArea(origen, f['areas'], margins[1])
+		destination = font.glyphs['_areas'].layers[layerId]
+		destination.parent.export = False
+
+		# Delete all paths in destination
+		for i in xrange(0,len(destination.paths)):
+			del(destination.paths[0])
+
+		# Set width and draw
+		destination.width = layer.width
+		destination.paths.append(self.shape(margins[0]))
+		destination.paths.append(self.shape(margins[1]))
+
+	def shape(self, points):
+		shape = GlyphsApp.GSPath()
+		for xy in points:
+			newnode = GlyphsApp.GSNode()
+			newnode.type = GSLINE
+			newnode.position = (xy[0], xy[1])
+			shape.nodes.append( newnode )
+		shape.closed = True
+
+		return shape
 
 
 	def overshoot(self):
@@ -183,7 +180,7 @@ class HTLetterpacerLib(object):
 		# if marginsL[0].y>(self.minYref):
 		# 	marginsL.insert(0,NSMakePoint(min(p.x, maxdepth), self.minYref))
 		# 	marginsR.insert(0,NSMakePoint(max(p.x, mindepth), self.minYref))
-		
+
 		return marginsL, marginsR
 
 	# close counterforms at 45 degrees
@@ -242,7 +239,7 @@ class HTLetterpacerLib(object):
 
 	def calculateSBValue(self, polygon):
 		amplitudeY = self.maxYref - self.minYref
-		
+
 		#recalculates area based on UPM
 		areaUPM = self.paramArea*((self.upm/1000)**2)
 

@@ -8,7 +8,7 @@
 # Basic config
 # if window = True, scripts run with a UI
 window = False
-createProofGlyph = False
+createProofGlyph = True
 
 # program
 #  Dependencies
@@ -95,23 +95,24 @@ class HTLetterspacerScript(object):
 				self.output += 'Using default parameter %s: %i\n' % (param, getattr(self.engine, param))
 
 	def window(self):
-		self.w = vanilla.FloatingWindow((250, 200), "HT Letterspacer", minSize=(225, 200), maxSize=(225, 200), autosaveName="com.ht.spacer")
+		self.w = vanilla.FloatingWindow((250, 180), "HT Letterspacer", minSize=(225, 180), maxSize=(225, 180), autosaveName="com.ht.spacer")
 		self.w.text_3 = vanilla.TextBox((210, 25, -170, 14), "%", sizeStyle='small')
 		self.w.text_4 = vanilla.TextBox((15, 50, 100, 14), "Area", sizeStyle='small')
-		self.w.text_4b = vanilla.TextBox((140, 50, 50, 14), self.engine.paramArea, sizeStyle='small')
+		self.w.text_4b = vanilla.TextBox((120, 50, 50, 14), self.engine.paramArea, sizeStyle='small')
 		self.w.text_5 = vanilla.TextBox((15, 75, 100, 14), "Depth", sizeStyle='small')
-		self.w.text_5b = vanilla.TextBox((140, 75, 50, 14), self.engine.paramDepth, sizeStyle='small')
+		self.w.text_5b = vanilla.TextBox((120, 75, 50, 14), self.engine.paramDepth, sizeStyle='small')
 		self.w.text_6 = vanilla.TextBox((15, 100, 100, 14), "Overshoot", sizeStyle='small')
-		self.w.text_6b = vanilla.TextBox((140, 100, 50, 14), self.engine.paramOver, sizeStyle='small')
-		self.w.LSB = vanilla.CheckBox((15, 25, 40, 18), "LSB", value=True, sizeStyle='small', callback=self.SavePreferences)
-		self.w.RSB = vanilla.CheckBox((15 + 45, 25, 40, 18), "RSB", value=True, sizeStyle='small', callback=self.SavePreferences)
-		self.w.tab = vanilla.CheckBox((15 + 45 + 45, 25, 60, 18), "Tabular", value=False, sizeStyle='small', callback=self.SavePreferences)
-		self.w.width = vanilla.EditText((170, 25, 40, 18), self.mySelection[0].width, sizeStyle='small')
+		self.w.text_6b = vanilla.TextBox((120, 100, 50, 14), self.engine.paramOver, sizeStyle='small')
+		self.w.LSB = vanilla.CheckBox((15, 15, 40, 18), "LSB", value=True, sizeStyle='small', callback=self.SavePreferences)
+		self.w.RSB = vanilla.CheckBox((15 + 45, 15, 40, 18), "RSB", value=True, sizeStyle='small', callback=self.SavePreferences)
+		self.w.tab = vanilla.CheckBox((15 + 45 + 45, 15, 60, 18), "Tabular", value=False, sizeStyle='small', callback=self.SavePreferences)
+		self.w.width = vanilla.EditText((170, 15, 40, 18), self.mySelection[0].width, sizeStyle='small')
 		self.w.area = vanilla.EditText((170, 50 - 3, 40, 18), "430", sizeStyle='small')
 		self.w.prof = vanilla.EditText((170, 75 - 3, 40, 18), "20", sizeStyle='small')
 		self.w.ex = vanilla.EditText((170, 100 - 3, 40, 18), "0", sizeStyle='small')
 
-		self.w.runButton = vanilla.Button((15, 125, 90, 25), "Apply", sizeStyle='small', callback=self.dialogCallback)
+		self.w.copyButton = vanilla.Button((15, 125, -90, 30), "Copy Parameters", sizeStyle='small', callback=self.copyParameters)
+		self.w.runButton = vanilla.Button((-80, 125, -15, 30), "Apply", sizeStyle='small', callback=self.dialogCallback)
 
 		self.w.setDefaultButton(self.w.runButton)
 
@@ -119,6 +120,7 @@ class HTLetterspacerScript(object):
 			Message("Error :(", "Could not load preferences. Will resort to defaults.", OKButton="OK")
 
 		self.w.open()
+		self.w.makeKey()
 
 	def dialogCallback(self, sender):
 		self.output = ""
@@ -212,11 +214,47 @@ class HTLetterspacerScript(object):
 			lpolygon, rpolygon = self.engine.spaceMain(layer, self.referenceLayer)
 		print(self.output)
 		if len(self.mySelection) < 2 and createProofGlyph and lpolygon is not None:
-			self.engine.createAreasGlyph(self.font, self.mySelection[0],self.layerID, [lpolygon, rpolygon])
+			self.engine.createAreasGlyph(self.font, self.mySelection[0], [lpolygon, rpolygon])
 		if self.font.currentTab:
 			self.font.currentTab.forceRedraw()
 
 
+	def setClipboard( self, myText ):
+		"""
+		Sets the contents of the clipboard to myText.
+		Returns True if successful, False if unsuccessful.
+		"""
+		from AppKit import NSPasteboard, NSStringPboardType
+		try:
+			myClipboard = NSPasteboard.generalPasteboard()
+			myClipboard.declareTypes_owner_( [NSStringPboardType], None )
+			myClipboard.setString_forType_( myText, NSStringPboardType )
+			return True
+		except Exception as e:
+			import traceback
+			print traceback.format_exc()
+			print
+			print e
+			return False
+
+	def copyParameters(self,sender):
+		"""Copy the custom parameters to the clipboard"""
+		area  = int(self.w.area.get())
+		depth = float(self.w.prof.get())
+		over  = int(self.w.ex.get())
+		copyText = """(
+        {
+        paramArea = %i;
+    },
+        {
+        paramDepth = %.2f;
+    },
+        {
+        paramOver = %i;
+    }
+)""" % (area, depth, over)
+		if not self.setClipboard( copyText ):
+			Message("Clipboard Error", "An error occurred: Could not copy the values into the clipboard. Please check Macro Window for details.", OKButton=None)
 
 
 HTLetterspacerScript()

@@ -214,11 +214,11 @@ class HTLetterspacerScript(object):
 			lpolygon, rpolygon = self.engine.spaceMain(layer, self.referenceLayer)
 		print(self.output)
 		if len(self.mySelection) < 2 and createProofGlyph and lpolygon is not None:
-			self.engine.createAreasGlyph(self.font, self.mySelection[0],self.layerID, [lpolygon, rpolygon])
+			self.engine.createAreasGlyph(self.font, self.mySelection[0], [lpolygon, rpolygon])
 		if self.font.currentTab:
 			self.font.currentTab.forceRedraw()
-			
-	
+
+
 	def setClipboard( self, myText ):
 		"""
 		Sets the contents of the clipboard to myText.
@@ -236,7 +236,7 @@ class HTLetterspacerScript(object):
 			print
 			print e
 			return False
-	
+
 	def copyParameters(self,sender):
 		"""Copy the custom parameters to the clipboard"""
 		area  = int(self.w.area.get())
