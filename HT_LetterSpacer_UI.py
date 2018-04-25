@@ -14,12 +14,10 @@ createProofGlyph = True
 #  Dependencies
 import GlyphsApp
 import vanilla
-from vanilla import dialogs
 
 import HT_LetterSpacer_lib
 reload(HT_LetterSpacer_lib)
 
-from defaultConfigFile import *
 
 class HTLetterspacerScript(object):
 

@@ -18,6 +18,8 @@ import os
 import numpy as np
 from Foundation import NSMinX, NSMaxX, NSMinY, NSMaxY, NSMakePoint
 from objectsGS import *
+from vanilla import dialogs
+from defaultConfigFile import *
 
 #  Functions
 def setSidebearings(layer, newL, newR, width, color):
@@ -78,6 +80,7 @@ def marginList(layer):
 
 
 def readConfig():
+	GlyphsApp.Glyphs.clearLog()
 	directory, glyphsfile = os.path.split(GlyphsApp.Glyphs.font.filepath)
 	conffile = glyphsfile.split('.')[0] + "_autospace.py"
 	confpath = os.path.join(directory, conffile)
