@@ -14,6 +14,7 @@ paramFreq = 5    # frequency of vertical measuring. Higher values are faster but
 # program dependencies
 import GlyphsApp
 import math
+import os
 import numpy as np
 from Foundation import NSMinX, NSMaxX, NSMinY, NSMaxY, NSMakePoint
 from objectsGS import *
@@ -74,6 +75,36 @@ def marginList(layer):
 			listR.append(NSMakePoint(rpos, y))
 		y += paramFreq
 	return listL, listR
+
+
+def readConfig():
+	directory, glyphsfile = os.path.split(GlyphsApp.Glyphs.font.filepath)
+	conffile = glyphsfile.split('.')[0] + "_autospace.py"
+	confpath = os.path.join(directory, conffile)
+	array = []
+
+	if os.path.isfile(confpath) == True:
+		print 'Config file exists'
+	else :
+		createFilePrompt = dialogs.askYesNo(\
+			messageText='\nMissing config file for this font.',\
+			informativeText='want to create one?')
+		if createFilePrompt == 1:
+			newFile = open(confpath,'w')
+			newFile.write(defaultConfigFile)
+			newFile.close()
+		elif createFilePrompt == 0 or createFilePrompt == -1:
+			Message("Error :(", "HT Letterspacer can't work without a config file", OKButton="OK")
+			return None
+
+	with open(confpath) as f:
+		for line in f:
+			if line[0] != '#' and len(line) > 5:
+				newline = line.split(",")
+				del newline[-1]
+				newline[3] = float(newline[3])
+				array.append(newline)
+	return array
 
 
 class HTLetterpacerLib(object):

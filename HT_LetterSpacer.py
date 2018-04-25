@@ -21,35 +21,6 @@ reload(HT_LetterSpacer_lib)
 
 from defaultConfigFile import *
 
-def readConfig():
-	directory, glyphsfile = os.path.split(Glyphs.font.filepath)
-	conffile = glyphsfile.split('.')[0] + "_autospace.py"
-	confpath = os.path.join(directory, conffile)
-	array = []
-
-	if os.path.isfile(confpath) == True:
-		print 'Config file exists'
-	else :
-		createFilePrompt = dialogs.askYesNo(\
-			messageText='\nMissing config file for this font.',\
-			informativeText='want to create one?')
-		if createFilePrompt == 1:
-			newFile = open(confpath,'w')
-			newFile.write(defaultConfigFile)
-			newFile.close()
-		elif createFilePrompt == 0 or createFilePrompt == -1:
-			Message("Error :(", "HT Letterspacer can't work without a config file", OKButton="OK")
-			return None
-
-	with open(confpath) as f:
-		for line in f:
-			if line[0] != '#' and len(line) > 5:
-				newline = line.split(",")
-				del newline[-1]
-				newline[3] = float(newline[3])
-				array.append(newline)
-	return array
-
 class HTLetterspacerScript(object):
 
 	def __init__(self):
@@ -66,7 +37,7 @@ class HTLetterspacerScript(object):
 		self.output = ''
 		self.layerID = self.mySelection[0].associatedMasterId
 		self.master = self.font.masters[self.layerID]
-		self.config = readConfig()
+		self.config = HT_LetterSpacer_lib.readConfig()
 
 		self.engine.upm = self.font.upm
 		self.engine.angle = self.master.italicAngle
