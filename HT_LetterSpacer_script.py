@@ -10,7 +10,7 @@ paramDepth = 15  # depth in open counterforms, from extreme points.
 paramOver = 0    # overshoot in spacing vertical range
 color = False 	 # mark color, False for no mark
 paramFreq = 5    # frequency of vertical measuring. Higher values are faster but less accurate
-drawAreas = True
+drawAreas = True # False if to avoid the creation of _areas glyph
 
 # program dependencies
 import GlyphsApp
