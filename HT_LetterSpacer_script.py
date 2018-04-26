@@ -8,8 +8,9 @@
 paramArea = 400  # white area in thousand units
 paramDepth = 15  # depth in open counterforms, from extreme points.
 paramOver = 0    # overshoot in spacing vertical range
-color = 1 	 # mark color
+color = False 	 # mark color, False for no mark
 paramFreq = 5    # frequency of vertical measuring. Higher values are faster but less accurate
+drawAreas = True
 
 # program dependencies
 import GlyphsApp
@@ -384,7 +385,7 @@ class HTLetterpacerLib(object):
 
 class HTLetterspacerScript(object):
 
-	def __init__(self, ui, createProofGlyph):
+	def __init__(self, ui, drawAreas):
 
 		self.engine = HTLetterpacerLib()
 
@@ -392,7 +393,7 @@ class HTLetterspacerScript(object):
 
 		selectedLayers = GlyphsApp.Glyphs.font.selectedLayers
 		self.ui = ui
-		self.createProofGlyph = createProofGlyph
+
 		if selectedLayers is None:
 			GlyphsApp.Message("Error :(", "Nothing selected", OKButton="OK")
 			return
@@ -550,7 +551,7 @@ class HTLetterspacerScript(object):
 			self.setG(layer)
 			lpolygon, rpolygon = self.engine.spaceMain(layer, self.referenceLayer)
 		print(self.output)
-		if len(self.mySelection) < 2 and self.createProofGlyph and lpolygon is not None:
+		if len(self.mySelection) < 2 and drawAreas == True and lpolygon is not None:
 			self.engine.createAreasGlyph(self.font, self.mySelection[0], [lpolygon, rpolygon])
 		if self.font.currentTab:
 			self.font.currentTab.forceRedraw()
