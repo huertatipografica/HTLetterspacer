@@ -124,9 +124,10 @@ class HTLetterpacerLib(object):
 		layerId = layer.layerId
 
 		# try to create glyph
-		try:
-			font.glyphs.append(GlyphsApp.GSGlyph('_areas'))
-		except Exception as e: pass
+		if '_areas' not in font.glyphs:
+			try:
+				font.glyphs.append(GlyphsApp.GSGlyph('_areas'))
+			except Exception as e: pass
 
 		destination = font.glyphs['_areas'].layers[layerId]
 		destination.parent.export = False
