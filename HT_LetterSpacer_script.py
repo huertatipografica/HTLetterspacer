@@ -395,10 +395,11 @@ class HTLetterspacerScript(object):
 		selectedLayers = GlyphsApp.Glyphs.font.selectedLayers
 		self.ui = ui
 
-		if selectedLayers is None:
+		if selectedLayers is None or len(selectedLayers)<1:
 			GlyphsApp.Message("Error :(", "Nothing selected", OKButton="OK")
 			return
 		self.mySelection = list(set(selectedLayers))
+
 		self.output = ''
 		self.layerID = self.mySelection[0].associatedMasterId
 		self.master = self.font.masters[self.layerID]
