@@ -19,7 +19,7 @@ import numpy as np
 import objc
 from Foundation import NSMinX, NSMaxX, NSMinY, NSMaxY, NSMakePoint
 from objectsGS import *
-from vanilla import dialogs
+import vanilla
 from defaultConfigFile import *
 
 #  Functions
