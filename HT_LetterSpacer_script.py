@@ -333,11 +333,15 @@ class HTLetterpacerLib(object):
 		self.newR = math.ceil(0 - distanceR + self.calculateSBValue(rPolygon))
 
 		# tabVersion
+		# work to do. This part is not working and these suffix give an error
+		# suffix need to be in a list in the initial config
+		# when the UI, if Tabular is activated it should change the boxes width
 		if '.tosf' in layer.parent.name or '.tf' in layer.parent.name or self.tabVersion:
 			if self.width:
 				self.layerWidth = self.width
 			else:
 				self.layerWidth = layer.width
+
 			widthShape = rFullExtreme.x - lFullExtreme.x
 			widthActual = widthShape + self.newL + self.newR
 			widthDiff = (self.layerWidth - widthActual) / 2
@@ -347,7 +351,7 @@ class HTLetterpacerLib(object):
 			self.newWidth = self.layerWidth
 
 			self.output += layer.parent.name + ' is tabular and adjusted at width = ' + str(self.layerWidth)
-		# fin tabVersion
+		# end tabVersion
 
 		# if there is a metric rule
 		else:
@@ -374,7 +378,7 @@ class HTLetterpacerLib(object):
 			# if it is tabular
 			# elif '.tosf' in layer.parent.name or '.tf' in layer.parent.name:
 				#self.output+='Glyph '+layer.parent.name +' se supone tabular..'+"\n"
-			# if it is fraction
+			# if it is fraction / silly condition
 			elif 'fraction' in layer.parent.name:
 				self.output += 'Glyph ' + layer.parent.name + ': should be checked and done manually.\n'
 			# if not...
@@ -437,7 +441,6 @@ class HTLetterspacerScript(object):
 			if customParam:
 				setattr(self.engine, param, float(customParam))
 				self.output += 'Using master custom parameter, %s: %s\n' % (param, float(customParam))
-				# print float(customParam)
 			else:
 				self.output += 'Using default parameter %s: %i\n' % (param, getattr(self.engine, param))
 
