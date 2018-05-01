@@ -1,8 +1,8 @@
 #
 # HT Letterspacer, an auto-spacing tool
-# Copyright (C) 2009 - 2018, The Letterspacer Project Authors
-#
-# Version 1.1
+# Copyright (C) 2009 - 2018, The HT Letterspacer Project Authors
+# Version 1.11
+
 
 # Default parameters
 paramArea = 400  # white area in thousand units
@@ -229,7 +229,7 @@ class HTLetterpacerLib(object):
 
 		return marginsL, marginsR
 
-	# close counterforms at 45 degrees
+	# close counters at 45 degrees
 	def diagonize(self, marginsL, marginsR):
 		total = len(marginsL) - 1
 
@@ -333,9 +333,6 @@ class HTLetterpacerLib(object):
 		self.newR = math.ceil(0 - distanceR + self.calculateSBValue(rPolygon))
 
 		# tabVersion
-		# work to do. This part is not working and these suffix give an error
-		# suffix need to be in a list in the initial config
-		# when the UI, if Tabular is activated it should change the boxes width
 		if '.tosf' in layer.parent.name or '.tf' in layer.parent.name or self.tabVersion:
 			if self.width:
 				self.layerWidth = self.width
