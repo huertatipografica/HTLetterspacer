@@ -112,6 +112,14 @@ def readConfig():
 				array.append(newline)
 	return array
 
+def widthAvg(selection):
+	width = 0
+	for g in selection:
+		width+=g.width
+	width = width/len(selection) 
+	width = int(round(width, 0))
+	return width
+
 
 class HTLetterpacerLib(object):
 
