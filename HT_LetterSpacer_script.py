@@ -474,13 +474,13 @@ class HTLetterspacerScript(object):
 
 	def dialogCallback(self, sender):
 		self.output = ""
-		self.engine.paramArea = int(self.w.area.get())
+		self.engine.paramArea = float(self.w.area.get())
 		self.engine.paramDepth = float(self.w.prof.get())
-		self.engine.paramOver = int(self.w.ex.get())
+		self.engine.paramOver = float(self.w.ex.get())
 		self.engine.tabVersion = self.w.tab.get()
 		self.engine.LSB = self.w.LSB.get()
 		self.engine.RSB = self.w.RSB.get()
-		self.engine.width = float(self.w.width.get())
+		self.engine.width = int(self.w.width.get())
 		self.mySelection = list(set(GlyphsApp.Glyphs.font.selectedLayers))
 		self.spaceMain()
 
@@ -591,9 +591,9 @@ class HTLetterspacerScript(object):
 
 	def copyParameters(self,sender):
 		"""Copy the custom parameters to the clipboard"""
-		area  = int(self.w.area.get())
+		area  = float(self.w.area.get())
 		depth = float(self.w.prof.get())
-		over  = int(self.w.ex.get())
+		over  = float(self.w.ex.get())
 		copyText = """(
         {
         paramArea = %i;
