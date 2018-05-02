@@ -19,9 +19,10 @@ Version 1.11
 - Fixed bug with empty tabular field
 - parameters can be float, tabular value is integer
 
-TO DO
+### TO DO
+
 tabVersion for suffixes:
-	This part is not working and returns error when .tf or .tosf is present
-	Suffixes intended to be tabular ('.tf', '.tosf', etc) need to be in a list in the initial config and not in the middle of the code
-	When the UI, if Tabular is activated it should change the boxes width even for glyphs with suffixes
-	TabVersion should be easily fixed from config, to work in monospaced fonts
+- This part is not working and returns error when .tf or .tosf is present
+- Suffixes intended to be tabular ('.tf', '.tosf', etc) need to be in a list in the initial config and not in the middle of the code
+- When the UI, if Tabular is activated it should change the boxes width even for glyphs with suffixes
+- TabVersion should be easily fixed from config, to work in monospaced fonts
