@@ -121,7 +121,7 @@ def widthAvg(selection):
 	return width
 
 
-class HTLetterpacerLib(object):
+class HTLetterspacerLib(object):
 
 	def __init__(self):
 		self.paramArea = paramArea
@@ -398,7 +398,7 @@ class HTLetterspacerScript(object):
 
 	def __init__(self, ui, drawAreas):
 
-		self.engine = HTLetterpacerLib()
+		self.engine = HTLetterspacerLib()
 
 		self.font = GlyphsApp.Glyphs.font
 
