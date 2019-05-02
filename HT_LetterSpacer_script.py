@@ -81,14 +81,25 @@ def marginList(layer):
 		y += paramFreq
 	return listL, listR
 
+# get appropriate config file path
+def getConfigPath(directory, glyphsfile, mastername):
+	masterconffile = glyphsfile.split('.')[0] + "_" + mastername + "_autospace.py"
+	masterconfpath = os.path.join(directory, masterconffile)
 
-def readConfig():
+	if os.path.isfile(masterconfpath) == True:
+		return masterconfpath
+
+	globalconffile = glyphsfile.split('.')[0] + "_autospace.py"
+
+	return os.path.join(directory, globalconffile)
+
+
+def readConfig(mastername):
 	GlyphsApp.Glyphs.clearLog()
 	directory, glyphsfile = os.path.split(GlyphsApp.Glyphs.font.filepath)
-	conffile = glyphsfile.split('.')[0] + "_autospace.py"
-	confpath = os.path.join(directory, conffile)
+	confpath = getConfigPath(directory, glyphsfile, mastername)
 	array = []
-
+	
 	if os.path.isfile(confpath) == True:
 		print 'Config file exists'
 	else :
@@ -413,7 +424,7 @@ class HTLetterspacerScript(object):
 		self.output = ''
 		self.layerID = self.mySelection[0].associatedMasterId
 		self.master = self.font.masters[self.layerID]
-		self.config = readConfig()
+		self.config = readConfig(self.master.name)
 
 
 		self.engine.upm = self.font.upm
