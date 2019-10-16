@@ -10,7 +10,7 @@ paramDepth = 15  # depth in open counterforms, from extreme points.
 paramOver = 0    # overshoot in spacing vertical range
 color = False 	 # mark color, False for no mark
 paramFreq = 5    # frequency of vertical measuring. Higher values are faster but less accurate
-drawAreas = True # False if to avoid the creation of _areas glyph
+drawAreas = False # False if to avoid the creation of _areas glyph
 
 # program dependencies
 import GlyphsApp
@@ -101,7 +101,7 @@ def readConfig(mastername):
 	array = []
 	
 	if os.path.isfile(confpath) == True:
-		print 'Config file exists'
+		print('Config file exists')
 	else :
 		createFilePrompt = dialogs.askYesNo(\
 			messageText='\nMissing config file for this font.',\
@@ -147,14 +147,14 @@ class HTLetterspacerLib(object):
 		if '_areas' not in font.glyphs:
 			try:
 				font.glyphs.append(GlyphsApp.GSGlyph('_areas'))
-			except Exception as e: pass
+			except Exception:
+				pass
 
 		destination = font.glyphs['_areas'].layers[layerId]
 		destination.parent.export = False
 
 		# Delete all paths in destination
-		for i in xrange(0,len(destination.paths)):
-			del(destination.paths[0])
+		destination.clear()
 
 		# Set width and draw
 		destination.width = layer.width
@@ -395,12 +395,12 @@ class HTLetterspacerLib(object):
 				# store values in a list
 				setSidebearings(layer, self.newL, self.newR, self.newWidth, color)
 
-			print self.output
+			print(self.output)
 			self.output = ''
 		# traceback
-		except Exception as ex:
+		except Exception:
 			import traceback
-			print traceback.format_exc()
+			print(traceback.format_exc())
 		return lp, rp
 
 
@@ -525,7 +525,6 @@ class HTLetterspacerScript(object):
 
 	def findException(self):
 		exception = False
-		items = []
 		for item in self.config:
 			if self.script == item[0] or item[0] == '*':
 				if self.category == item[1] or item[1] == '*':
@@ -592,9 +591,9 @@ class HTLetterspacerScript(object):
 			return True
 		except Exception as e:
 			import traceback
-			print traceback.format_exc()
-			print
-			print e
+			print(traceback.format_exc())
+			print()
+			print(e)
 			return False
 
 	def copyParameters(self,sender):
