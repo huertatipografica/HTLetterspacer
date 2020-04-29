@@ -9,4 +9,4 @@ import HT_LetterSpacer_script
 reload(HT_LetterSpacer_script)
 
 # ui, createProofGlyph
-HT_LetterSpacer_script.HTLetterspacerScript(True, True)
+HT_LetterSpacer_script.HTLetterspacerScript(True, False)
