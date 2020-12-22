@@ -16,10 +16,9 @@ drawAreas = False # False if to avoid the creation of _areas glyph
 import GlyphsApp
 import math
 import os
-import numpy as np
 import objc
 from Foundation import NSMinX, NSMaxX, NSMinY, NSMaxY, NSMakePoint
-from objectsGS import *
+import objectsGS
 import vanilla
 from vanilla import dialogs
 from defaultConfigFile import *
@@ -44,10 +43,17 @@ def rectCateto(angle, cat):
 	#result = round(result)
 	return result
 
+# to avoid numpy.arange
+def arange(num,offset):
+    arr = []
+    for i in range(offset,num+offset):
+        arr.append(i)
+    return arr
+
 # point list area
 def area(points):
 	s = 0
-	for ii in np.arange(len(points)) - 1:
+	for ii in arange(len(points),-1):
 		s = s + (points[ii].x * points[ii + 1].y - points[ii + 1].x * points[ii].y)
 	return abs(s) * 0.5
 
@@ -301,7 +307,12 @@ class HTLetterspacerLib(object):
 		areaUPM = self.paramArea*((self.upm/1000)**2)
 
 		# calculates proportional area
-		whiteArea = areaUPM * self.factor * 100
+		try:
+   			self.factor
+		except AttributeError:
+			whiteArea = areaUPM * 100
+		else:
+			whiteArea = areaUPM * self.factor * 100
 
 		propArea = (amplitudeY * whiteArea) / self.xHeight
 
@@ -554,7 +565,7 @@ class HTLetterspacerScript(object):
 			item = exception[4]
 			if item != '*':
 				self.engine.reference = item
-
+		
 		self.engine.newWidth = False
 
 		# check reference layer existance and contours

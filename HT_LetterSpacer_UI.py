@@ -6,6 +6,7 @@
 # Version 1.1
 
 import HT_LetterSpacer_script
+from importlib import reload
 reload(HT_LetterSpacer_script)
 
 # ui, createProofGlyph
