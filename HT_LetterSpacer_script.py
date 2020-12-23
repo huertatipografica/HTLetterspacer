@@ -307,12 +307,7 @@ class HTLetterspacerLib(object):
 		areaUPM = self.paramArea*((self.upm/1000)**2)
 
 		# calculates proportional area
-		try:
-   			self.factor
-		except AttributeError:
-			whiteArea = areaUPM * 100
-		else:
-			whiteArea = areaUPM * self.factor * 100
+		whiteArea = areaUPM * self.factor * 100
 
 		propArea = (amplitudeY * whiteArea) / self.xHeight
 
