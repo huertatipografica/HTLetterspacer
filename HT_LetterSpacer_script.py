@@ -560,7 +560,6 @@ class HTLetterspacerScript(object):
 			item = exception[4]
 			if item != '*':
 				self.engine.reference = item
-		
 		self.engine.newWidth = False
 
 		# check reference layer existance and contours
