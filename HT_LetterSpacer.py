@@ -6,7 +6,10 @@
 # Version 1.1
 
 import HT_LetterSpacer_script
-from importlib import reload
+try:
+	from importlib import reload
+except:
+	pass
 reload(HT_LetterSpacer_script)
 
 # ui, createProofGlyph
