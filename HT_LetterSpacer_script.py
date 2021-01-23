@@ -546,6 +546,7 @@ class HTLetterspacerScript(object):
 		self.subCategory = layer.parent.subCategory
 		self.script = layer.parent.script
 		self.engine.reference = self.glyph.name
+		self.engine.factor = 1.0
 
 		exception = self.findException()
 		if (exception):
