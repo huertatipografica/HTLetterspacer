@@ -16,7 +16,6 @@ drawAreas = False # False if to avoid the creation of _areas glyph
 import GlyphsApp
 import math
 import os
-import numpy as np
 import objc
 from Foundation import NSMinX, NSMaxX, NSMinY, NSMaxY, NSMakePoint
 from objectsGS import *
@@ -47,7 +46,7 @@ def rectCateto(angle, cat):
 # point list area
 def area(points):
 	s = 0
-	for ii in np.arange(len(points)) - 1:
+	for ii in range(-1, len(points) - 1):
 		s = s + (points[ii].x * points[ii + 1].y - points[ii + 1].x * points[ii].y)
 	return abs(s) * 0.5
 
@@ -99,7 +98,7 @@ def readConfig(mastername):
 	directory, glyphsfile = os.path.split(GlyphsApp.Glyphs.font.filepath)
 	confpath = getConfigPath(directory, glyphsfile, mastername)
 	array = []
-	
+
 	if os.path.isfile(confpath) == True:
 		print('Config file exists')
 	else :
@@ -127,7 +126,7 @@ def widthAvg(selection):
 	width = 0
 	for g in selection:
 		width+=g.width
-	width = width/len(selection) 
+	width = width/len(selection)
 	width = int(round(width, 0))
 	return width
 
