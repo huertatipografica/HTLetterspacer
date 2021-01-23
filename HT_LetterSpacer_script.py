@@ -59,6 +59,35 @@ devanagari,Letter,Other,1,devaHeight,*,
 devanagari,Letter,Ligature,1,devaHeight,*,
 """
 
+COPY_PARAMETERS_GLYPHS2 = """(
+    {
+        paramArea = %i;
+    },
+    {
+        paramDepth = %i;
+    },
+    {
+        paramOver = %i;
+    }
+)"""
+
+COPY_PARAMETERS_GLYPHS3 = """{
+    customParameters = (
+        {
+            name = paramOver;
+            value = %i;
+        },
+        {
+            name = paramDepth;
+            value = %i;
+        },
+        {
+            name = paramArea;
+            value = %i;
+        }
+    );
+}"""
+
 #  Functions
 def setSidebearings(layer, newL, newR, width, color):
 	layer.LSB = newL
@@ -629,16 +658,9 @@ class HTLetterspacerScript(object):
 		area  = float(self.w.area.get())
 		depth = float(self.w.prof.get())
 		over  = float(self.w.ex.get())
-		copyText = """(
-        {
-        paramArea = %i;
-    },
-        {
-        paramDepth = %.2f;
-    },
-        {
-        paramOver = %i;
-    }
-)""" % (area, depth, over)
+		if GlyphsApp.Glyphs.versionNumber < 3.0:
+			copyText = COPY_PARAMETERS_GLYPHS2 % (area, depth, over)
+		else:
+			copyText = COPY_PARAMETERS_GLYPHS3 % (area, depth, over)
 		if not self.setClipboard( copyText ):
 			GlyphsApp.Message("Clipboard Error", "An error occurred: Could not copy the values into the clipboard. Please check Macro Window for details.", OKButton=None)
