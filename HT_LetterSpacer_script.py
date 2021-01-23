@@ -95,7 +95,11 @@ def getConfigPath(directory, glyphsfile, mastername):
 
 def readConfig(mastername):
 	GlyphsApp.Glyphs.clearLog()
-	directory, glyphsfile = os.path.split(GlyphsApp.Glyphs.font.filepath)
+	filepath = GlyphsApp.Glyphs.font.filepath
+	if filepath is None:
+		GlyphsApp.Message("Or I'm lost :(", "Please save the file first.", OKButton="OK")
+		return None
+	directory, glyphsfile = os.path.split(filepath)
 	confpath = getConfigPath(directory, glyphsfile, mastername)
 	array = []
 
