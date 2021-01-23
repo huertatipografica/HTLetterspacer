@@ -426,7 +426,7 @@ class HTLetterspacerLib(object):
 
 class HTLetterspacerScript(object):
 
-	def __init__(self, ui, drawAreas):
+	def __init__(self, ui):
 
 		self.engine = HTLetterspacerLib()
 

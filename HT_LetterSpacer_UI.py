@@ -6,7 +6,5 @@
 # Version 1.1
 
 import HT_LetterSpacer_script
-reload(HT_LetterSpacer_script)
 
-# ui, createProofGlyph
-HT_LetterSpacer_script.HTLetterspacerScript(True, False)
+HT_LetterSpacer_script.HTLetterspacerScript(ui=True)
