@@ -18,7 +18,6 @@ import math
 import os
 import objc
 from Foundation import NSMinX, NSMaxX, NSMinY, NSMaxY, NSMakePoint
-from objectsGS import *
 import vanilla
 from vanilla import dialogs
 
