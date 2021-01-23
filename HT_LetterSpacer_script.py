@@ -35,14 +35,6 @@ def setSidebearings(layer, newL, newR, width, color):
 	if color:
 		layer.parent.color = color
 
-
-# shape calculations
-def rectCateto(angle, cat):
-	angle = math.radians(angle)
-	result = cat * (math.tan(angle))
-	#result = round(result)
-	return result
-
 # point list area
 def area(points):
 	s = 0
@@ -193,10 +185,6 @@ class HTLetterspacerLib(object):
 		return NSMakePoint(left, lefty), NSMakePoint(right, righty)
 
 	def processMargins(self, lMargin, rMargin):
-		# deSlant if is italic
-		lMargin = self.deSlant(lMargin)
-		rMargin = self.deSlant(rMargin)
-
 		# get extremes
 		# lExtreme, rExtreme = self.maxPoints(lMargin + rMargin, self.minYref, self.maxYref)
 		lExtreme, rExtreme = self.maxPoints(lMargin + rMargin, self.minYref, self.maxYref)
@@ -209,8 +197,6 @@ class HTLetterspacerLib(object):
 		lMargin = self.closeOpenCounters(lMargin, lExtreme)
 		rMargin = self.closeOpenCounters(rMargin, rExtreme)
 
-		lMargin = self.slant(lMargin)
-		rMargin = self.slant(rMargin)
 		return lMargin, rMargin
 
 	# process lists with depth, proportional to xheight
@@ -284,18 +270,14 @@ class HTLetterspacerLib(object):
 		margin.append(endPoint)
 		return margin
 
-	def _italicOnOffPoint(self, p, onoff):
+	def deslant(self, margin):
+		"""De-slant a list of points (contour) at angle with the point of origin
+		at half the xheight."""
 		mline = self.xHeight / 2
-		cateto = -p.y + mline
-		if onoff == "off": cateto = -cateto
-		xvar = -rectCateto(self.angle, cateto)
-		return NSMakePoint(p.x+xvar, p.y)
-
-	def deSlant(self, margin):
-		return [self._italicOnOffPoint(p,"off") for p in margin]
-
-	def slant(self, margin):
-		return [self._italicOnOffPoint(p,"on") for p in margin]
+		return [
+			NSMakePoint(p.x - (p.y - mline) * math.tan(math.radians(self.angle)), p.y)
+			for p in margin
+		]
 
 	def calculateSBValue(self, polygon):
 		amplitudeY = self.maxYref - self.minYref
@@ -321,17 +303,15 @@ class HTLetterspacerLib(object):
 
 		# bounds
 		lFullMargin, rFullMargin = marginList(layer)
+		if self.angle:
+			lFullMargin = self.deslant(lFullMargin)
+			rFullMargin = self.deslant(rFullMargin)
 
-		lMargins = filter(lambda p: p.y >= self.minYref and p.y <= self.maxYref, lFullMargin)
-		rMargins = filter(lambda p: p.y >= self.minYref and p.y <= self.maxYref, rFullMargin)
+		lMargins = [p for p in lFullMargin if self.minYref <= p.y <= self.maxYref]
+		rMargins = [p for p in rFullMargin if self.minYref <= p.y <= self.maxYref]
 
 		# create a closed polygon
 		lPolygon, rPolygon = self.processMargins(lMargins, rMargins)
-		lMargins = self.deSlant(lMargins)
-		rMargins = self.deSlant(rMargins)
-
-		lFullMargin = self.deSlant(lFullMargin)
-		rFullMargin = self.deSlant(rFullMargin)
 
 		# get extreme points deitalized
 		lFullExtreme, rFullExtreme = self.maxPoints(lFullMargin + rFullMargin, NSMinY(layer.bounds), NSMaxY(layer.bounds))
