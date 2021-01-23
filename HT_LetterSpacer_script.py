@@ -21,7 +21,44 @@ from Foundation import NSMinX, NSMaxX, NSMinY, NSMaxY, NSMakePoint
 from objectsGS import *
 import vanilla
 from vanilla import dialogs
-from defaultConfigFile import *
+
+DEFAULT_CONFIG_FILE =\
+"""
+# Reference
+# Script, Category, Subcategory, value, referenceGlyph, filter
+
+# Letters
+*,Letter,Uppercase,1.25,H,*,
+*,Letter,Smallcaps,1.1,h.sc,*,
+*,Letter,Lowercase,1,x,*,
+*,Letter,Lowercase,0.7,m.sups,.sups,
+
+# Numbers
+*,Number,Decimal Digit,1.2,one,*,
+*,Number,Decimal Digit,1.2,zero.osf,.osf,
+*,Number,Fraction,1.3,*,*,
+*,Number,*,0.8,*,.dnom,
+*,Number,*,0.8,*,.numr,
+*,Number,*,0.8,*,.inferior,
+*,Number,*,0.8,*,superior,
+
+# Punctuation
+*,Punctuation,Other,1.4,*,*,
+*,Punctuation,Parenthesis,1.2,*,*,
+*,Punctuation,Quote,1.2,*,*,
+*,Punctuation,Dash,1,*,*,
+*,Punctuation,*,1,*,slash,
+*,Punctuation,*,1.2,*,*,
+
+# Symbols
+*,Symbol,Currency,1.6,*,*,
+*,Symbol,*,1.5,*,*,
+*,Mark,*,1,*,*,
+
+# Devanagari
+devanagari,Letter,Other,1,devaHeight,*,
+devanagari,Letter,Ligature,1,devaHeight,*,
+"""
 
 #  Functions
 def setSidebearings(layer, newL, newR, width, color):
@@ -103,7 +140,7 @@ def readConfig(mastername):
 			informativeText='want to create one?')
 		if createFilePrompt == 1:
 			newFile = open(confpath,'w')
-			newFile.write(defaultConfigFile)
+			newFile.write(DEFAULT_CONFIG_FILE)
 			newFile.close()
 		elif createFilePrompt == 0 or createFilePrompt == -1:
 			GlyphsApp.Message("Error :(", "HT Letterspacer can't work without a config file", OKButton="OK")
