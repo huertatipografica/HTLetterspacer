@@ -257,11 +257,7 @@ class HTLetterspacerLib(object):
 		)
 		return NSMakePoint(left, lefty), NSMakePoint(right, righty)
 
-	def processMargins(self, lMargin, rMargin):
-		# get extremes
-		# lExtreme, rExtreme = self.maxPoints(lMargin + rMargin, self.minYref, self.maxYref)
-		lExtreme, rExtreme = self.maxPoints(lMargin + rMargin, self.minYref, self.maxYref)
-
+	def processMargins(self, lMargin, rMargin, lExtreme, rExtreme):
 		# set depth
 		lMargin, rMargin = self.setDepth(lMargin, rMargin, lExtreme, rExtreme)
 
@@ -379,17 +375,16 @@ class HTLetterspacerLib(object):
 		if self.angle:
 			lFullMargin = self.deslant(lFullMargin)
 			rFullMargin = self.deslant(rFullMargin)
+		# get extreme points deitalized
+		lFullExtreme, rFullExtreme = self.maxPoints(lFullMargin + rFullMargin, NSMinY(layer.bounds), NSMaxY(layer.bounds))
 
 		lMargins = [p for p in lFullMargin if self.minYref <= p.y <= self.maxYref]
 		rMargins = [p for p in rFullMargin if self.minYref <= p.y <= self.maxYref]
-
-		# create a closed polygon
-		lPolygon, rPolygon = self.processMargins(lMargins, rMargins)
-
-		# get extreme points deitalized
-		lFullExtreme, rFullExtreme = self.maxPoints(lFullMargin + rFullMargin, NSMinY(layer.bounds), NSMaxY(layer.bounds))
 		# get zone extreme points
 		lExtreme, rExtreme = self.maxPoints(lMargins + rMargins, self.minYref, self.maxYref)
+
+		# create a closed polygon
+		lPolygon, rPolygon = self.processMargins(lMargins, rMargins, lExtreme, rExtreme)
 
 		# dif between extremes full and zone
 		distanceL = math.ceil(lExtreme.x - lFullExtreme.x)
