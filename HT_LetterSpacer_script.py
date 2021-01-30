@@ -127,12 +127,18 @@ def marginList(layer):
 	y = NSMinY(layer.bounds)
 	listL = []
 	listR = []
+	center = layer.width/2
 	while y <= NSMaxY(layer.bounds):
 		lpos, rpos = getMargins(layer, y)
 		if lpos is not None:
 			listL.append(NSMakePoint(lpos, y))
+		else:
+			listL.append(NSMakePoint(center, y))
 		if rpos is not None:
 			listR.append(NSMakePoint(rpos, y))
+		else:
+			listR.append(NSMakePoint(center, y))
+
 		y += paramFreq
 	return listL, listR
 
