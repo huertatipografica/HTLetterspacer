@@ -300,34 +300,14 @@ class HTLetterspacerLib(object):
 
 	# close counters at 45 degrees
 	def diagonize(self, marginsL, marginsR):
-		total = len(marginsL) - 1
+		ystep = abs(marginsL[0].y - marginsL[1].y)
+		for i in range(len(marginsL)-1):
+			if marginsL[i+1].x - marginsL[i].x > ystep: marginsL[i+1].x = marginsL[i].x + ystep
+			if marginsR[i+1].x - marginsR[i].x < -ystep: marginsR[i+1].x = marginsR[i].x - ystep
 
-		valueFreq = paramFreq * 1.5
-		for index in range(total):
-			# left
-			actualPoint = marginsL[index]
-			nextPoint = marginsL[index + 1]
-			diff=nextPoint.y - actualPoint.y
-			if nextPoint.x > (actualPoint.x + diff) and nextPoint.y > actualPoint.y:
-				marginsL[index + 1].x = actualPoint.x + diff
-			# right
-			actualPoint = marginsR[index]
-			nextPoint = marginsR[index + 1]
-			#if nextPoint.x < (actualPoint.x - valueFreq) and nextPoint.y > actualPoint.y:
-			if nextPoint.x < (actualPoint.x - diff) and nextPoint.y > actualPoint.y:
-				marginsR[index + 1].x = actualPoint.x - diff
-
-			# left
-			actualPoint = marginsL[total - index]
-			nextPoint = marginsL[total - index - 1]
-			diff=actualPoint.y-nextPoint.y
-			if nextPoint.x > (actualPoint.x + valueFreq) and nextPoint.y < actualPoint.y:
-				marginsL[total - index - 1].x = actualPoint.x + diff
-			# right
-			actualPoint = marginsR[total - index]
-			nextPoint = marginsR[total - index - 1]
-			if nextPoint.x < (actualPoint.x - diff) and nextPoint.y < actualPoint.y:
-				marginsR[total - index - 1].x = actualPoint.x - diff
+		for i in reversed(range(len(marginsL)-1)):
+			if marginsL[i].x - marginsL[i+1].x > ystep: marginsL[i].x = marginsL[i+1].x + ystep
+			if marginsR[i].x - marginsR[i+1].x < -ystep: marginsR[i].x = marginsR[i+1].x - ystep
 
 		return marginsL, marginsR
 
