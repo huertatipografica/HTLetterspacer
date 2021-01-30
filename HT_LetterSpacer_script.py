@@ -122,22 +122,46 @@ def getMargins(layer, y):
 	right = count - 2
 	return (result[left].pointValue().x, result[right].pointValue().x)
 
+def triangle(angle, y):
+	angle = math.radians(angle)
+	result = y * (math.tan(angle))
+	#result = round(result)
+	return result
+
 # a list of margins
-def marginList(layer):
+def marginList(layer,angle):
 	y = NSMinY(layer.bounds)
 	listL = []
 	listR = []
-	center = layer.width/2
+
+	#calculate default depth, otherwise measurement is None
+	#calculate paralelogram extremes
+	origin=NSMinX(layer.bounds)
+	endpointx=NSMaxX(layer.bounds)
+	endpointy=NSMaxY(layer.bounds)
+
+	#calculate paralelogram top left
+	xpos=triangle(angle,endpointy)+origin
+	#paralelogram top side width
+	slantWidth=(endpointx-xpos)
+	#default depth
+	dfltDepth=slantWidth
+
 	while y <= NSMaxY(layer.bounds):
 		lpos, rpos = getMargins(layer, y)
+
+		#get the default margin measure at a given y position
+		slantPosL=origin+triangle(angle,y)+dfltDepth
+		slantPosR=origin+triangle(angle,y)+slantWidth-dfltDepth
+
 		if lpos is not None:
 			listL.append(NSMakePoint(lpos, y))
 		else:
-			listL.append(NSMakePoint(center, y))
+			listL.append(NSMakePoint(slantPosL, y))
 		if rpos is not None:
 			listR.append(NSMakePoint(rpos, y))
 		else:
-			listR.append(NSMakePoint(center, y))
+			listR.append(NSMakePoint(slantPosR, y))
 
 		y += paramFreq
 	return listL, listR
@@ -357,7 +381,8 @@ class HTLetterspacerLib(object):
 		self.maxYref = NSMaxY(referenceLayer.bounds) + overshoot
 
 		# bounds
-		lFullMargin, rFullMargin = marginList(layer)
+		print self.angle
+		lFullMargin, rFullMargin = marginList(layer,self.angle)
 		if self.angle:
 			lFullMargin = self.deslant(lFullMargin)
 			rFullMargin = self.deslant(rFullMargin)
