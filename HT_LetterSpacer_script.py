@@ -247,9 +247,12 @@ class HTLetterspacerLib(object):
 		destination.clear()
 
 		# Set width and draw
-		destination.width = layer.width
+
+		destination.width = layer.width		
 		destination.paths.append(self.shape(margins[0]))
 		destination.paths.append(self.shape(margins[1]))
+		destination.LSB = 0	
+		destination.RSB = 0		
 
 	def shape(self, points):
 		shape = GlyphsApp.GSPath()
