@@ -16,13 +16,77 @@ drawAreas = False # False if to avoid the creation of _areas glyph
 import GlyphsApp
 import math
 import os
-import numpy as np
 import objc
 from Foundation import NSMinX, NSMaxX, NSMinY, NSMaxY, NSMakePoint
-from objectsGS import *
 import vanilla
 from vanilla import dialogs
-from defaultConfigFile import *
+
+DEFAULT_CONFIG_FILE =\
+"""
+# Reference
+# Script, Category, Subcategory, value, referenceGlyph, filter
+
+# Letters
+*,Letter,Uppercase,1.25,H,*,
+*,Letter,Smallcaps,1.1,h.sc,*,
+*,Letter,Lowercase,1,x,*,
+*,Letter,Lowercase,0.7,m.sups,.sups,
+
+# Numbers
+*,Number,Decimal Digit,1.2,one,*,
+*,Number,Decimal Digit,1.2,zero.osf,.osf,
+*,Number,Fraction,1.3,*,*,
+*,Number,*,0.8,*,.dnom,
+*,Number,*,0.8,*,.numr,
+*,Number,*,0.8,*,.inferior,
+*,Number,*,0.8,*,superior,
+
+# Punctuation
+*,Punctuation,Other,1.4,*,*,
+*,Punctuation,Parenthesis,1.2,*,*,
+*,Punctuation,Quote,1.2,*,*,
+*,Punctuation,Dash,1,*,*,
+*,Punctuation,*,1,*,slash,
+*,Punctuation,*,1.2,*,*,
+
+# Symbols
+*,Symbol,Currency,1.6,*,*,
+*,Symbol,*,1.5,*,*,
+*,Mark,*,1,*,*,
+
+# Devanagari
+devanagari,Letter,Other,1,devaHeight,*,
+devanagari,Letter,Ligature,1,devaHeight,*,
+"""
+
+COPY_PARAMETERS_GLYPHS2 = """(
+    {
+        paramArea = %i;
+    },
+    {
+        paramDepth = %i;
+    },
+    {
+        paramOver = %i;
+    }
+)"""
+
+COPY_PARAMETERS_GLYPHS3 = """{
+    customParameters = (
+        {
+            name = paramOver;
+            value = %i;
+        },
+        {
+            name = paramDepth;
+            value = %i;
+        },
+        {
+            name = paramArea;
+            value = %i;
+        }
+    );
+}"""
 
 #  Functions
 def setSidebearings(layer, newL, newR, width, color):
@@ -36,18 +100,10 @@ def setSidebearings(layer, newL, newR, width, color):
 	if color:
 		layer.parent.color = color
 
-
-# shape calculations
-def rectCateto(angle, cat):
-	angle = math.radians(angle)
-	result = cat * (math.tan(angle))
-	#result = round(result)
-	return result
-
 # point list area
 def area(points):
 	s = 0
-	for ii in np.arange(len(points)) - 1:
+	for ii in range(-1, len(points) - 1):
 		s = s + (points[ii].x * points[ii + 1].y - points[ii + 1].x * points[ii].y)
 	return abs(s) * 0.5
 
@@ -70,10 +126,8 @@ def marginList(layer):
 	y = NSMinY(layer.bounds)
 	listL = []
 	listR = []
-	# works over glyph copy
-	cleanLayer = layer.copyDecomposedLayer()
 	while y <= NSMaxY(layer.bounds):
-		lpos, rpos = getMargins(cleanLayer, y)
+		lpos, rpos = getMargins(layer, y)
 		if lpos is not None:
 			listL.append(NSMakePoint(lpos, y))
 		if rpos is not None:
@@ -96,10 +150,14 @@ def getConfigPath(directory, glyphsfile, mastername):
 
 def readConfig(mastername):
 	GlyphsApp.Glyphs.clearLog()
-	directory, glyphsfile = os.path.split(GlyphsApp.Glyphs.font.filepath)
+	filepath = GlyphsApp.Glyphs.font.filepath
+	if filepath is None:
+		GlyphsApp.Message("Or I'm lost :(", "Please save the file first.", OKButton="OK")
+		return None
+	directory, glyphsfile = os.path.split(filepath)
 	confpath = getConfigPath(directory, glyphsfile, mastername)
 	array = []
-	
+
 	if os.path.isfile(confpath) == True:
 		print('Config file exists')
 	else :
@@ -108,7 +166,7 @@ def readConfig(mastername):
 			informativeText='want to create one?')
 		if createFilePrompt == 1:
 			newFile = open(confpath,'w')
-			newFile.write(defaultConfigFile)
+			newFile.write(DEFAULT_CONFIG_FILE)
 			newFile.close()
 		elif createFilePrompt == 0 or createFilePrompt == -1:
 			GlyphsApp.Message("Error :(", "HT Letterspacer can't work without a config file", OKButton="OK")
@@ -127,7 +185,7 @@ def widthAvg(selection):
 	width = 0
 	for g in selection:
 		width+=g.width
-	width = width/len(selection) 
+	width = width/len(selection)
 	width = int(round(width, 0))
 	return width
 
@@ -139,6 +197,7 @@ class HTLetterspacerLib(object):
 		self.paramDepth = paramDepth
 		self.paramOver = paramOver
 		self.tabVersion = False
+		self.width = None
 
 	def createAreasGlyph(self, font, layer, margins):
 		layerId = layer.layerId
@@ -178,7 +237,9 @@ class HTLetterspacerLib(object):
 
 	def maxPoints(self, points, minY, maxY):
 		right = -10000
+		righty = None
 		left = 10000
+		lefty = None
 		for p in points:
 			if p.y >= minY and p.y <= maxY:
 				if p.x > right:
@@ -187,17 +248,15 @@ class HTLetterspacerLib(object):
 				if p.x < left:
 					left = p.x
 					lefty = p.y
+		assert righty is not None, (
+			"Please file a bug report with a screenshot of the glyph this script fails on."
+		)
+		assert lefty is not None, (
+			"Please file a bug report with a screenshot of the glyph this script fails on."
+		)
 		return NSMakePoint(left, lefty), NSMakePoint(right, righty)
 
-	def processMargins(self, lMargin, rMargin):
-		# deSlant if is italic
-		lMargin = self.deSlant(lMargin)
-		rMargin = self.deSlant(rMargin)
-
-		# get extremes
-		# lExtreme, rExtreme = self.maxPoints(lMargin + rMargin, self.minYref, self.maxYref)
-		lExtreme, rExtreme = self.maxPoints(lMargin + rMargin, self.minYref, self.maxYref)
-
+	def processMargins(self, lMargin, rMargin, lExtreme, rExtreme):
 		# set depth
 		lMargin, rMargin = self.setDepth(lMargin, rMargin, lExtreme, rExtreme)
 
@@ -206,8 +265,6 @@ class HTLetterspacerLib(object):
 		lMargin = self.closeOpenCounters(lMargin, lExtreme)
 		rMargin = self.closeOpenCounters(rMargin, rExtreme)
 
-		lMargin = self.slant(lMargin)
-		rMargin = self.slant(rMargin)
 		return lMargin, rMargin
 
 	# process lists with depth, proportional to xheight
@@ -281,18 +338,14 @@ class HTLetterspacerLib(object):
 		margin.append(endPoint)
 		return margin
 
-	def _italicOnOffPoint(self, p, onoff):
+	def deslant(self, margin):
+		"""De-slant a list of points (contour) at angle with the point of origin
+		at half the xheight."""
 		mline = self.xHeight / 2
-		cateto = -p.y + mline
-		if onoff == "off": cateto = -cateto
-		xvar = -rectCateto(self.angle, cateto)
-		return NSMakePoint(p.x+xvar, p.y)
-
-	def deSlant(self, margin):
-		return [self._italicOnOffPoint(p,"off") for p in margin]
-
-	def slant(self, margin):
-		return [self._italicOnOffPoint(p,"on") for p in margin]
+		return [
+			NSMakePoint(p.x - (p.y - mline) * math.tan(math.radians(self.angle)), p.y)
+			for p in margin
+		]
 
 	def calculateSBValue(self, polygon):
 		amplitudeY = self.maxYref - self.minYref
@@ -318,22 +371,19 @@ class HTLetterspacerLib(object):
 
 		# bounds
 		lFullMargin, rFullMargin = marginList(layer)
-
-		lMargins = filter(lambda p: p.y >= self.minYref and p.y <= self.maxYref, lFullMargin)
-		rMargins = filter(lambda p: p.y >= self.minYref and p.y <= self.maxYref, rFullMargin)
-
-		# create a closed polygon
-		lPolygon, rPolygon = self.processMargins(lMargins, rMargins)
-		lMargins = self.deSlant(lMargins)
-		rMargins = self.deSlant(rMargins)
-
-		lFullMargin = self.deSlant(lFullMargin)
-		rFullMargin = self.deSlant(rFullMargin)
-
+		if self.angle:
+			lFullMargin = self.deslant(lFullMargin)
+			rFullMargin = self.deslant(rFullMargin)
 		# get extreme points deitalized
 		lFullExtreme, rFullExtreme = self.maxPoints(lFullMargin + rFullMargin, NSMinY(layer.bounds), NSMaxY(layer.bounds))
+
+		lMargins = [p for p in lFullMargin if self.minYref <= p.y <= self.maxYref]
+		rMargins = [p for p in rFullMargin if self.minYref <= p.y <= self.maxYref]
 		# get zone extreme points
 		lExtreme, rExtreme = self.maxPoints(lMargins + rMargins, self.minYref, self.maxYref)
+
+		# create a closed polygon
+		lPolygon, rPolygon = self.processMargins(lMargins, rMargins, lExtreme, rExtreme)
 
 		# dif between extremes full and zone
 		distanceL = math.ceil(lExtreme.x - lFullExtreme.x)
@@ -391,7 +441,11 @@ class HTLetterspacerLib(object):
 				self.output += 'Glyph ' + layer.parent.name + ': should be checked and done manually.\n'
 			# if not...
 			else:
-				lp, rp = self.setSpace(layer, referenceLayer)
+				# Decompose layer for analysis, as the deeper plumbing assumes to be looking at outlines.
+				layer_decomposed = layer.copyDecomposedLayer()
+				layer_decomposed.parent = layer.parent
+				lp, rp = self.setSpace(layer_decomposed, referenceLayer)
+				del layer_decomposed
 				# store values in a list
 				setSidebearings(layer, self.newL, self.newR, self.newWidth, color)
 
@@ -407,7 +461,7 @@ class HTLetterspacerLib(object):
 
 class HTLetterspacerScript(object):
 
-	def __init__(self, ui, drawAreas):
+	def __init__(self, ui):
 
 		self.engine = HTLetterspacerLib()
 
@@ -488,7 +542,10 @@ class HTLetterspacerScript(object):
 		self.engine.tabVersion = self.w.tab.get()
 		self.engine.LSB = self.w.LSB.get()
 		self.engine.RSB = self.w.RSB.get()
-		self.engine.width = int(self.w.width.get())
+		if bool(self.engine.tabVersion) is True:
+			self.engine.width = int(self.w.width.get())
+		else:
+			self.engine.width = None
 		self.mySelection = list(set(GlyphsApp.Glyphs.font.selectedLayers))
 		self.spaceMain()
 
@@ -547,6 +604,7 @@ class HTLetterspacerScript(object):
 		self.subCategory = layer.parent.subCategory
 		self.script = layer.parent.script
 		self.engine.reference = self.glyph.name
+		self.engine.factor = 1.0
 
 		exception = self.findException()
 		if (exception):
@@ -601,16 +659,9 @@ class HTLetterspacerScript(object):
 		area  = float(self.w.area.get())
 		depth = float(self.w.prof.get())
 		over  = float(self.w.ex.get())
-		copyText = """(
-        {
-        paramArea = %i;
-    },
-        {
-        paramDepth = %.2f;
-    },
-        {
-        paramOver = %i;
-    }
-)""" % (area, depth, over)
+		if GlyphsApp.Glyphs.versionNumber < 3.0:
+			copyText = COPY_PARAMETERS_GLYPHS2 % (area, depth, over)
+		else:
+			copyText = COPY_PARAMETERS_GLYPHS3 % (area, depth, over)
 		if not self.setClipboard( copyText ):
 			GlyphsApp.Message("Clipboard Error", "An error occurred: Could not copy the values into the clipboard. Please check Macro Window for details.", OKButton=None)
