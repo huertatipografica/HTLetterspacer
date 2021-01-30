@@ -199,6 +199,7 @@ class HTLetterspacerLib(object):
 		self.paramDepth = paramDepth
 		self.paramOver = paramOver
 		self.tabVersion = False
+		self.width = None
 
 	def createAreasGlyph(self, font, layer, margins):
 		layerId = layer.layerId
@@ -539,7 +540,10 @@ class HTLetterspacerScript(object):
 		self.engine.tabVersion = self.w.tab.get()
 		self.engine.LSB = self.w.LSB.get()
 		self.engine.RSB = self.w.RSB.get()
-		self.engine.width = int(self.w.width.get())
+		if bool(self.engine.tabVersion) is True:
+			self.engine.width = int(self.w.width.get())
+		else:
+			self.engine.width = None
 		self.mySelection = list(set(GlyphsApp.Glyphs.font.selectedLayers))
 		self.spaceMain()
 
