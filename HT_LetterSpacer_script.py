@@ -126,10 +126,8 @@ def marginList(layer):
 	y = NSMinY(layer.bounds)
 	listL = []
 	listR = []
-	# works over glyph copy
-	cleanLayer = layer.copyDecomposedLayer()
 	while y <= NSMaxY(layer.bounds):
-		lpos, rpos = getMargins(cleanLayer, y)
+		lpos, rpos = getMargins(layer, y)
 		if lpos is not None:
 			listL.append(NSMakePoint(lpos, y))
 		if rpos is not None:
@@ -443,7 +441,11 @@ class HTLetterspacerLib(object):
 				self.output += 'Glyph ' + layer.parent.name + ': should be checked and done manually.\n'
 			# if not...
 			else:
-				lp, rp = self.setSpace(layer, referenceLayer)
+				# Decompose layer for analysis, as the deeper plumbing assumes to be looking at outlines.
+				layer_decomposed = layer.copyDecomposedLayer()
+				layer_decomposed.parent = layer.parent
+				lp, rp = self.setSpace(layer_decomposed, referenceLayer)
+				del layer_decomposed
 				# store values in a list
 				setSidebearings(layer, self.newL, self.newR, self.newWidth, color)
 
