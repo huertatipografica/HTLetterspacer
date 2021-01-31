@@ -387,7 +387,7 @@ class HTLetterspacerLib(object):
 		self.maxYref = NSMaxY(referenceLayer.bounds) + overshoot
 
 		# bounds
-		print self.angle
+		print(self.angle)
 		lFullMargin, rFullMargin = marginList(layer,self.angle)
 		if self.angle:
 			lFullMargin = self.deslant(lFullMargin)
