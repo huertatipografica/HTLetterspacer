@@ -681,7 +681,7 @@ class HTLetterspacerScript(object):
 		# check reference layer existance and contours
 		if self.font.glyphs[self.engine.reference]:
 			self.referenceLayer = self.font.glyphs[self.engine.reference].layers[self.layerID]
-			if len(self.referenceLayer.paths) < 1:
+			if len(self.referenceLayer.paths) < 1 and len(self.referenceLayer.components)<1:
 				self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't have contours. Glyph " + self.layer.parent.name + " was spaced based on its own vertical range.\n"
 				self.referenceLayer = self.layer
 		else:
