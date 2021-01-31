@@ -270,6 +270,9 @@ class HTLetterspacerLib(object):
 		return self.xHeight * self.paramOver / 100
 
 	def maxPoints(self, points, minY, maxY):
+		#this function should get the leftmost and rightmost points in the given reference area (typically, between baseline and x-height in a lowercase), to close the contour
+		# When a glyph have outlines, but none of them is in that area, it fails.
+		#It should be done in a more efficient way
 		right = -10000
 		righty = None
 		left = 10000
@@ -443,6 +446,8 @@ class HTLetterspacerLib(object):
 				self.output += 'Something went wrong!'
 			elif len(layer.paths) < 1 and len(layer.components) < 1:
 				self.output += 'No paths in glyph ' + layer.parent.name + "\n"
+			elif NSMinY(layer.bounds)>NSMaxY(referenceLayer.bounds) or NSMaxY(layer.bounds)<NSMinY(referenceLayer.bounds):
+				self.output += 'The glyph is outside the reference layer zone/height. No match with '+referenceLayer.parent.name
 			# both sidebearings with metric keys
 			elif layer.hasAlignedWidth():
 				self.output += 'Glyph ' + layer.parent.name + ' has automatic alignment. Spacing not set.\n'
