@@ -446,8 +446,6 @@ class HTLetterspacerLib(object):
 				self.output += 'Something went wrong!'
 			elif len(layer.paths) < 1 and len(layer.components) < 1:
 				self.output += 'No paths in glyph ' + layer.parent.name + "\n"
-			elif NSMinY(layer.bounds)>NSMaxY(referenceLayer.bounds) or NSMaxY(layer.bounds)<NSMinY(referenceLayer.bounds):
-				self.output += 'The glyph is outside the reference layer zone/height. No match with '+referenceLayer.parent.name
 			# both sidebearings with metric keys
 			elif layer.hasAlignedWidth():
 				self.output += 'Glyph ' + layer.parent.name + ' has automatic alignment. Spacing not set.\n'
