@@ -128,56 +128,8 @@ def triangle(angle, y):
 	#result = round(result)
 	return result
 
-def totalMarginList(layer,overshoot,angle):
-	y = NSMinY(layer.bounds)-overshoot
-	listL = []
-	listR = []
-
-	#calculate default depth, otherwise measurement is None
-	#calculate paralelogram extremes
-	origin=NSMinX(layer.bounds)
-	endpointx=NSMaxX(layer.bounds)
-	endpointy=NSMaxY(layer.bounds)
-
-	#calculate paralelogram top left
-	xpos=triangle(angle,endpointy)+origin
-	#paralelogram top side width
-	slantWidth=(endpointx-xpos)
-	#default depth
-	dfltDepth=slantWidth
-
-	#result will be false if all the measured margins are emtpy (no outlines in reference zone)
-	result=False
-
-	while y <= NSMaxY(layer.bounds)+overshoot:
-		lpos, rpos = getMargins(layer, y)
-
-		#get the default margin measure at a given y position
-		slantPosL=origin+triangle(angle,y)+dfltDepth
-		slantPosR=origin+triangle(angle,y)
-
-		if lpos is not None:
-			listL.append(NSMakePoint(lpos, y))
-			result=True
-		else:
-			listL.append(NSMakePoint(slantPosL, y))
-
-		if rpos is not None:
-			listR.append(NSMakePoint(rpos, y))
-			result=True
-		else:
-			listR.append(NSMakePoint(slantPosR, y))
-
-		y += paramFreq
-	
-	#if no measurements are taken, returns false and will abort in main function
-	if result:
-		return listL, listR
-	else:
-		return False,False
-
-# a list of margins
-def marginList(layer,referenceLayer,overshoot,angle):
+def totalMarginList(layer,referenceLayer,overshoot,angle,minY,maxY):
+	#the list of margins
 	y = NSMinY(referenceLayer.bounds)-overshoot
 	listL = []
 	listR = []
@@ -207,13 +159,15 @@ def marginList(layer,referenceLayer,overshoot,angle):
 
 		if lpos is not None:
 			listL.append(NSMakePoint(lpos, y))
-			result=True
+			if minY<=y<=maxY:
+				result=True
 		else:
 			listL.append(NSMakePoint(slantPosL, y))
 
 		if rpos is not None:
 			listR.append(NSMakePoint(rpos, y))
-			result=True
+			if minY<=y<=maxY:
+				result=True
 		else:
 			listR.append(NSMakePoint(slantPosR, y))
 
@@ -224,6 +178,14 @@ def marginList(layer,referenceLayer,overshoot,angle):
 		return listL, listR
 	else:
 		return False,False
+
+
+def zoneMargins(lMargins,rMargins,minY,maxY):
+	#filter those outside the range
+	pointsFilteredL = [ x for x in lMargins if x.y>=minY and x.y<=maxY]
+	pointsFilteredR = [ x for x in rMargins if x.y>=minY and x.y<=maxY]
+
+	return pointsFilteredL,pointsFilteredR
 
 # get appropriate config file path
 def getConfigPath(directory, glyphsfile, mastername):
@@ -442,20 +404,24 @@ class HTLetterspacerLib(object):
 		self.minY = NSMinY(layer.bounds)
 		self.maxY = NSMaxY(layer.bounds)	
 
-		#get the margins for the full outline
-		lTotalMargins, rTotalMargins = totalMarginList(layer,overshoot,self.angle)
-		# get all margins in the zone
-		lZoneMargins, rZoneMargins = marginList(layer,referenceLayer,overshoot,self.angle)
+		self.output+="Using reference layer: " + referenceLayer.parent.name+"\n"
 
+		#get the margins for the full outline
+		lTotalMargins, rTotalMargins = totalMarginList(layer,layer,overshoot,self.angle,self.minYref,self.maxYref)
 
 		#check there is some overlap with reference zone
-		if not lZoneMargins and not rZoneMargins:
+		if not lTotalMargins and not rTotalMargins:
 			self.output += 'The glyph outlines are outside the reference layer zone/height. No match with '+referenceLayer.parent.name
 			return
 
+		# get all margins in the zone
+		lZoneMargins, rZoneMargins = zoneMargins(lTotalMargins,rTotalMargins,self.minYref,self.maxYref)
+
+
+
 		#if the font has an angle, we need to deslant
 		if self.angle:
-			print("Using angle: " + str(self.angle))			
+			self.output+="Using angle: " + str(self.angle)+"\n"		
 			lZoneMargins = self.deslant(lZoneMargins)
 			rZoneMargins = self.deslant(rZoneMargins)
 		
