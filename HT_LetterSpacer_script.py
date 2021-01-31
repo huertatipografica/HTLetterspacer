@@ -128,9 +128,10 @@ def triangle(angle, y):
 	#result = round(result)
 	return result
 
-def totalMarginList(layer,referenceLayer,overshoot,angle,minY,maxY):
+def totalMarginList(layer,minY,maxY,angle,minYref,maxYref):
+# totalMarginList(layer,minY,maxY,angle,minYref,maxYref)
 	#the list of margins
-	y = NSMinY(referenceLayer.bounds)-overshoot
+	y = minY
 	listL = []
 	listR = []
 
@@ -150,7 +151,7 @@ def totalMarginList(layer,referenceLayer,overshoot,angle,minY,maxY):
 	#result will be false if all the measured margins are emtpy (no outlines in reference zone)
 	result=False
 
-	while y <= NSMaxY(referenceLayer.bounds)+overshoot:
+	while y <= maxY:
 		lpos, rpos = getMargins(layer, y)
 
 		#get the default margin measure at a given y position
@@ -159,14 +160,14 @@ def totalMarginList(layer,referenceLayer,overshoot,angle,minY,maxY):
 
 		if lpos is not None:
 			listL.append(NSMakePoint(lpos, y))
-			if minY<=y<=maxY:
+			if minYref<=y<=maxYref:
 				result=True
 		else:
 			listL.append(NSMakePoint(slantPosL, y))
 
 		if rpos is not None:
 			listR.append(NSMakePoint(rpos, y))
-			if minY<=y<=maxY:
+			if minYref<=y<=maxYref:
 				result=True
 		else:
 			listR.append(NSMakePoint(slantPosR, y))
@@ -211,7 +212,7 @@ def readConfig(mastername):
 	array = []
 
 	if os.path.isfile(confpath) == True:
-		print('Config file exists')
+		print("Config file exists\n")
 	else :
 		createFilePrompt = dialogs.askYesNo(\
 			messageText='\nMissing config file for this font.',\
@@ -404,19 +405,21 @@ class HTLetterspacerLib(object):
 		self.minY = NSMinY(layer.bounds)
 		self.maxY = NSMaxY(layer.bounds)	
 
+		self.output+="Glyph: " + str(layer.parent.name)+"\n"	
 		self.output+="Using reference layer: " + referenceLayer.parent.name+"\n"
 
 		#get the margins for the full outline
-		lTotalMargins, rTotalMargins = totalMarginList(layer,layer,overshoot,self.angle,self.minYref,self.maxYref)
+		#will take measure from minY to maxY. minYref and maxYref are passed to check reference match
+		# totalMarginList(layer,minY,maxY,angle,minYref,maxYref)
+		lTotalMargins, rTotalMargins = totalMarginList(layer,self.minY,self.maxY,self.angle,self.minYref,self.maxYref)
 
-		#check there is some overlap with reference zone
+		#margins will be False, False if there is no measure in the reference zone, and then function stops
 		if not lTotalMargins and not rTotalMargins:
-			self.output += 'The glyph outlines are outside the reference layer zone/height. No match with '+referenceLayer.parent.name
+			self.output += 'The glyph outlines are outside the reference layer zone/height. No match with '+referenceLayer.parent.name+"\n"
 			return
 
-		# get all margins in the zone
+		# filtes all the margins to the reference zone
 		lZoneMargins, rZoneMargins = zoneMargins(lTotalMargins,rTotalMargins,self.minYref,self.maxYref)
-
 
 
 		#if the font has an angle, we need to deslant
@@ -424,10 +427,9 @@ class HTLetterspacerLib(object):
 			self.output+="Using angle: " + str(self.angle)+"\n"		
 			lZoneMargins = self.deslant(lZoneMargins)
 			rZoneMargins = self.deslant(rZoneMargins)
-		
-		# get extreme points deitalized
-		lTotalMargins = self.deslant(lTotalMargins)
-		rTotalMargins = self.deslant(rTotalMargins)
+			
+			lTotalMargins = self.deslant(lTotalMargins)
+			rTotalMargins = self.deslant(rTotalMargins)
 		
 
 		#full shape extreme points
@@ -680,11 +682,11 @@ class HTLetterspacerScript(object):
 		if self.font.glyphs[self.engine.reference]:
 			self.referenceLayer = self.font.glyphs[self.engine.reference].layers[self.layerID]
 			if len(self.referenceLayer.paths) < 1:
-				self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't have contours. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
+				self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't have contours. Glyph " + self.layer.parent.name + " was spaced based on its own vertical range.\n"
 				self.referenceLayer = self.layer
 		else:
 			self.referenceLayer = self.layer
-			self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't exist. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
+			self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't exist. Glyph " + self.layer.parent.name + " was spaced based on its own vertical range.\n"
 
 	def spaceMain(self):
 		for layer in self.mySelection:
