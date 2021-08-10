@@ -249,11 +249,11 @@ class HTLetterspacerLib(object):
 
 		# Set width and draw
 
-		destination.width = layer.width		
+		destination.width = layer.width
 		destination.paths.append(self.shape(margins[0]))
 		destination.paths.append(self.shape(margins[1]))
-		destination.LSB = 0	
-		destination.RSB = 0		
+		destination.LSB = 0
+		destination.RSB = 0
 
 	def shape(self, points):
 		shape = GlyphsApp.GSPath()
@@ -369,8 +369,7 @@ class HTLetterspacerLib(object):
 		amplitudeY = self.maxYref - self.minYref
 
 		#recalculates area based on UPM
-		areaUPM = self.paramArea*((self.upm/1000)**2)
-
+		areaUPM = self.paramArea * ((self.upm / 1000) **2)
 		# calculates proportional area
 		whiteArea = areaUPM * self.factor * 100
 
@@ -388,8 +387,7 @@ class HTLetterspacerLib(object):
 		self.maxYref = NSMaxY(referenceLayer.bounds) + overshoot
 
 		# bounds
-		print(self.angle)
-		lFullMargin, rFullMargin = marginList(layer,self.angle)
+		lFullMargin, rFullMargin = marginList(layer, self.angle)
 		if self.angle:
 			lFullMargin = self.deslant(lFullMargin)
 			rFullMargin = self.deslant(rFullMargin)
@@ -641,11 +639,11 @@ class HTLetterspacerScript(object):
 		if self.font.glyphs[self.engine.reference]:
 			self.referenceLayer = self.font.glyphs[self.engine.reference].layers[self.layerID]
 			if len(self.referenceLayer.paths) < 1:
-				self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't have contours. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
-				self.referenceLayer = self.layer
+				self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't have contours. Glyph " + self.glyph.name + " was spaced uses its own vertical range.\n"
+				self.referenceLayer = layer
 		else:
-			self.referenceLayer = self.layer
-			self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't exist. Glyph " + self.layer.parent.name + " was spaced uses its own vertical range.\n"
+			self.referenceLayer = layer
+			self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't exist. Glyph " + self.glyph.name + " was spaced uses its own vertical range.\n"
 
 	def spaceMain(self):
 		for layer in self.mySelection:
