@@ -238,7 +238,8 @@ class HTLetterspacerLib(object):
 			try:
 				font.glyphs.append(GlyphsApp.GSGlyph('_areas'))
 			except Exception:
-				pass
+				import traceback
+				print(traceback.format_exc())
 
 		destination = font.glyphs['_areas'].layers[layerId]
 		destination.parent.export = False
@@ -580,6 +581,8 @@ class HTLetterspacerScript(object):
 			GlyphsApp.Glyphs.defaults["com.ht.spacer.depth"] = self.w.prof.get()
 			GlyphsApp.Glyphs.defaults["com.ht.spacer.over"] = self.w.ex.get()
 		except:
+			import traceback
+			print(traceback.format_exc())
 			return False
 
 		return True
@@ -594,6 +597,8 @@ class HTLetterspacerScript(object):
 			self.w.prof.set(GlyphsApp.Glyphs.defaults["com.ht.spacer.depth"])
 			self.w.ex.set(GlyphsApp.Glyphs.defaults["com.ht.spacer.over"])
 		except:
+			import traceback
+			print(traceback.format_exc())
 			return False
 
 		return True
