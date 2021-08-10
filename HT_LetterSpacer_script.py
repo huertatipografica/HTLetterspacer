@@ -2,7 +2,7 @@
 # HT Letterspacer, an auto-spacing tool
 # Copyright (C) 2009 - 2018, The HT Letterspacer Project Authors
 # Version 1.11
-
+from __future__ import division, print_function, unicode_literals
 
 # Default parameters
 paramArea = 400  # white area in thousand units
