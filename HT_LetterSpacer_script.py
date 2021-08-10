@@ -524,7 +524,7 @@ class HTLetterspacerScript(object):
 				self.output += 'Using default parameter %s: %i\n' % (param, getattr(self.engine, param))
 
 	def window(self):
-		self.w = vanilla.FloatingWindow((250, 180), "HT Letterspacer", minSize=(225, 180), maxSize=(225, 180), autosaveName="com.ht.spacer")
+		self.w = vanilla.FloatingWindow((250, 164), "HT Letterspacer", minSize=(250, 180), maxSize=(250, 180), autosaveName="com.ht.spacer")
 		self.w.text_3 = vanilla.TextBox((210, 25, -170, 14), "%", sizeStyle='small')
 		self.w.text_4 = vanilla.TextBox((15, 50, 100, 14), "Area", sizeStyle='small')
 		self.w.text_4b = vanilla.TextBox((120, 50, 50, 14), self.engine.paramArea, sizeStyle='small')
