@@ -147,7 +147,7 @@ def marginList(layer,angle):
 	#default depth
 	dfltDepth=slantWidth
 
-	while y <= NSMaxY(layer.bounds):
+	while y <= endpointy:
 		lpos, rpos = getMargins(layer, y)
 
 		#get the default margin measure at a given y position
