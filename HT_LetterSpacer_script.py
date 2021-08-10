@@ -25,39 +25,39 @@ from vanilla import dialogs
 DEFAULT_CONFIG_FILE =\
 """
 # Reference
-# Script, Category, Subcategory, value, referenceGlyph, filter
+# Script, Category, Subcategory, case, value, referenceGlyph, filter
 
 # Letters
-*,Letter,Uppercase,1.25,H,*,
-*,Letter,Smallcaps,1.1,h.sc,*,
-*,Letter,Lowercase,1,x,*,
-*,Letter,Lowercase,0.7,m.sups,.sups,
+*,Letter,*,upper,1.25,H,*,
+*,Letter,*,smallCaps,1.1,h.sc,*,
+*,Letter,*,lower,1,x,*,
+*,Letter,*,minor,0.7,m.sups,.sups,
 
 # Numbers
-*,Number,Decimal Digit,1.2,one,*,
-*,Number,Decimal Digit,1.2,zero.osf,.osf,
-*,Number,Fraction,1.3,*,*,
-*,Number,*,0.8,*,.dnom,
-*,Number,*,0.8,*,.numr,
-*,Number,*,0.8,*,.inferior,
-*,Number,*,0.8,*,superior,
+*,Number,Decimal Digit,*,1.2,one,*,
+*,Number,Decimal Digit,*,1.2,zero.osf,.osf,
+*,Number,Fraction,minor,1.3,*,*,
+*,Number,*,*,0.8,*,.dnom,
+*,Number,*,*,0.8,*,.numr,
+*,Number,*,*,0.8,*,.inferior,
+*,Number,*,*,0.8,*,superior,
 
 # Punctuation
-*,Punctuation,Other,1.4,*,*,
-*,Punctuation,Parenthesis,1.2,*,*,
-*,Punctuation,Quote,1.2,*,*,
-*,Punctuation,Dash,1,*,*,
-*,Punctuation,*,1,*,slash,
-*,Punctuation,*,1.2,*,*,
+*,Punctuation,Other,*,1.4,*,*,
+*,Punctuation,Parenthesis,*,1.2,*,*,
+*,Punctuation,Quote,*,1.2,*,*,
+*,Punctuation,Dash,*,1,*,*,
+*,Punctuation,*,*,1,*,slash,
+*,Punctuation,*,*,1.2,*,*,
 
 # Symbols
-*,Symbol,Currency,1.6,*,*,
-*,Symbol,*,1.5,*,*,
-*,Mark,*,1,*,*,
+*,Symbol,Currency,*,1.6,*,*,
+*,Symbol,*,*,1.5,*,*,
+*,Mark,*,*,1,*,*,
 
 # Devanagari
-devanagari,Letter,Other,1,devaHeight,*,
-devanagari,Letter,Ligature,1,devaHeight,*,
+devanagari,Letter,Other,*,1,devaHeight,*,
+devanagari,Letter,Ligature,*,1,devaHeight,*,
 """
 
 COPY_PARAMETERS_GLYPHS2 = """(
@@ -208,7 +208,7 @@ def readConfig(mastername):
 			if line[0] != '#' and len(line) > 5:
 				newline = line.split(",")
 				del newline[-1]
-				newline[3] = float(newline[3])
+				newline[4] = float(newline[4])
 				array.append(newline)
 	return array
 
@@ -607,8 +607,9 @@ class HTLetterspacerScript(object):
 			if self.script == item[0] or item[0] == '*':
 				if self.category == item[1] or item[1] == '*':
 					if self.subCategory == item[2] or item[2] == '*':
-						if not exception or item[5] in self.glyph.name:
-							exception = item
+						if self.case == item[3] or item[3] == '*':
+							if not exception or item[6] in self.glyph.name:
+								exception = item
 		return exception
 
 	def setG(self, layer):
@@ -618,19 +619,20 @@ class HTLetterspacerScript(object):
 
 		self.layerID = layer.associatedMasterId
 		self.master = self.font.masters[self.layerID]
-
-		self.glyph = layer.parent
 		self.layer = layer
-		self.category = layer.parent.category
-		self.subCategory = layer.parent.subCategory
-		self.script = layer.parent.script
-		self.engine.reference = self.glyph.name
+		glyph = layer.parent
+		self.glyph = glyph
+		self.category = glyph.category
+		self.subCategory = glyph.subCategory
+		self.case = GlyphsApp.GSGlyphInfo.stringFromCase_(glyph.case)
+		self.script = glyph.script
+		self.engine.reference = glyph.name
 		self.engine.factor = 1.0
 
 		exception = self.findException()
 		if (exception):
-			self.engine.factor = exception[3]
-			item = exception[4]
+			self.engine.factor = exception[4]
+			item = exception[5]
 			if item != '*':
 				self.engine.reference = item
 		self.engine.newWidth = False
