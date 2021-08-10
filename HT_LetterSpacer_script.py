@@ -110,8 +110,8 @@ def area(points):
 
 # get margins in Glyphs
 def getMargins(layer, y):
-	startPoint = NSMakePoint(NSMinX(layer.bounds), y)
-	endPoint = NSMakePoint(NSMaxX(layer.bounds), y)
+	startPoint = NSMakePoint(NSMinX(layer.bounds) - 1, y)
+	endPoint = NSMakePoint(NSMaxX(layer.bounds) + 1, y)
 
 	result = layer.calculateIntersectionsStartPoint_endPoint_(startPoint, endPoint)
 	count = len(result)
