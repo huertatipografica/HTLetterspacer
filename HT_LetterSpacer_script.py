@@ -2,7 +2,7 @@
 # HT Letterspacer, an auto-spacing tool
 # Copyright (C) 2009 - 2018, The HT Letterspacer Project Authors
 # Version 1.11
-
+from __future__ import division, print_function, unicode_literals
 
 # Default parameters
 paramArea = 400  # white area in thousand units
@@ -110,8 +110,8 @@ def area(points):
 
 # get margins in Glyphs
 def getMargins(layer, y):
-	startPoint = NSMakePoint(NSMinX(layer.bounds), y)
-	endPoint = NSMakePoint(NSMaxX(layer.bounds), y)
+	startPoint = NSMakePoint(NSMinX(layer.bounds) - 1, y)
+	endPoint = NSMakePoint(NSMaxX(layer.bounds) + 1, y)
 
 	result = layer.calculateIntersectionsStartPoint_endPoint_(startPoint, endPoint)
 	count = len(result)
@@ -260,7 +260,8 @@ class HTLetterspacerLib(object):
 			try:
 				font.glyphs.append(GlyphsApp.GSGlyph('_areas'))
 			except Exception:
-				pass
+				import traceback
+				print(traceback.format_exc())
 
 		destination = font.glyphs['_areas'].layers[layerId]
 		destination.parent.export = False
@@ -270,11 +271,11 @@ class HTLetterspacerLib(object):
 
 		# Set width and draw
 
-		destination.width = layer.width		
+		destination.width = layer.width
 		destination.paths.append(self.shape(margins[0]))
 		destination.paths.append(self.shape(margins[1]))
-		destination.LSB = 0	
-		destination.RSB = 0		
+		destination.LSB = 0
+		destination.RSB = 0
 
 	def shape(self, points):
 		shape = GlyphsApp.GSPath()
@@ -384,8 +385,7 @@ class HTLetterspacerLib(object):
 		amplitudeY = self.maxYref - self.minYref
 
 		#recalculates area based on UPM
-		areaUPM = self.paramArea*((self.upm/1000)**2)
-
+		areaUPM = self.paramArea * ((self.upm / 1000) **2)
 		# calculates proportional area
 		whiteArea = areaUPM * self.factor * 100
 
@@ -571,7 +571,7 @@ class HTLetterspacerScript(object):
 				self.output += 'Using default parameter %s: %i\n' % (param, getattr(self.engine, param))
 
 	def window(self):
-		self.w = vanilla.FloatingWindow((250, 180), "HT Letterspacer", minSize=(225, 180), maxSize=(225, 180), autosaveName="com.ht.spacer")
+		self.w = vanilla.FloatingWindow((250, 164), "HT Letterspacer", minSize=(250, 180), maxSize=(250, 180), autosaveName="com.ht.spacer")
 		self.w.text_3 = vanilla.TextBox((210, 25, -170, 14), "%", sizeStyle='small')
 		self.w.text_4 = vanilla.TextBox((15, 50, 100, 14), "Area", sizeStyle='small')
 		self.w.text_4b = vanilla.TextBox((120, 50, 50, 14), self.engine.paramArea, sizeStyle='small')
@@ -626,6 +626,8 @@ class HTLetterspacerScript(object):
 			GlyphsApp.Glyphs.defaults["com.ht.spacer.depth"] = self.w.prof.get()
 			GlyphsApp.Glyphs.defaults["com.ht.spacer.over"] = self.w.ex.get()
 		except:
+			import traceback
+			print(traceback.format_exc())
 			return False
 
 		return True
@@ -640,6 +642,8 @@ class HTLetterspacerScript(object):
 			self.w.prof.set(GlyphsApp.Glyphs.defaults["com.ht.spacer.depth"])
 			self.w.ex.set(GlyphsApp.Glyphs.defaults["com.ht.spacer.over"])
 		except:
+			import traceback
+			print(traceback.format_exc())
 			return False
 
 		return True
