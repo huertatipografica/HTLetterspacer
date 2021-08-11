@@ -686,11 +686,11 @@ class HTLetterspacerScript(object):
 		if self.font.glyphs[self.engine.reference]:
 			self.referenceLayer = self.font.glyphs[self.engine.reference].layers[self.layerID]
 			if len(self.referenceLayer.paths) < 1 and len(self.referenceLayer.components)<1:
-				self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't have contours. Glyph " + self.layer.parent.name + " was spaced based on its own vertical range.\n"
-				self.referenceLayer = self.layer
+				self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't have contours. Glyph " + self.glyph.name + " was spaced based on its own vertical range.\n"
+				self.referenceLayer = layer
 		else:
-			self.referenceLayer = self.layer
-			self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't exist. Glyph " + self.layer.parent.name + " was spaced based on its own vertical range.\n"
+			self.referenceLayer = layer
+			self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't exist. Glyph " + self.glyph.name + " was spaced based on its own vertical range.\n"
 
 	def spaceMain(self):
 		for layer in self.mySelection:
