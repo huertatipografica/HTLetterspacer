@@ -128,9 +128,10 @@ def triangle(angle, y):
 	#result = round(result)
 	return result
 
-# a list of margins
-def marginList(layer,angle):
-	y = NSMinY(layer.bounds)
+def totalMarginList(layer,minY,maxY,angle,minYref,maxYref):
+# totalMarginList(layer,minY,maxY,angle,minYref,maxYref)
+	#the list of margins
+	y = minY
 	listL = []
 	listR = []
 
@@ -147,24 +148,45 @@ def marginList(layer,angle):
 	#default depth
 	dfltDepth=slantWidth
 
-	while y <= endpointy:
+	#result will be false if all the measured margins are emtpy (no outlines in reference zone)
+	result=False
+
+	while y <= maxY:
 		lpos, rpos = getMargins(layer, y)
 
 		#get the default margin measure at a given y position
 		slantPosL=origin+triangle(angle,y)+dfltDepth
-		slantPosR=origin+triangle(angle,y)+slantWidth-dfltDepth
+		slantPosR=origin+triangle(angle,y)
 
 		if lpos is not None:
 			listL.append(NSMakePoint(lpos, y))
+			if minYref<=y<=maxYref:
+				result=True
 		else:
 			listL.append(NSMakePoint(slantPosL, y))
+
 		if rpos is not None:
 			listR.append(NSMakePoint(rpos, y))
+			if minYref<=y<=maxYref:
+				result=True
 		else:
 			listR.append(NSMakePoint(slantPosR, y))
 
 		y += paramFreq
-	return listL, listR
+	
+	#if no measurements are taken, returns false and will abort in main function
+	if result:
+		return listL, listR
+	else:
+		return False,False
+
+
+def zoneMargins(lMargins,rMargins,minY,maxY):
+	#filter those outside the range
+	pointsFilteredL = [ x for x in lMargins if x.y>=minY and x.y<=maxY]
+	pointsFilteredR = [ x for x in rMargins if x.y>=minY and x.y<=maxY]
+
+	return pointsFilteredL,pointsFilteredR
 
 # get appropriate config file path
 def getConfigPath(directory, glyphsfile, mastername):
@@ -190,7 +212,7 @@ def readConfig(mastername):
 	array = []
 
 	if os.path.isfile(confpath) == True:
-		print('Config file exists')
+		print("Config file exists\n")
 	else :
 		createFilePrompt = dialogs.askYesNo(\
 			messageText='\nMissing config file for this font.',\
@@ -271,27 +293,21 @@ class HTLetterspacerLib(object):
 		return self.xHeight * self.paramOver / 100
 
 	def maxPoints(self, points, minY, maxY):
-		#this function should get the leftmost and rightmost points in the given reference area (typically, between baseline and x-height in a lowercase), to close the contour
-		# When a glyph have outlines, but none of them is in that area, it fails.
-		#It should be done in a more efficient way
-		right = -10000
-		righty = None
-		left = 10000
-		lefty = None
-		for p in points:
-			if p.y >= minY and p.y <= maxY:
-				if p.x > right:
-					right = p.x
-					righty = p.y
-				if p.x < left:
-					left = p.x
-					lefty = p.y
-		assert righty is not None, (
-			"Please file a bug report with a screenshot of the glyph this script fails on."
-		)
-		assert lefty is not None, (
-			"Please file a bug report with a screenshot of the glyph this script fails on."
-		)
+		#this function returns the extremes for a given set of points in a given zone
+
+		#filter those outside the range
+		# pointsFilteredL = [ x for x in points[0] if x.y>=minY and x.y<=maxY]
+		# pointsFilteredR = [ x for x in points[0] if x.y>=minY and x.y<=maxY]
+
+		#sort all given points by x
+		sortPointsByXL = sorted(points[0], key=lambda tup: tup[0])
+		sortPointsByXR = sorted(points[1], key=lambda tup: tup[0])
+
+		
+		#get the extremes position, first and last in the list
+		left, lefty = sortPointsByXL[0]
+		right, righty = sortPointsByXR[-1]
+		
 		return NSMakePoint(left, lefty), NSMakePoint(right, righty)
 
 	def processMargins(self, lMargin, rMargin, lExtreme, rExtreme):
@@ -386,22 +402,47 @@ class HTLetterspacerLib(object):
 		self.minYref = NSMinY(referenceLayer.bounds) - overshoot
 		self.maxYref = NSMaxY(referenceLayer.bounds) + overshoot
 
-		# bounds
-		lFullMargin, rFullMargin = marginList(layer, self.angle)
-		if self.angle:
-			lFullMargin = self.deslant(lFullMargin)
-			rFullMargin = self.deslant(rFullMargin)
-		# get extreme points deitalized
-		lFullExtreme, rFullExtreme = self.maxPoints(lFullMargin + rFullMargin, NSMinY(layer.bounds), NSMaxY(layer.bounds))
+		self.minY = NSMinY(layer.bounds)
+		self.maxY = NSMaxY(layer.bounds)	
 
-		lMargins = [p for p in lFullMargin if self.minYref <= p.y <= self.maxYref]
-		rMargins = [p for p in rFullMargin if self.minYref <= p.y <= self.maxYref]
+		self.output+="Glyph: " + str(layer.parent.name)+"\n"	
+		self.output+="Using reference layer: " + referenceLayer.parent.name+"\n"
+
+		#get the margins for the full outline
+		#will take measure from minY to maxY. minYref and maxYref are passed to check reference match
+		# totalMarginList(layer,minY,maxY,angle,minYref,maxYref)
+		lTotalMargins, rTotalMargins = totalMarginList(layer,self.minY,self.maxY,self.angle,self.minYref,self.maxYref)
+
+		#margins will be False, False if there is no measure in the reference zone, and then function stops
+		if not lTotalMargins and not rTotalMargins:
+			self.output += 'The glyph outlines are outside the reference layer zone/height. No match with '+referenceLayer.parent.name+"\n"
+			return
+
+		# filtes all the margins to the reference zone
+		lZoneMargins, rZoneMargins = zoneMargins(lTotalMargins,rTotalMargins,self.minYref,self.maxYref)
+
+
+		#if the font has an angle, we need to deslant
+		if self.angle:
+			self.output+="Using angle: " + str(self.angle)+"\n"		
+			lZoneMargins = self.deslant(lZoneMargins)
+			rZoneMargins = self.deslant(rZoneMargins)
+			
+			lTotalMargins = self.deslant(lTotalMargins)
+			rTotalMargins = self.deslant(rTotalMargins)
+		
+
+		#full shape extreme points
+		lFullExtreme, rFullExtreme = self.maxPoints([lTotalMargins,rTotalMargins], self.minY, self.maxY)
 		# get zone extreme points
-		lExtreme, rExtreme = self.maxPoints(lMargins + rMargins, self.minYref, self.maxYref)
+		lExtreme, rExtreme = self.maxPoints([lZoneMargins,rZoneMargins], self.minYref, self.maxYref)
+
 
 		# create a closed polygon
-		lPolygon, rPolygon = self.processMargins(lMargins, rMargins, lExtreme, rExtreme)
+		lPolygon, rPolygon = self.processMargins(lZoneMargins, rZoneMargins, lExtreme, rExtreme)
 
+		# return
+		
 		# dif between extremes full and zone
 		distanceL = math.ceil(lExtreme.x - lFullExtreme.x)
 		distanceR = math.ceil(rFullExtreme.x - rExtreme.x)
@@ -461,10 +502,16 @@ class HTLetterspacerLib(object):
 				# Decompose layer for analysis, as the deeper plumbing assumes to be looking at outlines.
 				layer_decomposed = layer.copyDecomposedLayer()
 				layer_decomposed.parent = layer.parent
-				lp, rp = self.setSpace(layer_decomposed, referenceLayer)
-				del layer_decomposed
-				# store values in a list
-				setSidebearings(layer, self.newL, self.newR, self.newWidth, color)
+
+				#run the spacing
+				space = self.setSpace(layer_decomposed, referenceLayer)
+
+				#if it worked
+				if space:
+					lp, rp = space
+					del layer_decomposed
+					# store values in a list
+					setSidebearings(layer, self.newL, self.newR, self.newWidth, color)
 
 			print(self.output)
 			self.output = ''
@@ -640,12 +687,12 @@ class HTLetterspacerScript(object):
 		# check reference layer existance and contours
 		if self.font.glyphs[self.engine.reference]:
 			self.referenceLayer = self.font.glyphs[self.engine.reference].layers[self.layerID]
-			if len(self.referenceLayer.paths) < 1:
-				self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't have contours. Glyph " + self.glyph.name + " was spaced uses its own vertical range.\n"
-				self.referenceLayer = layer
+			if len(self.referenceLayer.paths) < 1 and len(self.referenceLayer.components)<1:
+				self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't have contours. Glyph " + self.layer.parent.name + " was spaced based on its own vertical range.\n"
+				self.referenceLayer = self.layer
 		else:
-			self.referenceLayer = layer
-			self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't exist. Glyph " + self.glyph.name + " was spaced uses its own vertical range.\n"
+			self.referenceLayer = self.layer
+			self.output += "WARNING: The reference glyph declared (" + self.engine.reference + ") doesn't exist. Glyph " + self.layer.parent.name + " was spaced based on its own vertical range.\n"
 
 	def spaceMain(self):
 		for layer in self.mySelection:
