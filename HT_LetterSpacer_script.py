@@ -173,7 +173,7 @@ def totalMarginList(layer,minY,maxY,angle,minYref,maxYref):
 			listR.append(NSMakePoint(slantPosR, y))
 
 		y += paramFreq
-	
+
 	#if no measurements are taken, returns false and will abort in main function
 	if result:
 		return listL, listR
@@ -303,11 +303,11 @@ class HTLetterspacerLib(object):
 		sortPointsByXL = sorted(points[0], key=lambda tup: tup[0])
 		sortPointsByXR = sorted(points[1], key=lambda tup: tup[0])
 
-		
+
 		#get the extremes position, first and last in the list
 		left, lefty = sortPointsByXL[0]
 		right, righty = sortPointsByXR[-1]
-		
+
 		return NSMakePoint(left, lefty), NSMakePoint(right, righty)
 
 	def processMargins(self, lMargin, rMargin, lExtreme, rExtreme):
@@ -403,10 +403,10 @@ class HTLetterspacerLib(object):
 		self.maxYref = NSMaxY(referenceLayer.bounds) + overshoot
 
 		self.minY = NSMinY(layer.bounds)
-		self.maxY = NSMaxY(layer.bounds)	
+		self.maxY = NSMaxY(layer.bounds)
 
-		self.output+="Glyph: " + str(layer.parent.name)+"\n"	
-		self.output+="Using reference layer: " + referenceLayer.parent.name+"\n"
+		self.output+="Glyph: " + str(layer.parent.name)+"\n"
+		self.output+="Reference layer: " + referenceLayer.parent.name+ " | Factor: " + str(self.factor) + "\n"
 
 		#get the margins for the full outline
 		#will take measure from minY to maxY. minYref and maxYref are passed to check reference match
@@ -424,13 +424,13 @@ class HTLetterspacerLib(object):
 
 		#if the font has an angle, we need to deslant
 		if self.angle:
-			self.output+="Using angle: " + str(self.angle)+"\n"		
+			self.output+="Using angle: " + str(self.angle)+"\n"
 			lZoneMargins = self.deslant(lZoneMargins)
 			rZoneMargins = self.deslant(rZoneMargins)
-			
+
 			lTotalMargins = self.deslant(lTotalMargins)
 			rTotalMargins = self.deslant(rTotalMargins)
-		
+
 
 		#full shape extreme points
 		lFullExtreme, rFullExtreme = self.maxPoints([lTotalMargins,rTotalMargins], self.minY, self.maxY)
@@ -442,7 +442,7 @@ class HTLetterspacerLib(object):
 		lPolygon, rPolygon = self.processMargins(lZoneMargins, rZoneMargins, lExtreme, rExtreme)
 
 		# return
-		
+
 		# dif between extremes full and zone
 		distanceL = math.ceil(lExtreme.x - lFullExtreme.x)
 		distanceR = math.ceil(rFullExtreme.x - rExtreme.x)
