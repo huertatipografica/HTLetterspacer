@@ -425,8 +425,8 @@
                             </li>
                             <li>
                               <p>
-                                Open <strong>preferences</strong>. And select Glyphs in Addons/Python
-                                version
+                                Open <strong>preferences</strong>. And select
+                                Glyphs in Addons/Python version
                                 <img
                                   alt="HT Letterspacer"
                                   src="images/preferences.png"
@@ -643,14 +643,36 @@
                       </h5>
                     </a>
                     <div class="accordion-content" data-tab-content="">
+                      <div class="callout warning" data-closable>
+                        <h6>Glyphs 2 and 3 incompatibility</h6>
+                        <p>
+                          Glyphs has changed the way on which classify the
+                          characters. Hence the config files generated in Glyphs
+                          2 will produce bad results on glyphs 3.
+                        </p>
+                        <p>
+                          If you updated your workflow to Glyphs 3, we strongly
+                          recommend to delete the old (Glyphs 2) config files
+                          and regenerate the new ones from scratch. This way
+                          will be easier to replicate your preferences in the
+                          new version.
+                        </p>
+                        <button
+                          class="close-button"
+                          aria-label="Dismiss alert"
+                          type="button"
+                          data-close
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+
                       <p>
-                        A
-                        <a href="#examples"> text file </a>
-                        in the same Glyphs file folder will define all the
-                        different alterations for each category of signs, as
-                        well as a reference sign which defines the height or
-                        vertical range of the signs group. For example:
-                        lowercase vertical range could be defined with
+                        A text file in the same Glyphs file folder will define
+                        all the different alterations for each category of
+                        signs, as well as a reference sign which defines the
+                        height or vertical range of the signs group. For
+                        example: lowercase vertical range could be defined with
                         <code>x</code>
                         , uppercase with
                         <code>X</code>
