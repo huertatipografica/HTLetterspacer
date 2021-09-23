@@ -75,7 +75,7 @@ COPY_PARAMETERS_GLYPHS2 = """(
 COPY_PARAMETERS_GLYPHS3 = """{
     customParameters = (
         {
-            name = paramOver;
+            name = paramArea;
             value = %i;
         },
         {
@@ -83,7 +83,7 @@ COPY_PARAMETERS_GLYPHS3 = """{
             value = %i;
         },
         {
-            name = paramArea;
+            name = paramOver;
             value = %i;
         }
     );
