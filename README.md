@@ -28,6 +28,7 @@ Version 1.20
 - Fix bugs with reference zones
 - Improve performance with less measurements
 - Restore original configuration for both G2 and G3
+- Change default config files to .yml extension (same format and syntax)
 
 Version 1.11
 - Code merged in one script file

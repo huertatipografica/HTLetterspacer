@@ -193,13 +193,13 @@ def zoneMargins(lMargins,rMargins,minY,maxY):
 
 # get appropriate config file path
 def getConfigPath(directory, glyphsfile, mastername):
-	masterconffile = glyphsfile.split('.')[0] + "_" + mastername + "_autospace.py"
+	masterconffile = glyphsfile.split('.')[0] + "_" + mastername + "_autospace.yml"
 	masterconfpath = os.path.join(directory, masterconffile)
 
 	if os.path.isfile(masterconfpath) == True:
 		return masterconfpath
 
-	globalconffile = glyphsfile.split('.')[0] + "_autospace.py"
+	globalconffile = glyphsfile.split('.')[0] + "_autospace.yml"
 
 	return os.path.join(directory, globalconffile)
 
@@ -212,29 +212,46 @@ def readConfig(mastername):
 		return None
 	directory, glyphsfile = os.path.split(filepath)
 	confpath = getConfigPath(directory, glyphsfile, mastername)
+	
+	#legacy .py file support
+	deprecatedPyFile = confpath[:-4]+".py"
+	
 	array = []
 
-	if os.path.isfile(confpath) == True:
-		print("Config file exists\n")
+	#if .py present, use it
+	if os.path.isfile(confpath) == False and os.path.isfile(deprecatedPyFile) == True :
+		print("Config file exists (.py version is deprecated). We now use .yml extension.\nPlease change the file extension from "+deprecatedPyFile+" to "+deprecatedPyFile[:-3]+".yml if possible.\n")
+		confpath = deprecatedPyFile
+	#if .py AND .yml present, use .yml and warning
+	elif os.path.isfile(confpath) == True and os.path.isfile(deprecatedPyFile) == True:
+		GlyphsApp.Message("Only the .yml file is evaluated.", "Warning: both .yml and .py config files found", OKButton="OK")
+		print("Both .py and .yml config files exist. Only the .yml file is evaluated.\n")
+	#if .yml present, cool
+	elif os.path.isfile(confpath) == True:
+		print("Config file exists (.yml)\n")
+	#if no config file, create it
 	else :
 		createFilePrompt = dialogs.askYesNo(\
 			messageText='\nMissing config file for this font.',\
-			informativeText='want to create one?')
+			informativeText='No .yml found.'+"\nDo you want to create it?")
 		if createFilePrompt == 1:
 			newFile = open(confpath,'w')
 			newFile.write(DEFAULT_CONFIG_FILE)
 			newFile.close()
+			print("New .yml config file created\n")
 		elif createFilePrompt == 0 or createFilePrompt == -1:
 			GlyphsApp.Message("Error :(", "HT Letterspacer can't work without a config file", OKButton="OK")
 			return None
 
-	with open(confpath) as f:
-		for line in f:
-			if line[0] != '#' and len(line) > 5:
-				newline = line.split(",")
-				del newline[-1]
-				newline[3] = float(newline[3])
-				array.append(newline)
+	#if config file, read it
+	if os.path.isfile(confpath) == True:
+		with open(confpath) as f:
+			for line in f:
+				if line[0] != '#' and len(line) > 5:
+					newline = line.split(",")
+					del newline[-1]
+					newline[3] = float(newline[3])
+					array.append(newline)
 	return array
 
 def widthAvg(selection):
