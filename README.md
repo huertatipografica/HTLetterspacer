@@ -8,6 +8,13 @@ The first public version works as a macro for [Glyphs](https://glyphsapp.com) an
 
 ### Change Log
 
+Version 1.20
+- Improve code simplicity and syntax by Nikolaus and Georg
+- Add Glyphs 3 compatibility
+- Improve diagonize and drawing calculations
+- Fix bugs with reference zones
+- Improve performance with less measurements
+
 Version 1.10
 - Copy parameters to clipboard (thanks mekkablue)
 - Robofab no longer required for drawing _areas
