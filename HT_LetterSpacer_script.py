@@ -24,7 +24,8 @@ from vanilla import dialogs
 
 DEFAULT_CONFIG_FILE =\
 """
-# If you are migrating from G3 to G3, categories and subcategories are different. If you want to keep your spacing working the same way, please include G2 GlyphData.xml in your project
+# If you are migrating from G2 to G3, categories and subcategories are different. If you want to keep your spacing working the same way, please include G2 GlyphData.xml in your project.
+# Otherwise you would need to update the config with new categories matching.
 # Roll your own Glyph data: https://glyphsapp.com/learn/roll-your-own-glyph-data
 # For Glyphs 3, Letter Subcategory is taken from case values (upper [1], smallCaps [3] and lowercase [2]). case value minor [4] is ignored.
 # Glyphs categories can differ between Glyphs 2 and 3 versions. Please update your config accordingly
