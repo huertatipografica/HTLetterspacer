@@ -43,12 +43,11 @@ DEFAULT_CONFIG_FILE =\
 *,Number,*,0.8,*,superior,
 
 # Punctuation
-*,Punctuation,Other,1.4,*,*,
 *,Punctuation,Parenthesis,1.2,*,*,
 *,Punctuation,Quote,1.2,*,*,
 *,Punctuation,Dash,1,*,*,
 *,Punctuation,*,1,*,slash,
-*,Punctuation,*,1.2,*,*,
+*,Punctuation,*,1.4,*,*,
 
 # Symbols
 *,Symbol,Currency,1.6,*,*,
