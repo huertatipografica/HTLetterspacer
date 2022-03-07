@@ -603,12 +603,10 @@ class HTLetterspacerScript(object):
 		self.w.area = vanilla.EditText((170, 50 - 3, 40, 18), "430", sizeStyle='small')
 		self.w.prof = vanilla.EditText((170, 75 - 3, 40, 18), "20", sizeStyle='small')
 		self.w.ex = vanilla.EditText((170, 100 - 3, 40, 18), "0", sizeStyle='small')
-		# self.w.allMasters = vanilla.CheckBox((15, 125, -10, 18), "Apply to all Masters", value=self.allMasters,
-		# sizeStyle="small", callback=self.selectAllMasters)
 
-		self.w.copyButton = vanilla.Button((15, 150, -90, 30), "Copy Parameters", sizeStyle='small',
+		self.w.copyButton = vanilla.Button((15, 125, -90, 30), "Copy Parameters", sizeStyle='small',
 		                                   callback=self.copy_parameters)
-		self.w.runButton = vanilla.Button((-80, 150, -15, 30), "Apply", sizeStyle='small',
+		self.w.runButton = vanilla.Button((-80, 125, -15, 30), "Apply", sizeStyle='small',
 		                                  callback=self.dialog_callback)
 
 		self.w.setDefaultButton(self.w.runButton)
@@ -618,9 +616,6 @@ class HTLetterspacerScript(object):
 
 		self.w.open()
 		self.w.makeKey()
-
-	# def selectAllMasters(self, sender):
-	# 	self.allMasters = sender.get()
 
 	def dialog_callback(self, sender):
 		self.output = ""
