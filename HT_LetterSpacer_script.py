@@ -403,7 +403,7 @@ class HTLetterspacerLib(object):
 		valor = prop_area - area(polygon)
 		return valor / amplitude_y
 
-	def set_space(self, layer, reference_layer):
+	def setSpace(self, layer, reference_layer):
 		# get reference glyph maximum points
 		overshoot = self.overshoot()
 
@@ -512,7 +512,7 @@ class HTLetterspacerLib(object):
 				layer_decomposed.parent = layer.parent
 
 				# run the spacing
-				space = self.set_space(layer_decomposed, reference_layer)
+				space = self.setSpace(layer_decomposed, reference_layer)
 
 				# if it worked
 				if space:
