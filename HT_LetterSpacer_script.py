@@ -18,7 +18,6 @@ import math
 import os
 import objc
 from Foundation import NSMinX, NSMaxX, NSMinY, NSMaxY, NSMakePoint
-from objectsGS import GSLINE
 import vanilla
 from vanilla import dialogs
 
@@ -281,7 +280,7 @@ class HTLetterspacerLib(object):
 		shape = GlyphsApp.GSPath()
 		for xy in points:
 			newnode = GlyphsApp.GSNode()
-			newnode.type = GSLINE
+			newnode.type = GlyphsApp.LINE
 			newnode.position = (xy[0], xy[1])
 			shape.nodes.append( newnode )
 		shape.closed = True
