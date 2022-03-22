@@ -653,7 +653,7 @@ class HTLetterspacerScript(object):
 		for item in self.config:
 			if self.script == item[0] or item[0] == '*':
 				if self.category == item[1] or item[1] == '*':
-					if self.subCategory == item[2] or item[2] == '*':
+					if self.subCategory == item[2] or item[2] == '*' or self.case != 0:
 						if not exception or item[5] in self.glyph.name:
 							exception = item
 		return exception
@@ -671,6 +671,7 @@ class HTLetterspacerScript(object):
 		self.category = layer.parent.category
 		self.subCategory = layer.parent.subCategory
 		self.script = layer.parent.script
+		self.case = layer.parent.case
 		self.engine.reference = self.glyph.name
 		self.engine.factor = 1.0
 
