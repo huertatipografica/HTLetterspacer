@@ -652,9 +652,9 @@ class HTLetterspacerScript(object):
 		exception = False
 		if self.case > 0:
 			if self.case == 1:
-				self.category = Uppercase
+				self.category = "Uppercase"
 			elif self.case == 2:
-				self.category = Lowercase
+				self.category = "Lowercase"
 		for item in self.config:
 			if self.script == item[0] or item[0] == '*':
 				if self.category == item[1] or item[1] == '*':
