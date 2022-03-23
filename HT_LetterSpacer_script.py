@@ -652,16 +652,15 @@ class HTLetterspacerScript(object):
 		exception = False
 		if self.case > 0:
 			if self.case == 1:
-				self.category = "Uppercase"
+				self.subCategory = "Uppercase"
 			elif self.case == 2:
-				self.category = "Lowercase"
+				self.subCategory = "Lowercase"
 		for item in self.config:
 			if self.script == item[0] or item[0] == '*':
 				if self.category == item[1] or item[1] == '*':
 					if self.subCategory == item[2] or item[2] == '*':
 						if not exception or item[5] in self.glyph.name:
 							exception = item
-		print(exception, self.case, item[2])
 		return exception
 
 	def setG(self, layer):
