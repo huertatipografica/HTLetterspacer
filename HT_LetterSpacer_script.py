@@ -621,7 +621,7 @@ class HTLetterspacerScript(object):
 		h = 200
 		w = 250	
 
-		self.w = vanilla.FloatingWindow((500, h), "HT Letterspacer", minSize=(w, h), maxSize=(w, h), autosaveName="com.ht.spacer")
+		self.w = vanilla.FloatingWindow((500, h), "HT LetterSpacer", minSize=(w, h), maxSize=(w, h), autosaveName="com.ht.spacer")
 		self.w.text_4 = vanilla.TextBox((15, 50, 100, 14), "Area", sizeStyle='small')
 		self.w.text_4b = vanilla.TextBox((120, 50, 50, 14), self.engine.paramArea, sizeStyle='small')
 		self.w.text_5 = vanilla.TextBox((15, 75, 100, 14), "Depth", sizeStyle='small')
