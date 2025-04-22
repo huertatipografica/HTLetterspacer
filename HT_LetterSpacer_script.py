@@ -10,7 +10,6 @@ paramDepth = 15  # depth in open counterforms, from extreme points.
 paramOver = 0    # overshoot in spacing vertical range
 color = False 	 # mark color, False for no mark
 paramFreq = 5    # frequency of vertical measuring. Higher values are faster but less accurate
-drawAreas = False # False if to avoid the creation of _areas glyph
 
 # program dependencies
 import GlyphsApp
@@ -18,7 +17,6 @@ import math
 import os
 import objc
 from Foundation import NSMinX, NSMaxX, NSMinY, NSMaxY, NSMakePoint
-from objectsGS import GSLINE
 import vanilla
 from vanilla import dialogs
 
@@ -103,6 +101,7 @@ def setSidebearings(layer, newL, newR, width, color):
 
 	if color:
 		layer.parent.color = color
+	
 
 # point list area
 def area(points):
@@ -272,7 +271,8 @@ class HTLetterspacerLib(object):
 		self.tabVersion = False
 		self.width = None
 
-	def createAreasGlyph(self, font, layer, margins):
+	def createAreasGlyph(self, font, layer, margins): 
+		#deprecated, but stored for possible future use
 		layerId = layer.layerId
 
 		# try to create glyph
@@ -297,11 +297,28 @@ class HTLetterspacerLib(object):
 		destination.LSB = 0
 		destination.RSB = 0
 
+	def createAreasBg(self, font, layer, margins):
+		# create area drawing in background
+		destination = layer.background
+
+		# Delete all paths in destination
+		destination.clear()
+
+		margins[0]=self.slant(margins[0])
+		margins[1]=self.slant(margins[1])
+
+		# Set width and draw
+		destination.width = layer.width
+		destination.paths.append(self.shape(margins[0]))
+		destination.paths.append(self.shape(margins[1]))
+		destination.LSB = layer.LSB
+		destination.width = layer.width
+
 	def shape(self, points):
 		shape = GlyphsApp.GSPath()
 		for xy in points:
 			newnode = GlyphsApp.GSNode()
-			newnode.type = GSLINE
+			newnode.type = GlyphsApp.LINE
 			newnode.position = (xy[0], xy[1])
 			shape.nodes.append( newnode )
 		shape.closed = True
@@ -400,6 +417,15 @@ class HTLetterspacerLib(object):
 			NSMakePoint(p.x - (p.y - mline) * math.tan(math.radians(self.angle)), p.y)
 			for p in margin
 		]
+
+	def slant(self, margin):
+		"""slant a list of points (contour) at angle with the point of origin
+		at half the xheight."""
+		mline = self.xHeight / 2
+		return [
+			NSMakePoint(p.x - (p.y - mline) * math.tan(math.radians(self.angle*(-1))), p.y)
+			for p in margin
+		]	
 
 	def calculateSBValue(self, polygon):
 		amplitudeY = self.maxYref - self.minYref
@@ -515,8 +541,8 @@ class HTLetterspacerLib(object):
 			# elif '.tosf' in layer.parent.name or '.tf' in layer.parent.name:
 				#self.output+='Glyph '+layer.parent.name +' se supone tabular..'+"\n"
 			# if it is fraction / silly condition
-			elif 'fraction' in layer.parent.name:
-				self.output += 'Glyph ' + layer.parent.name + ': should be checked and done manually.\n'
+			# elif 'fraction' in layer.parent.name:
+			# 	self.output += 'Glyph ' + layer.parent.name + ': should be checked and done manually.\n'
 			# if not...
 			else:
 				# Decompose layer for analysis, as the deeper plumbing assumes to be looking at outlines.
@@ -575,6 +601,7 @@ class HTLetterspacerScript(object):
 			self.engine.tabVersion = False
 			self.engine.LSB = True
 			self.engine.RSB = True
+			self.engine.drawAreas = False
 
 			if self.ui:
 				self.window()
@@ -591,8 +618,10 @@ class HTLetterspacerScript(object):
 				self.output += 'Using default parameter %s: %i\n' % (param, getattr(self.engine, param))
 
 	def window(self):
-		self.w = vanilla.FloatingWindow((250, 164), "HT Letterspacer", minSize=(250, 180), maxSize=(250, 180), autosaveName="com.ht.spacer")
-		self.w.text_3 = vanilla.TextBox((210, 25, -170, 14), "%", sizeStyle='small')
+		h = 200
+		w = 250	
+
+		self.w = vanilla.FloatingWindow((500, h), "HT Letterspacer", minSize=(w, h), maxSize=(w, h), autosaveName="com.ht.spacer")
 		self.w.text_4 = vanilla.TextBox((15, 50, 100, 14), "Area", sizeStyle='small')
 		self.w.text_4b = vanilla.TextBox((120, 50, 50, 14), self.engine.paramArea, sizeStyle='small')
 		self.w.text_5 = vanilla.TextBox((15, 75, 100, 14), "Depth", sizeStyle='small')
@@ -602,13 +631,21 @@ class HTLetterspacerScript(object):
 		self.w.LSB = vanilla.CheckBox((15, 15, 40, 18), "LSB", value=True, sizeStyle='small', callback=self.SavePreferences)
 		self.w.RSB = vanilla.CheckBox((15 + 45, 15, 40, 18), "RSB", value=True, sizeStyle='small', callback=self.SavePreferences)
 		self.w.tab = vanilla.CheckBox((15 + 45 + 45, 15, 60, 18), "Tabular", value=False, sizeStyle='small', callback=self.SavePreferences)
-		self.w.width = vanilla.EditText((170, 15, 40, 18), widthAvg(self.mySelection), sizeStyle='small')
+		self.w.width = vanilla.EditText((170, 15, 40, 18), f"{widthAvg(self.mySelection)}", sizeStyle='small')
 		self.w.area = vanilla.EditText((170, 50 - 3, 40, 18), "430", sizeStyle='small')
 		self.w.prof = vanilla.EditText((170, 75 - 3, 40, 18), "20", sizeStyle='small')
 		self.w.ex = vanilla.EditText((170, 100 - 3, 40, 18), "0", sizeStyle='small')
+		
 
+		
 		self.w.copyButton = vanilla.Button((15, 125, -90, 30), "Copy Parameters", sizeStyle='small', callback=self.copyParameters)
 		self.w.runButton = vanilla.Button((-80, 125, -15, 30), "Apply", sizeStyle='small', callback=self.dialogCallback)
+		self.w.draw = vanilla.CheckBox((15, 150, -15, 30), "Draw areas in bg", value=False, sizeStyle='small', callback=self.SavePreferences)
+
+		# self.w.drawButton = vanilla.Button((15, 125, -120, 30), "Draw areas", sizeStyle='small', callback=self.drawCallback)
+		# self.w.copyButton = vanilla.Button((-110, 125, -15, 30), "Copy Params", sizeStyle='small', callback=self.copyParameters)
+		# self.w.runButton = vanilla.Button((15, 150, -15, 30), "Apply", sizeStyle='small', callback=self.dialogCallback)		
+		
 
 		self.w.setDefaultButton(self.w.runButton)
 
@@ -620,6 +657,7 @@ class HTLetterspacerScript(object):
 
 	def dialogCallback(self, sender):
 		self.output = ""
+		self.engine.drawAreas = self.w.draw.get()
 		self.engine.paramArea = float(self.w.area.get())
 		self.engine.paramDepth = float(self.w.prof.get())
 		self.engine.paramOver = float(self.w.ex.get())
@@ -635,6 +673,7 @@ class HTLetterspacerScript(object):
 
 		if not self.SavePreferences(self):
 			GlyphsApp.Message("Note", "Couldn't save preferences.", OKButton="OK")
+
 
 	def SavePreferences(self, sender):
 		try:
@@ -700,7 +739,7 @@ class HTLetterspacerScript(object):
 				subCategory = "Smallcaps"
 			# elif case == 'minor':
 			# 	subCategory = "Superscript"
-			self.output += 'Subcategory from case value: '+self.case+" => "+subCategory+"\n"
+			# self.output += 'Subcategory from case value: '+self.case+" => "+subCategory+"\n"
 		else:
 			subCategory = self.glyph.subCategory
 		
@@ -724,11 +763,13 @@ class HTLetterspacerScript(object):
 		self.engine.factor = 1.0
 
 		exception = self.findException()
+		
 		if (exception):
 			self.engine.factor = exception[3]
 			item = exception[4]
 			if item != '*':
 				self.engine.reference = item
+			print('Using Rule: '+str(exception)) #this needs to be moved to the proper output
 		self.engine.newWidth = False
 
 		# check reference layer existance and contours
@@ -743,11 +784,16 @@ class HTLetterspacerScript(object):
 
 	def spaceMain(self):
 		for layer in self.mySelection:
+
 			self.setG(layer)
 			lpolygon, rpolygon = self.engine.spaceMain(layer, self.referenceLayer)
+			if self.engine.drawAreas  == True and lpolygon is not None: #draw ares in background
+				self.engine.createAreasBg(self.font, self.mySelection[0], [lpolygon, rpolygon])
+
+		for layer in self.mySelection:
+			layer.syncMetrics()
+
 		print(self.output)
-		if len(self.mySelection) < 2 and drawAreas == True and lpolygon is not None:
-			self.engine.createAreasGlyph(self.font, self.mySelection[0], [lpolygon, rpolygon])
 		if self.font.currentTab:
 			self.font.currentTab.forceRedraw()
 
