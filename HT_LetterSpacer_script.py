@@ -718,6 +718,7 @@ class HTLetterspacerScript(object):
 		return exception
 
 
+
 	def normalizeSubcategory(self):
 		#Convert case values from G3 to subCategory values
 		
@@ -730,7 +731,7 @@ class HTLetterspacerScript(object):
 		except:
 			self.case = 'noCaseData'
 
-		if self.case in transform:
+		if self.case in transform and self.category == 'Letter':
 			if self.case == 'upper':
 				subCategory = "Uppercase"
 			elif self.case == 'lower':
