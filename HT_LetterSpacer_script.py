@@ -707,16 +707,68 @@ class HTLetterspacerScript(object):
 
 		return True
 
-	def findException(self):
-		exception = False
-		for item in self.config:
-			if self.script == item[0] or item[0] == '*':
-				if self.category == item[1] or item[1] == '*':
-					if self.subCategory == item[2] or item[2] == '*':
-						if not exception or item[5] in self.glyph.name:
-							exception = item
-		return exception
 
+	def findException(self):
+		def filterList(config,pos,value):
+			newList = []
+			for item in config:
+				if item[pos] == value or item[pos] == '*':
+					newList.append(item)
+			return newList
+
+		def filterListSuffix(config):
+			newList = []
+			for item in config:
+				if item[5] in self.glyph.name:
+					newList.append(item)
+
+			if len(newList) == 0:
+				for item in config:
+					if item[5] == '*':
+						newList.append(item)					
+			
+			return newList
+
+
+		def filterBestMatch(items):
+			if len(items) > 1:
+				scored = []
+				for item in items:
+					rulescore = 0
+					if item[0] == self.script:
+						rulescore += 1
+					if item[1] == self.category:
+						rulescore += 1
+					if item[2] == self.subCategory:
+						rulescore += 1
+					
+					scored.append([item,rulescore])
+
+				# Sort scored by their second element
+				scored.sort(key=lambda x: x[1], reverse=True)
+
+				return [scored[0][0]]
+
+			else:
+				return items			
+			
+		
+		match_script = filterList(self.config, 0, self.script)
+		match_category = filterList(match_script, 1, self.category)
+		match_subcategory = filterList(match_category, 2, self.subCategory)
+		match_filter = filterListSuffix(match_subcategory)
+
+		match = filterBestMatch(match_filter)
+
+		if len(match) > 0:
+			exception = match[0]
+			if len(match) > 1:
+				print(f'Warning: More than one line matches glyph {self.glyph.name}.')
+				print(match)	
+		else:
+			exception = False
+
+		return exception
 
 
 	def normalizeSubcategory(self):
