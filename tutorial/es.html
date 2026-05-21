@@ -558,6 +558,44 @@
       const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
       window.addEventListener('scroll', onScroll, { passive: true });
       onScroll();
+
+      (function () {
+        const overlay = document.createElement('div');
+        overlay.className = 'lightbox';
+        overlay.setAttribute('role', 'dialog');
+        overlay.setAttribute('aria-modal', 'true');
+        overlay.innerHTML = '<button class="lightbox__close" type="button" aria-label="Cerrar">×</button><img class="lightbox__img" alt="" />';
+        document.body.appendChild(overlay);
+        const lbImg = overlay.querySelector('.lightbox__img');
+
+        const open = (src, alt) => {
+          lbImg.src = src;
+          lbImg.alt = alt || '';
+          overlay.classList.add('is-open');
+          document.body.style.overflow = 'hidden';
+        };
+        const close = () => {
+          overlay.classList.remove('is-open');
+          document.body.style.overflow = '';
+        };
+        overlay.addEventListener('click', close);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+
+        const imgExt = /\.(png|jpe?g|gif|webp|svg)$/i;
+        document.querySelectorAll('.content a').forEach((a) => {
+          const href = a.getAttribute('href') || '';
+          if (imgExt.test(href)) {
+            a.addEventListener('click', (e) => {
+              e.preventDefault();
+              open(href, a.querySelector('img')?.alt);
+            });
+          }
+        });
+        document.querySelectorAll('.content img').forEach((el) => {
+          if (el.closest('a')) return;
+          el.addEventListener('click', () => open(el.currentSrc || el.src, el.alt));
+        });
+      })();
     </script>
   </body>
 </html>
