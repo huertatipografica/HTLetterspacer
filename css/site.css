@@ -385,29 +385,29 @@ code {
 .section--alt code { background: var(--bg); }
 pre {
   background: var(--bg-deep);
-  color: #ece5d4;
+  color: #f5f1e8;
   padding: 1.25rem 1.5rem;
   border-radius: 10px;
   overflow-x: auto;
   font-family: var(--mono);
   font-size: 0.875rem;
-  line-height: 1.7;
+  line-height: 1.4;
   margin: 1.5rem 0;
 }
-pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
+pre code, .section--alt pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; border-radius: 0; }
 
 .codeblock {
   background: var(--bg-deep);
-  color: #ece5d4;
+  color: #f5f1e8;
   border-radius: 10px;
   padding: 1.25rem 1.5rem;
   font-family: var(--mono);
   font-size: 0.8125rem;
-  line-height: 1.75;
+  line-height: 1.4;
   margin: 1.5rem 0;
   overflow-x: auto;
 }
-.codeblock p { color: inherit; margin: 0; }
+.content .codeblock p, .codeblock p { color: #f5f1e8; margin: 0; padding: 0; line-height: 1.35; }
 .cb-comment { color: var(--accent); }
 
 /* Tabs (landing usage) */
@@ -776,9 +776,9 @@ kbd {
 }
 
 /* Reference list */
-.ref-list { display: grid; gap: 0.7rem; margin-top: 1.5rem; }
+.ref-list { display: grid; gap: 0; margin-top: 1.5rem; }
 .ref-list li {
-  padding: 0.85rem 0;
+  padding: 0.4rem 0;
   border-bottom: 1px solid var(--line-soft);
   color: var(--ink-soft);
   font-size: 0.9375rem;
@@ -791,7 +791,7 @@ kbd {
   background: var(--bg-deep);
   color: var(--bg);
   border-radius: 24px;
-  padding: clamp(2.5rem, 5vw, 4rem);
+  padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 3vw, 2.5rem);
   margin: 4rem 0 2rem;
   text-align: center;
 }
