@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HT Letterspacer — Tutorial (Español)</title>
+    <meta name="description" content="Tutorial extendido de HT Letterspacer, por Carolina Giovagnoli. Cómo instalar, configurar y usar la herramienta para espaciar fuentes en Glyphs 3." />
+    <link rel="alternate" hreflang="en" href="en.html" />
+    <link rel="alternate" hreflang="es" href="es.html" />
+
+    <link rel="icon" type="image/png" href="../images/htfonts-iso-b.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Alegreya+SC:wght@400;700&family=JetBrains+Mono:wght@400;500&family=Sarala:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/site.css" />
+  </head>
+  <body>
+    <header class="site-header" id="site-header">
+      <div class="container site-header__inner">
+        <a class="brand" href="../" aria-label="HT Fonts — Letterspacer">
+          <img alt="HT Fonts" src="../images/htfonts-b.png" />
+        </a>
+        <a class="back-link" href="../">
+          <span class="arrow" aria-hidden="true">←</span>
+          Volver a Letterspacer
+        </a>
+        <nav class="lang-switch" aria-label="Language">
+          <a href="en.html">EN</a>
+          <a href="es.html" class="is-active">ES</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="tut-hero">
+        <div class="container">
+          <img class="tut-hero__logo" alt="HT Letterspacer" src="../images/HTLetterspacerLogo.svg" />
+          <p class="eyebrow">Tutorial</p>
+          <h1>Explicación extendida.</h1>
+          <p class="tut-hero__sub">Cómo instalar, configurar y aprovechar HT Letterspacer en Glyphs 3.</p>
+          <p class="tut-hero__meta">
+            <span>Por Carolina Giovagnoli</span>
+            <span>Revisión Sep. 2021</span>
+          </p>
+        </div>
+      </section>
+
+      <div class="container">
+        <div class="layout">
+          <aside class="toc" aria-label="Tabla de contenidos">
+            <div class="toc__inner">
+              <p class="toc__title">Contenidos</p>
+              <ol>
+                <li><a href="#intro">Introducción</a></li>
+                <li><a href="#paso1">Instalación · Plugin Manager</a></li>
+                <li><a href="#paso2">Utilización inicial</a></li>
+                <li>
+                  <a href="#paso3">Aproximación al diseño de espaciado</a>
+                  <ol>
+                    <li><a href="#criterios">Criterios de diseño</a></li>
+                    <li><a href="#actores">Actores técnicos</a></li>
+                    <li><a href="#glosario">Glosario general</a></li>
+                  </ol>
+                </li>
+                <li><a href="#parametros">Parámetros generales</a></li>
+                <li><a href="#masters">Pasar valores a cada máster</a></li>
+                <li><a href="#paso4">Aplicar a toda la fuente</a></li>
+                <li><a href="#paso5">Archivo de configuración</a></li>
+                <li><a href="#ejemplos">Ejemplos</a></li>
+                <li><a href="#faq">Preguntas frecuentes</a></li>
+                <li><a href="#links">Links relacionados</a></li>
+                <li><a href="#bibliografia">Bibliografía</a></li>
+              </ol>
+            </div>
+          </aside>
+
+          <article class="content">
+            <section class="step" id="intro">
+              <p class="lead">Esta herramienta fue creada para diseñar el espaciado de una fuente tipográfica. La desarrolló Andrés Torresi y es de distribución libre.</p>
+              <p>Aunque corre como un macro en el editor de fuentes <a href="https://glyphsapp.com/" target="_blank" rel="noopener">Glyphs</a>, el <strong>método</strong> de espaciado que propone puede ser adaptado a otros editores o lenguajes de programación.</p>
+              <p>HT Letterspacer puede ser utilizado en:</p>
+              <ul>
+                <li>Fuentes de un solo máster.</li>
+                <li>Fuentes múltiple máster o superfamilias.</li>
+                <li>Diferentes sistemas de escritura.</li>
+                <li>Aplicado durante la etapa de diseño o en fuentes ya terminadas.</li>
+              </ul>
+              <p>No está desarrollado para hacer el kerning de una fuente.</p>
+
+              <div class="callout">
+                <div class="callout__label">Disclaimer</div>
+                <p>HT Letterspacer funciona de manera diferente en las versiones 2 y 3 de Glyphs. El archivo de configuración utilizado en Glyphs 2 no es válido en Glyphs 3, y viceversa.</p>
+                <p>Por tal motivo, recomendamos realizar una migración de datos de una versión a otra del editor atendiendo a las diferencias de categorización de los glifos propuestas con la actualización del programa, y con la precaución de que los resultados no serán idénticos.</p>
+              </div>
+
+              <div class="aside-card">
+                <h4>Prólogo · La magia no existe, son horas de trabajo</h4>
+                <p>Lo primero que deberías saber es que HT Letterspacer no es una «varita mágica», no reemplaza al diseñador. <strong>Es una herramienta y como tal debes aprender a utilizarla,</strong> a pensar el espaciado a través de esta nueva perspectiva. Estás frente a un cambio de paradigma que propone un camino alternativo para diseñar y definir el espacio a la izquierda y a la derecha de un signo.</p>
+                <p>Al diseñar una letra, diseñas el negro y el blanco, el trazo y el espacio que lo rodea. Por lo tanto, el espaciado es una cuestión de diseño: los diseñadores de tipografía diseñamos el blanco que rodea a un signo. Esas decisiones son afectadas por la forma y contraforma, el dibujo, las proporciones, el estilo, la función, el soporte y los demás ítems descritos en el brief del proyecto tipográfico.</p>
+              </div>
+            </section>
+
+            <section class="step" id="paso1">
+              <p class="step__num">Paso 01</p>
+              <h2>Instalación · Plugin Manager</h2>
+              <p>Para instalar <kbd>HT Letterspacer</kbd> en <em>Glyphs 3</em> puedes seguir los siguientes pasos:</p>
+              <figure>
+                <img src="./img/g3-window-plugin-manager.jpg" alt="Ventana Window/Plugin Manager en Glyphs 3" />
+                <figcaption>
+                  <ol>
+                    <li>Abrir el editor de tipografía <em>Glyphs 3</em>.</li>
+                    <li>Ir a <kbd>Window &gt; Plugin Manager</kbd>. Se abrirá una nueva ventana de diálogo donde podrás ver los <kbd>plugins</kbd>, <kbd>scripts</kbd> y <kbd>modules</kbd> que puedes agregar a este programa.</li>
+                  </ol>
+                </figcaption>
+              </figure>
+              <figure>
+                <img src="./img/g3-plugin-manager-ht.gif" alt="Animación instalando HT Letterspacer desde el Plugin Manager" />
+                <figcaption>
+                  <ol>
+                    <li>En la ventana <kbd>Plugin Manager</kbd> tildar los títulos <kbd>All</kbd> y <kbd>Scripts</kbd>.</li>
+                    <li>Escribir <kbd>Letterspacer</kbd> en el espacio de búsqueda.</li>
+                    <li>Hacer click en <kbd>INSTALL</kbd>.</li>
+                    <li>Cerrar esta ventana.</li>
+                    <li>Volver a Glyphs e ir al menú <kbd>Script</kbd> presionando la tecla <kbd>⌥ Opt</kbd>: en lugar de <kbd>abrir ventana de scripts</kbd> verás al final la opción <kbd>Reload Scripts</kbd>. Esta acción actualizará los scripts y podrás ver entre las opciones <kbd>HTLetterspacer</kbd>.<br><strong>Shortcut:</strong> puedes actualizar la carpeta de <em>script</em> presionando <kbd>⌘ Cmd</kbd> <kbd>⌥ Opt</kbd> <kbd>⇧ Shift</kbd> <kbd>Y</kbd>.</li>
+                  </ol>
+                </figcaption>
+              </figure>
+              <div class="aside-card">
+                <h4>A continuación</h4>
+                <ul>
+                  <li>Definir los parámetros generales.</li>
+                  <li>Pasar esos parámetros generales a cada máster.</li>
+                  <li>Desarrollar los parámetros particulares para categorías o subcategorías específicas.</li>
+                </ul>
+                <p style="margin-top: 1rem;"><strong>El uso de esta herramienta tiene 3 instancias:</strong></p>
+                <ol>
+                  <li><strong>Ensayos</strong> para definir los parámetros generales.</li>
+                  <li><strong>Definir los parámetros generales</strong> y asociarlos a cada máster.</li>
+                  <li><strong>Definir los parámetros particulares</strong> en el archivo de configuración.</li>
+                </ol>
+              </div>
+            </section>
+
+            <section class="step" id="paso2">
+              <p class="step__num">Paso 02</p>
+              <h2>Utilización inicial</h2>
+              <p>Has empezado a diseñar tu fuente tipográfica, ya tienes algunos signos —por ejemplo una <kbd>n</kbd>, una <kbd>o</kbd>, una <kbd>v</kbd>, una <kbd>c</kbd>. Ahora debes diseñar el blanco que los rodea, o sea, el espaciado. Aquí comienzas a utilizar esta herramienta.</p>
+              <p>La primera vez que accedas al menú <kbd>Script &gt; HTLetterspacer</kbd> y se desplieguen las 2 opciones: <em>HTLetterspacer UI</em> y <em>HTLetterspacer</em>, se abrirá esta ventana de diálogo:</p>
+              <figure>
+                <img src="./img/missing-config-file-window.png" alt="Ventana advirtiendo del archivo de configuración faltante" />
+                <figcaption>Esta ventana advierte que falta un <kbd>archivo de configuración</kbd> y pregunta si deseas crearlo. Se recomienda responder <strong>Yes!</strong></figcaption>
+              </figure>
+              <figure>
+                <img src="./img/config-file-folder.png" alt="Carpeta con el archivo de configuración generado" />
+                <figcaption>Se genera automáticamente un archivo <kbd>.py</kbd> en la misma carpeta donde has guardado el archivo de tu fuente. Encontrarás un archivo llamado <kbd>elnombredetufuente_autospace.py</kbd>: este es el <em>archivo de configuración faltante</em>, hablaremos de él más adelante.</figcaption>
+              </figure>
+            </section>
+
+            <section class="step" id="paso3">
+              <p class="step__num">Paso 03</p>
+              <h2>Aproximación al diseño de espaciado</h2>
+              <p>En esta sección hablaré de diseño de espaciado propiamente dicho y de cómo utilizar el HT Letterspacer para espaciar una fuente tipográfica. Pero antes quisiera hacer una breve introducción para ponernos a todos en el mismo punto de partida y evitar malentendidos semánticos. <em>(Si esto no te interesa, puedes saltar al próximo título.)</em></p>
+              <div class="summary-block">
+                <h3>Puntos a definir</h3>
+                <ul>
+                  <li>¿Qué es espaciado?</li>
+                  <li>¿Qué factores podríamos considerar relevantes en la toma de decisiones del diseño del espaciado de una fuente?</li>
+                  <li>¿Qué actores intervienen durante el proceso de espaciado?</li>
+                  <li>¿Cómo estos actores están reflejados en los parámetros que propone HT Letterspacer?</li>
+                </ul>
+              </div>
+              <p>La novedad de esta herramienta es que nos desafía a pensar y analizar el espaciado de una forma diferente. Tal vez esto es lo que nos desorienta un poco en los primeros momentos. No es un botón que arregla todo.</p>
+              <p>Espaciar es determinar cuánto espacio hay a la derecha y a la izquierda de un signo, cuánto aire lo rodea, <strong>es diseñar el blanco que nos deja leer el negro.</strong></p>
+              <figure>
+                <img src="./img/g3-espacio-ext-int-sans.jpg" alt="Espacio interno ≈ espacio externo en Telder" />
+                <figcaption>Espacio interno <kbd>1</kbd> ≈ Espacio externo <kbd>2</kbd></figcaption>
+              </figure>
+              <figure>
+                <img src="./img/g3-espacio-ext-int-serif.jpg" alt="Espacio interno ≈ espacio externo en Alegreya" />
+                <figcaption>Espacio interno <kbd>1</kbd> ≈ Espacio externo <kbd>2</kbd></figcaption>
+              </figure>
+              <p>Espaciar es equilibrar el espacio que hay dentro de la letra con el espacio que hay fuera de ella. En este punto estamos todos más o menos de acuerdo: la idea de igualar blancos internos y externos es recurrente. La imagen utilizada es similar: <em>si para llenar el interior de una <kbd>n</kbd> necesito 1 litro de agua, también necesitaré 1 litro para llenar el espacio entre esa <kbd>n</kbd> y la letra que sigue.</em> La gran pregunta es: ¿es un litro, 0,8 o 1,2?</p>
+              <p>Los métodos de espaciado propuestos por Walter Tracy, Thomas Phinney y Frank E. Blokland ponen el foco en las formas, agrupándolas y clasificándolas en rectas, curvas, diagonales, bastones, etcétera.</p>
+              <p>Andrés Torresi propone observar el blanco. No se basa en la forma: <strong>la atención apunta al espacio y nos anima a mirarlo como un algo que podemos modelar,</strong> pues tenemos que determinar dónde empieza y termina ese blanco que dará lugar al negro.</p>
+
+              <div id="criterios">
+                <p class="subhead-eyebrow">Sub-sección</p>
+                <h3 class="subhead">Criterios de diseño</h3>
+                <p>Al empezar a pensar en rasgos generales cómo será el espaciado de una fuente, hay algunos datos que van a ir perfilando ese blanco. Estos ítems influyen en la toma de cualquier decisión. Por ejemplo, si tengo dos tipografías sans serif para cuerpo de lectura, una en papel y otra en pantalla, la segunda tendrá un espaciado más generoso. O si tengo una tipografía para títulos y su variante de texto, la primera tendrá un espaciado más apretado.</p>
+                <p>Algunos factores que pueden transformarse en un criterio de diseño de espaciado:</p>
+                <ul>
+                  <li>Diseño de los signos, su forma.</li>
+                  <li>Proporciones.</li>
+                  <li>Color.</li>
+                  <li>Función.</li>
+                  <li>Soporte.</li>
+                  <li>Etc.</li>
+                </ul>
+              </div>
+
+              <div id="actores">
+                <p class="subhead-eyebrow">Sub-sección</p>
+                <h3 class="subhead">Actores que intervienen técnicamente</h3>
+                <p>Cuando ya sabes qué tipo de espaciado necesita tu tipografía y quieres utilizar el espaciador, hay cuatro conceptos que necesitas conocer, de la misma manera que para dibujar un signo en un editor de tipografía sabes cómo funcionan las curvas de Bézier, los manejadores y los nodos. En el diseño de espaciado, los actores principales son:</p>
+                <ol>
+                  <li><em>Sidebearings</em> (izquierdo y derecho).</li>
+                  <li>Contorno del glifo.</li>
+                  <li><em>Bounding box</em>.</li>
+                  <li>Ancho de caja.</li>
+                </ol>
+              </div>
+
+              <div id="glosario">
+                <p class="subhead-eyebrow">Sub-sección</p>
+                <h3 class="subhead">Glosario general</h3>
+                <p>«El espacio es lo que ocurre entre el límite de la caja y el contorno.»</p>
+                <p>El <strong>punto de origen [1]</strong> es el punto cero en el eje x.</p>
+                <p>El <strong>ancho de la caja [2]</strong> <em>—Advance width—</em> es el ancho que avanza el signo. El límite izquierdo es el punto de origen (que coincide con el <em>sidebearing</em> izquierdo) y el límite derecho es el <em>sidebearing</em> derecho. El <strong>ancho de caja</strong> está delimitado por los laterales izquierdo [8] y derecho [10]. Lo que ocurre entre estos laterales es el ancho [2]. El ancho de caja siempre es mayor o igual que cero.</p>
+                <p>Cuando hablo de <strong>glifo [3],</strong> hago referencia al dibujo (a la forma, al negro) y al espacio que lo rodea.</p>
+                <p>Cuando hablo del <strong>contorno [4]</strong> hago referencia a la línea que dibuja la forma y contraforma, a la línea que dibuja el negro.</p>
+                <p>Los <strong>puntos extremos del contorno [5]</strong> determinan el <strong>Bounding Box [6]</strong> (BBox). Dicho de otro modo, el <strong>BBox</strong> es el rectángulo que circunscribe al contorno.</p>
+                <p><strong>Sidebearing</strong> es el componente esencial del espaciado: es el espacio a la izquierda y a la derecha. Cada glifo tiene un <em>sidebearing</em> izquierdo llamado <em>Left Side Bearing — <strong>LSB [7]</strong></em> y un <em>sidebearing</em> derecho, <em>Right Side Bearing — <strong>RSB [9]</strong></em>:</p>
+                <ul>
+                  <li><strong>LSB [7]</strong> es la distancia entre el punto de origen [1] y el lado izquierdo del BBox [6].</li>
+                  <li><strong>RSB [9]</strong> es la distancia entre el lado derecho del BBox [6] y el lateral derecho de la caja [10].</li>
+                </ul>
+                <figure>
+                  <a href="./img/g3-anatomia-del-glifo.png" target="_blank" rel="noopener">
+                    <img src="./img/g3-anatomia-del-glifo.png" alt="Anatomía del glifo" />
+                  </a>
+                </figure>
+              </div>
+            </section>
+
+            <section class="step" id="parametros">
+              <p class="step__num">Paso 04</p>
+              <h2>Definición de los parámetros generales</h2>
+              <p>Para definir los parámetros es recomendable utilizar primero la ventana emergente <kbd>HT Letterspacer UI</kbd> (User Interface). Allí están los parámetros que debes definir para diseñar el espaciado de una tipografía.</p>
+              <figure>
+                <img src="./img/parametros-explicacion.png" alt="Explicación de los parámetros de la ventana UI" />
+              </figure>
+
+              <div class="param">
+                <p class="param__title">1 · LSB / RSB</p>
+                <p><em>Sidebearings</em> izquierdo y derecho. Con este parámetro indicas si quieres aplicar los valores a uno o a ambos lados del signo.</p>
+              </div>
+              <div class="param">
+                <p class="param__title">2 · Tabular</p>
+                <p>Este parámetro calcula los valores de espaciado pero los aplica de forma relativa (proporcional) sin modificar el ancho de la caja. Se puede utilizar para figuras tabulares, fuentes monoespaciadas o para recalcular la posición de un glifo dentro de su caja.</p>
+              </div>
+              <div class="param">
+                <p class="param__title">3 · Area <em>paramArea</em></p>
+                <figure>
+                  <a href="./img/g3-paramArea.png" target="_blank" rel="noopener">
+                    <img src="./img/g3-paramArea.png" alt="Diagrama de paramArea" />
+                  </a>
+                </figure>
+                <p>Este parámetro define el valor de área de espacio que se quiere lograr. Se mide en miles de UPM.</p>
+                <p><strong>Por ejemplo:</strong> en una figura rectangular (donde el lado es recto y vertical) de 500UPM de altura, cada unidad de <em>sidebearing</em> equivale a 500 de área. Es decir, un área de 500000 (500) equivale a un <em>sidebearing</em> de 100 unidades. Para una tipografía de texto en 1000UPM, el valor suele establecerse entre 200 y 400 (no es una regla, depende de lo que quieras hacer).</p>
+              </div>
+              <div class="param">
+                <p class="param__title">4 · Depth <em>paramDepth</em> (profundidad)</p>
+                <figure>
+                  <a href="./img/g3-paramDepth.png" target="_blank" rel="noopener">
+                    <img src="./img/g3-paramDepth.png" alt="Diagrama de paramDepth" />
+                  </a>
+                </figure>
+                <p>Si todos los signos fueran rectos como el lado izquierdo de la <kbd>n</kbd> sans serif geométrica, el asunto del espaciado estaría resuelto y no estaríamos aquí discutiendo esto. ¿Qué ocurre con las contraformas abiertas, con las zonas blancas que están dentro del <em>BBox</em> y por lo tanto no son tomadas en cuenta en el parámetro área? ¿Cómo definimos las superficies blancas en una <kbd>c</kbd>, en una <kbd>v</kbd> o una <kbd>T</kbd>? ¿Cuál es la línea de frontera entre contraforma y espaciado?</p>
+                <p>Hay una gran cantidad de blanco dentro del <em>BBox</em> que incide en la ecualización del espacio. Para definir este parámetro es imprescindible un ojo bien entrenado: necesitamos determinar una <em>frontera visual</em>. No hay ningún punto o línea que nos indique en qué momento el blanco interno de una <kbd>c</kbd> deja de ser espacio interior para ser espacio exterior.</p>
+                <p>El número que utilizamos aquí es un porcentaje de la altura de equis (un valor entre 0 y 100), e indica cuánto blanco debe medir hacia adentro del <em>BBox</em>, entre los límites verticales establecidos. Para una tipografía de texto estándar puede ser entre 10 y 25 (nuevamente, estos números son solo una referencia para tener un punto de partida).</p>
+              </div>
+              <div class="param">
+                <p class="param__title">5 · Overshoot <em>paramOver</em></p>
+                <figure>
+                  <a href="./img/g3-paramOver.png" target="_blank" rel="noopener">
+                    <img src="./img/g3-paramOver.png" alt="Diagrama de paramOver" />
+                  </a>
+                </figure>
+                <p>En los dos parámetros anteriores (<em>área</em> y <em>depth</em>) el cálculo es dentro de la altura establecida del glifo (altura de equis). Este parámetro expande el espacio medible hacia arriba y hacia abajo de esa altura.</p>
+                <p>Al incluir el espacio más allá de esos límites verticales podemos considerar diferentes espaciados para una <kbd>i</kbd> sans, una <kbd>l</kbd> y una <kbd>j</kbd>; para una <kbd>a de anillo</kbd>, una <kbd>d</kbd> y una <kbd>q</kbd>.</p>
+                <p>En las minúsculas, de forma predeterminada, la zona de medición se corresponde a la altura del glifo <kbd>x</kbd>, nuestro glifo de referencia. Puedes reemplazar ese signo de referencia para cualquier grupo de glifos en el archivo de configuración (lo vemos <a href="#paso5">más adelante</a>). El <strong>overshoot</strong> extiende estos valores para producir una diferencia en glifos con ascendentes y descendentes.</p>
+              </div>
+
+              <p>Una vez que sabes qué parámetro calcula qué blanco, puedes ir probando y experimentando rápidamente desde esta ventana diferentes valores hasta lograr el espaciado que quieres para tu tipografía.</p>
+              <p>Se recomienda comenzar con una secuencia de <kbd>n</kbd> para definir el <strong>parámetro área,</strong> luego incorporar la <kbd>o</kbd> y evaluar qué ocurre con el valor del <strong>parámetro depth</strong> agregando la <kbd>c</kbd>, la <kbd>v</kbd> y otros signos con contraformas abiertas. Por último, revisar qué ocurre con <kbd>i</kbd>, <kbd>j</kbd> y <kbd>l</kbd> para definir el <strong>parámetro overshoot.</strong> Pronto la secuencia se va transformando en palabras y frases que te permiten revisar los detalles y observar el resultado de las decisiones tomadas.</p>
+              <p>Como ya te habrás dado cuenta, cuando crees haber encontrado el valor de <kbd>paramArea</kbd> agregas una <kbd>v</kbd> a la secuencia y todo se desacomoda. Logras hallar el valor de <kbd>paramDepth</kbd> pero al agregar una <kbd>f</kbd> vuelve a desajustarse. En este punto es importante saber qué modificas con cada parámetro, sino todo se vuelve una lotería.</p>
+              <p>Del testeo <em>preliminar</em> de minúsculas, mayúsculas, figuras y símbolos obtendrás un espaciado <em>parejo y armónico</em> pero no óptimo. Más adelante, con los <a href="#paso5">parámetros particulares</a>, podrás resolver esto.</p>
+
+              <div class="callout">
+                <div class="callout__label">Importante</div>
+                <p>Los valores en la ventana <kbd>HT Letterspacer UI</kbd> no quedan guardados, es una instancia de prueba. Si trabajas en una fuente multiple master y cargas los valores para el máster light, luego vas al bold y cambias los valores, al volver al light verás los valores del bold. Trabaja un máster a la vez e ve pasando los parámetros de la ventana UI al máster correspondiente en el <kbd>master info</kbd>.</p>
+              </div>
+
+              <figure>
+                <img src="./img/pruebas-de-parametros.gif" alt="Pruebas de parámetros en la ventana UI" />
+              </figure>
+            </section>
+
+            <section class="step" id="masters">
+              <p class="step__num">Paso 05</p>
+              <h2>Cómo pasar los valores a cada máster</h2>
+              <p>Una vez definidos los valores en la ventana emergente, debes cargarlos en el máster correspondiente. Esto es bastante simple.</p>
+              <figure>
+                <img src="./img/ui-window-copy-parameter.png" alt="Botón Copy Parameters en la ventana UI" />
+                <figcaption>En la ventana donde estás trabajando, haces click en <kbd>Copy Parameters</kbd> y vas a <kbd>Información de la fuente &gt; Másters</kbd>. Allí encontrarás una sección para los <kbd>Parámetros personalizados</kbd>: en ese lugar debes pegarlos.</figcaption>
+              </figure>
+              <figure>
+                <img src="./img/g3-font-info-window-parameters.jpg" alt="Ventana de parámetros personalizados en font info" />
+                <figcaption>También puedes anotar los valores, ir a la sección Parámetros personalizados y tipear en la columna propiedades <kbd>paramArea</kbd>, <kbd>paramDepth</kbd>, <kbd>paramOver</kbd> y en la columna valor el número correspondiente según las pruebas realizadas.</figcaption>
+              </figure>
+              <div class="summary-block">
+                <h3>Resumen</h3>
+                <ul>
+                  <li>Es importante recordar que para aplicar el espaciador los glifos deben estar seleccionados.</li>
+                  <li>Saber qué parámetro corresponde a cada blanco te evitará trabajar a ciegas y jugar a la lotería.</li>
+                  <li>La ventana UI <strong>no guarda</strong> los valores. Pasa los parámetros generales a la información de cada máster.</li>
+                  <li>Los parámetros generales se calculan contrastando minúsculas. El resto de los signos tendrán un espaciado <em>parejo</em> o <em>constante</em>. Podrás ajustar esto con los <a href="#paso5">parámetros particulares</a>.</li>
+                </ul>
+              </div>
+              <div class="aside-card">
+                <h4>Función rápida de teclado</h4>
+                <p>Puedes establecer un acceso a través del teclado para esta herramienta yendo a <kbd>Preferencias del Sistema &gt; Teclado</kbd>. Selecciona "Funciones rápidas de apps" a la izquierda, haz clic en el botón Añadir <kbd>+</kbd>, haz clic en el menú desplegable Aplicaciones y selecciona la app Glyphs. Si no está en la lista, selecciona Otra y busca las apps mediante el cuadro de diálogo Abrir.</p>
+                <p>En el campo "Título del menú", escribe el comando del menú <kbd>Script→HT_LetterSpacerUI</kbd>. Haz clic en el campo "Función rápida de teclado", pulsa la combinación que quieras usar y haz clic en Añadir.</p>
+              </div>
+            </section>
+
+            <section class="step" id="paso4">
+              <p class="step__num">Paso 06</p>
+              <h2>Aplicar el HT Letterspacer a toda la fuente</h2>
+              <p>Ahora que ya están los parámetros de espaciado copiados en cada máster, puedes hacer correr el macro en toda la fuente:</p>
+              <ul>
+                <li>Seleccionas todos los glifos.</li>
+                <li>Vas al menú <kbd>Script &gt; HTLetterspacer &gt; HTLetterspacer</kbd>.</li>
+              </ul>
+              <figure>
+                <img src="./img/g3-script-a-toda-la-fuente.jpg" alt="Aplicar script a toda la fuente" />
+                <figcaption>Deberás repetirlo por cada máster e ir revisando los resultados. Si necesitas modificar alguno de los valores, puedes hacerlo desde la ventana <kbd>Información de la fuente &gt; Másters</kbd> o volver a trabajar con la ventana emergente.</figcaption>
+              </figure>
+            </section>
+
+            <section class="step" id="paso5">
+              <p class="step__num">Paso 07</p>
+              <h2>Archivo de configuración y parámetros particulares</h2>
+              <p>Como ya has leído, los parámetros generales realizan el espaciado contrastando minúsculas. Por tal motivo, las otras categorías o subcategorías de signos deben ser ajustadas: el resultado será correcto en las <em>lowercase</em> pero es muy probable que en <em>uppercase</em> esté apretado.</p>
+              <p>En los <a href="#paso2">pasos iniciales</a> se generó un <em>archivo de configuración</em>. Este archivo contiene las instrucciones para resolver este problema y ajustar los parámetros generales a las necesidades particulares de cada grupo de signos.</p>
+              <p>Encontrarás este archivo en la misma carpeta donde está guardado el archivo de la fuente, se llama igual a ella más la extensión <kbd>_autospace.py</kbd>. Al abrirlo con un editor de texto (Sublime Text, Visual Studio Code, etc.) encontrarás lo siguiente:</p>
+              <div class="codeblock">
+                <p><span class="cb-comment"># Reference</span></p>
+                <p><span class="cb-comment"># Script, Category, Subcategory, case, value, referenceGlyph, filter</span></p>
+                <p>&nbsp;</p>
+                <p><span class="cb-comment"># Letters</span></p>
+                <p>*,Letter,*,upper,2,H,*,</p>
+                <p>*,Letter,*,smallCaps,1.4,h.sc,*,</p>
+                <p>*,Letter,*,lower,1,x,*,</p>
+                <p>*,Letter,*,minor,0.7,m.sups,.sups,</p>
+                <p>&nbsp;</p>
+                <p><span class="cb-comment"># Numbers</span></p>
+                <p>*,Number,Decimal Digit,*,1.5,one,*,</p>
+                <p>*,Number,Decimal Digit,*,1.2,zero.osf,.osf,</p>
+                <p>*,Number,Fraction,minor,1.3,*,*,</p>
+                <p>*,Number,*,*,0.8,*,.dnom,</p>
+                <p>*,Number,*,*,0.8,*,.numr,</p>
+                <p>*,Number,*,*,0.8,*,.inferior,</p>
+                <p>*,Number,*,*,0.8,*,superior,</p>
+                <p>&nbsp;</p>
+                <p><span class="cb-comment"># Punctuation</span></p>
+                <p>*,Punctuation,Other,*,1.5,*,*,</p>
+                <p>*,Punctuation,Parenthesis,*,1.8,*,*,</p>
+                <p>*,Punctuation,Quote,*,3,*,*,</p>
+                <p>*,Punctuation,Dash,*,1.5,*,*,</p>
+                <p>*,Punctuation,*,*,1,*,slash,</p>
+                <p>*,Punctuation,*,*,1.2,*,*,</p>
+                <p>&nbsp;</p>
+                <p><span class="cb-comment"># Symbols</span></p>
+                <p>*,Symbol,Currency,*,1.6,*,*,</p>
+                <p>*,Symbol,*,*,1.5,*,*,</p>
+                <p>*,Mark,*,*,1,*,*,</p>
+                <p>&nbsp;</p>
+                <p><span class="cb-comment"># Devanagari</span></p>
+                <p>devanagari,Letter,Other,*,1,devaHeight,*,</p>
+                <p>devanagari,Letter,Ligature,*,1,devaHeight,*,</p>
+              </div>
+              <p>Es importante prestar atención a este archivo: aquí se encuentra la principal diferencia entre el uso de <kbd>HT Letterspacer</kbd> en Glyphs 2 y en Glyphs 3.</p>
+              <p>En Glyphs 3 se incorpora el parámetro <kbd>case</kbd> que solo aplica a la categoría <kbd>letters</kbd>. El resto de las categorías siguen el mismo criterio que en Glyphs 2.</p>
+              <p>Al abrir el archivo <kbd>elnombredetufuente_autospace.py</kbd> con un editor de texto, encontrarás una serie de valores estándar que son solo un punto de partida. La idea es que puedas personalizarlo y ajustarlo a las necesidades específicas de tu fuente.</p>
+              <p>De la misma manera que para ajustar los parámetros generales fueron definidos los actores que intervienen (LSB, RSB, ancho de caja, etc.), aquí lo que debes aprender es a <strong>leer e interpretar</strong> este archivo para poder modificarlo.</p>
+              <p>En las primeras dos líneas se presenta comentado el esqueleto del documento (el <kbd>#</kbd> introduce un comentario sin valor de instrucción). Esta secuencia se repite en los siguientes <em>párrafos</em> del archivo.</p>
+              <p><strong>Los parámetros que declara son los siguientes:</strong></p>
+              <figure>
+                <img src="./img/g3-arch-conf-upper.png" alt="Línea de archivo de configuración para upper" />
+                <figcaption>
+                  <ul>
+                    <li><kbd>Script</kbd>: indica el sistema de escritura que afecta —latin, devanagari, cirílico, etc.— si usas <kbd>*</kbd> indicas que afecta a todos los scripts.</li>
+                    <li><kbd>Category</kbd>: indica qué categoría de signos —letters, numbers, punctuation, symbols— o <kbd>*</kbd> que incluye a todas las categorías.</li>
+                    <li><kbd>Subcategory</kbd>: este parámetro no aplica a la categoría letras (lo vemos en el ejemplo siguiente).</li>
+                    <li><kbd>case</kbd>: describe la caja afectada de la categoría letters. Podría ser <kbd>upper</kbd>, <kbd>smallCaps</kbd>, <kbd>lower</kbd>, <kbd>minor</kbd> o <kbd>*</kbd> que incluye a todas.</li>
+                    <li><kbd>value</kbd>: es el coeficiente por el cual se multiplica el espacio definido en los parámetros generales. Si utilizas <kbd>1</kbd>, los valores se aplican sin modificación. Por lo tanto, para la categoría <kbd>letters</kbd>, case <kbd>lower</kbd> el valor que corresponde es <kbd>1</kbd>; para <kbd>upper</kbd> y <kbd>smallCaps</kbd>, como el espaciado debe ser más amplio, será un valor mayor a <kbd>1</kbd>; y para <kbd>minor</kbd>, menor a <kbd>1</kbd>.</li>
+                    <li><kbd>referenceGlyph</kbd>: este signo de referencia determina la altura de equis, el límite vertical de los parámetros generales. En las minúsculas sería una <kbd>x</kbd>, en las mayúsculas una <kbd>H</kbd> (digo <em>sería</em> porque aquí podemos reemplazarlo por otro signo). Es importante tenerlo en cuenta para las letras o números volados, pues estos signos se desarrollan casi en su totalidad fuera de la altura de x: en la subcategoría <kbd>Superscript</kbd> el signo de referencia debería ser <kbd>x.sups</kbd>.</li>
+                    <li><kbd>filter</kbd>: aquí puedes especificar una cadena de texto para agrupar glifos y reducir el alcance de la clasificación. Por ejemplo <kbd>.ss01</kbd>, <kbd>ord</kbd> o sencillamente <kbd>*</kbd>.</li>
+                  </ul>
+                  <p style="margin-top: 1rem;"><strong>Por lo tanto esto se leería:</strong> A todas las letras Uppercase del script Latin se multiplicará el valor asignado en los parámetros generales × 1.25, tomando como referencia de altura el glifo H.</p>
+                </figcaption>
+              </figure>
+              <figure>
+                <img src="./img/g3-arch-conf-dash.png" alt="Línea de archivo de configuración para dash" />
+                <figcaption>
+                  <ul>
+                    <li><kbd>Script</kbd>: <kbd>*</kbd> indica que afecta a todos los scripts.</li>
+                    <li><kbd>Category</kbd>: Punctuation.</li>
+                    <li><kbd>Subcategory</kbd>: en este caso <kbd>Dash</kbd>. Podría ser <kbd>Parenthesis</kbd>, <kbd>Quote</kbd>, <kbd>Other</kbd>, <kbd>Fullwidth</kbd>, o <kbd>*</kbd>.</li>
+                    <li><kbd>case</kbd>: <kbd>*</kbd> afecta a todas.</li>
+                    <li><kbd>value</kbd>: multiplico por 1.5 el valor declarado en los parámetros generales.</li>
+                    <li><kbd>referenceGlyph</kbd>: no se declara, por lo tanto la altura de referencia es el glifo <kbd>x</kbd>.</li>
+                    <li><kbd>filter</kbd>: no se declara ningún filtro de búsqueda.</li>
+                  </ul>
+                  <p style="margin-top: 1rem;"><strong>Por lo tanto esto se leería:</strong> A todos los signos de puntuación dentro de la subcategoría <kbd>Dash</kbd> multiplicar × 1.5 el valor de espaciado resultante en los parámetros generales.</p>
+                </figcaption>
+              </figure>
+              <p>Esta lista de parámetros —Script, Category, Subcategory, case— podemos reconocerla en la columna de la izquierda de la ventana principal de Glyphs. También podemos investigar un poco más sus posibilidades en el <em>Glyph info</em>: seleccionando uno o varios glifos y luego yendo a <kbd>Edit &gt; Info for Selection</kbd> o presionando <kbd>⌥ Alt</kbd> <kbd>⌘ Cmd</kbd> <kbd>I</kbd>.</p>
+              <figure>
+                <img src="./img/g3-info-for-selection.png" alt="Menú Edit > Info for Selection" />
+              </figure>
+              <figure>
+                <img src="./img/g3-glyph-info.png" alt="Ventana Glyph Info" />
+                <figcaption>Esta ventana nos muestra Unicode, Nombre, Script, Categoría, Subcategoría, dirección de escritura, case y short name. Podemos editar y modificar estos datos. ¡Con prudencia!</figcaption>
+              </figure>
+            </section>
+
+            <section class="step" id="ejemplos">
+              <p class="step__num">Paso 08</p>
+              <h2>Ejemplos</h2>
+              <p><strong>Ejemplo 1:</strong> no puedes establecer excepciones.</p>
+              <p>Es importante mencionar que no es posible excluir signos. Una solución posible a esta situación es <strong>no seleccionar</strong> los glifos que deseas que no sean afectados por este método al hacer correr el script por la fuente.</p>
+              <p>Otra opción podría ser no pensarlo desde la excepción, o sea, incluir esa situación a través de un filtro y <strong>transformar la excepción en una particularidad</strong> dentro de una categoría/subcategoría.</p>
+              <div class="codeblock">
+                <p><span class="cb-comment"># Numeros Romanos</span></p>
+                <p>Latin,Letter,*,lower,1.5,RomanNumbersHeight,.ss02,</p>
+              </div>
+              <figure>
+                <img src="./img/reference-glyph.png" alt="Glifo de referencia para números romanos" />
+                <figcaption>
+                  Por ejemplo, deseo <strong>espaciar los números romanos,</strong> pero el espaciador toma las barras superior e inferior y no aplica el espaciado. Entonces:
+                  <ul>
+                    <li><kbd>Latin</kbd> sistema de escritura.</li>
+                    <li><kbd>Letter</kbd> categoría.</li>
+                    <li><kbd>*</kbd> todas las subcategorías.</li>
+                    <li><kbd>case</kbd> lower, o sea la caja baja.</li>
+                    <li><kbd>1</kbd> valor.</li>
+                    <li><kbd>RomanNumbersHeight</kbd> glifo de referencia: redefine la altura de x medible.</li>
+                    <li><kbd>ss02</kbd> filtro: la <em>excepción</em> es incluida como particularidad dentro de un grupo.</li>
+                  </ul>
+                </figcaption>
+              </figure>
+              <p><strong>Ejemplo 2:</strong></p>
+              <div class="codeblock">
+                <p>Latin,Letter,*,Uppercase,1.25,H,*,</p>
+                <p>Latin,Letter,*,Uppercase,1.4,H,E,</p>
+              </div>
+              <p>Observa la primera línea, donde el valor del parámetro <kbd>filter</kbd> es <kbd>*</kbd>, y en la segunda línea el valor <kbd>E</kbd>. Esto se lee: todas las mayúsculas usarán la letra H como referencia, y aplicará a todas las mayúsculas el coeficiente 1.25; pero en la segunda línea hay una nueva regla que indica que para el filtro <kbd>E</kbd> el coeficiente será 1.4. (Al igual que OpenType, se va sobreescribiendo.)</p>
+              <p>Comprender y asimilar este paso es fundamental para lograr explotar al máximo la posibilidad de esta herramienta. Aquí la importancia del sistema, las categorías y subcategorías, o la definición de filtros y glifos de referencias son un factor importante para diseñar ajustes que identifican y resuelven los detalles.</p>
+              <p>El archivo de configuración no es una fórmula rígida y está abierto a la creatividad de cada diseñador. Multiplicar los parámetros no siempre da los resultados esperados, pero puedes volver al comienzo, redefinir los parámetros, declarar nuevas categorías o subcategorías, determinar glifos de referencias o filtros, y de esta manera llegar al espaciado que estás buscando.</p>
+              <p>Es una herramienta que propone pensar el espacio desde el blanco, partiendo de lo general para luego profundizar en las particularidades.</p>
+            </section>
+
+            <section class="step" id="faq">
+              <p class="step__num">Paso 09</p>
+              <h2>Preguntas frecuentes</h2>
+              <div class="accordion">
+                <details>
+                  <summary>¿Es necesario tener un archivo de configuración por cada máster? <span class="toggle" aria-hidden="true"></span></summary>
+                  <div class="accordion__body">
+                    <p>El archivo de configuración presenta como valor el coeficiente por el cual se multiplicará el valor de los parámetros generales de cada máster. Necesitas tener los parámetros generales copiados en cada máster y <strong>un solo archivo de configuración.</strong></p>
+                  </div>
+                </details>
+                <details>
+                  <summary>¿Es necesario tener los <em>sidebearings</em> en cero? <span class="toggle" aria-hidden="true"></span></summary>
+                  <div class="accordion__body">
+                    <p>No necesitas que los <em>sidebearings</em> estén en cero para utilizar HT Letterspacer. Esta herramienta reemplaza los valores que hayas puesto manualmente.</p>
+                  </div>
+                </details>
+                <details>
+                  <summary>¿Qué ocurre con las reglas de espaciado? <span class="toggle" aria-hidden="true"></span></summary>
+                  <div class="accordion__body">
+                    <figure>
+                      <img src="./img/reglas-de-espaciado.gif" alt="Reglas de espaciado" />
+                      <figcaption>HT Letterspacer no sobreescribe estas reglas o grupos de espaciado.</figcaption>
+                    </figure>
+                  </div>
+                </details>
+                <details>
+                  <summary>¿Qué ocurre con el kerning? <span class="toggle" aria-hidden="true"></span></summary>
+                  <div class="accordion__body">
+                    <p>HT Letterspacer no es una herramienta para desarrollar el kerning de una fuente tipográfica. Se recomienda enfáticamente realizar la revisión del kerning una vez que la instancia del espaciado está resuelta.</p>
+                  </div>
+                </details>
+              </div>
+            </section>
+
+            <section class="step" id="links">
+              <p class="step__num">Paso 10</p>
+              <h2>Links relacionados</h2>
+              <ul class="ref-list">
+                <li><a href="https://youtu.be/FrFGD3tzqig" target="_blank" rel="noopener">Letter Spacer macro by Huerta Tipográfica, Andrés Torresi</a></li>
+                <li><a href="https://youtu.be/secaaoidYI0" target="_blank" rel="noopener">Using Letter Spacer script with serif typeface, by Huerta Tipográfica</a></li>
+                <li><a href="https://www.typotalks.com/videos/ht-letterspacer-everything-you-always-wanted-to-know-about-automatic-spacing-but-were-afraid-to-ask/" target="_blank" rel="noopener">Typo Lab Talk 2018 — English</a></li>
+              </ul>
+            </section>
+
+            <section class="step" id="bibliografia">
+              <p class="step__num">Paso 11</p>
+              <h2>Bibliografía</h2>
+              <ul class="ref-list">
+                <li>El trazo. Teoría de la escritura. Gerrit Noordzij. Traducción Carlos García Aranda. 2009. Campgràfic Editors.</li>
+                <li><a href="https://tipodafonte.wordpress.com/2016/12/13/espacamento/#more-2077" target="_blank" rel="noopener">Espaçamento de fontes, Eduardo Novais</a></li>
+                <li><a href="https://www.freetype.org/freetype2/docs/glyphs/glyphs-1.html" target="_blank" rel="noopener">FreeType Glyph Conventions: I Basic Typographic Concepts</a></li>
+                <li><a href="https://www.freetype.org/freetype2/docs/glyphs/glyphs-2.html" target="_blank" rel="noopener">FreeType Glyph Conventions: II Glyph Outlines</a></li>
+                <li><a href="https://www.freetype.org/freetype2/docs/glyphs/glyphs-3.html" target="_blank" rel="noopener">FreeType Glyph Conventions: III Glyph Metrics</a></li>
+                <li>Hacer y Componer, Francisco Gálvez Pizarro, Ediciones UC, Chile, 2018.</li>
+                <li><a href="https://youtu.be/tbc_O7bNROs" target="_blank" rel="noopener">How to Space a Font. FontLab Studio 5 tutorial with Thomas Phinney.</a></li>
+                <li><a href="https://ilovetypography.com/typography-terms/typography-terms-s/" target="_blank" rel="noopener">I Love Typography, Typography Terms (S)</a></li>
+                <li>Los elementos del estilo tipográfico, versión 3.1, Robert Bringhurst, primera edición en español 2008.</li>
+                <li><a href="https://www.revolvertype.com/tools/" target="_blank" rel="noopener">LS Cadencer Tools, Frank E. Blokland</a></li>
+                <li><a href="https://www.lettermodel.org/" target="_blank" rel="noopener">On the Origin of Patterning in Movable Latin Type</a></li>
+                <li><a href="https://typography.guru/video/stan-nelson-making-type-r27/" target="_blank" rel="noopener">Stan Nelson: Making Type</a></li>
+              </ul>
+            </section>
+
+            <div class="credit-card">
+              <p class="eyebrow">Crédito</p>
+              <h3>Por Carolina Giovagnoli — Revisión Sep. 2021</h3>
+              <p>Update 2019-06-07: corregidas algunas erratas reportadas por Yolmar Campos. Si quieres ayudar a sostener este proyecto, puedes <a href="https://donate.stripe.com/fZu8wJ7HR6e2cga86wgjC00" target="_blank" rel="noopener">donar lo que quieras</a>.</p>
+            </div>
+
+            <a href="#" class="to-top">↑ Volver al inicio</a>
+          </article>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container site-footer__row">
+        <span>© HT Fonts</span>
+        <ul>
+          <li><a href="../">Letterspacer</a></li>
+          <li><a href="https://htfonts.com/fonts" target="_blank" rel="noopener">Catálogo de fuentes</a></li>
+          <li><a href="https://htfonts.com/contact" target="_blank" rel="noopener">Contacto</a></li>
+          <li><a href="https://github.com/huertatipografica/HTLetterspacer" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+    </footer>
+
+    <script>
+      const header = document.getElementById('site-header');
+      const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    </script>
+  </body>
+</html>

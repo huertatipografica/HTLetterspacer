@@ -36,616 +36,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Alegreya+SC:wght@400;700&family=Sarala:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Alegreya+SC:wght@400;700&family=JetBrains+Mono:wght@400;500&family=Sarala:wght@400;700&display=swap"
       rel="stylesheet"
     />
-
-    <style>
-      :root {
-        --bg: #f5f1e8;
-        --bg-alt: #ffffff;
-        --bg-deep: #14110d;
-        --ink: #1a1612;
-        --ink-soft: #3a3530;
-        --muted: #6e655c;
-        --line: #d9d2c2;
-        --line-soft: #ebe5d8;
-        --accent: #b8442b;
-        --accent-soft: #f3e2dc;
-        --max: 1280px;
-        --gutter: clamp(1.25rem, 4vw, 2.5rem);
-        --serif: 'Alegreya', Georgia, 'Times New Roman', serif;
-        --sc: 'Alegreya SC', Georgia, serif;
-        --sans: 'Sarala', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        --mono: 'SF Mono', Menlo, Consolas, monospace;
-        --t: 320ms cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      *, *::before, *::after { box-sizing: border-box; }
-      html { scroll-behavior: smooth; scroll-padding-top: 88px; }
-      body {
-        margin: 0;
-        font-family: var(--sans);
-        font-size: 17px;
-        line-height: 1.65;
-        color: var(--ink);
-        background: var(--bg);
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      h1, h2, h3, h4, h5, h6, p, ul, ol, figure, blockquote { margin: 0; }
-      ul, ol { padding: 0; list-style: none; }
-      img, svg { display: block; max-width: 100%; height: auto; }
-      a { color: inherit; text-decoration: none; }
-      button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
-      ::selection { background: var(--accent); color: var(--bg); }
-
-      .container {
-        width: 100%;
-        max-width: var(--max);
-        margin: 0 auto;
-        padding-left: var(--gutter);
-        padding-right: var(--gutter);
-      }
-      .section { padding: clamp(4.5rem, 10vw, 9rem) 0; }
-      .section--alt { background: var(--bg-alt); }
-      .section__head { margin-bottom: clamp(3rem, 6vw, 5rem); max-width: 60ch; }
-
-      /* Typography */
-      h1, h2, h3, h4 {
-        font-family: var(--serif);
-        font-weight: 600;
-        line-height: 1.05;
-        letter-spacing: -0.015em;
-        color: var(--ink);
-      }
-      h1 { font-size: clamp(3rem, 9vw, 6.5rem); letter-spacing: -0.03em; line-height: 1; }
-      h2 { font-size: clamp(2.25rem, 5.5vw, 4rem); letter-spacing: -0.025em; }
-      h3 { font-size: clamp(1.35rem, 2.2vw, 1.625rem); line-height: 1.25; }
-      h4 { font-size: 1.125rem; line-height: 1.3; }
-      p { font-size: 1.0625rem; }
-      .lead {
-        font-family: var(--serif);
-        font-style: italic;
-        font-weight: 500;
-        font-size: clamp(1.375rem, 2.6vw, 1.75rem);
-        line-height: 1.45;
-        color: var(--ink-soft);
-        letter-spacing: -0.005em;
-      }
-      .eyebrow {
-        font-family: var(--sans);
-        font-size: 0.75rem;
-        font-weight: 700;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin-bottom: 1.25rem;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.6rem;
-      }
-      .eyebrow::before {
-        content: '';
-        width: 28px;
-        height: 1px;
-        background: var(--accent);
-      }
-      .small-caps {
-        font-family: var(--sc);
-        letter-spacing: 0.04em;
-      }
-
-      /* Header */
-      .site-header {
-        position: fixed;
-        inset: 0 0 auto 0;
-        z-index: 100;
-        backdrop-filter: saturate(180%) blur(14px);
-        -webkit-backdrop-filter: saturate(180%) blur(14px);
-        background: rgba(245, 241, 232, 0.78);
-        transition: border-color var(--t), background var(--t);
-        border-bottom: 1px solid transparent;
-      }
-      .site-header.is-scrolled {
-        border-bottom-color: var(--line-soft);
-      }
-      .site-header__inner {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1.5rem;
-        padding-top: 1.1rem;
-        padding-bottom: 1.1rem;
-      }
-      .brand {
-        display: inline-flex;
-        align-items: center;
-        color: var(--ink);
-      }
-      .brand img { height: 22px; width: auto; }
-      .site-nav { display: none; }
-      .site-nav ul { display: flex; gap: 2.25rem; }
-      .site-nav a {
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: var(--ink-soft);
-        position: relative;
-        padding-bottom: 2px;
-        transition: color var(--t);
-      }
-      .site-nav a::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 1px;
-        background: currentColor;
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform var(--t);
-      }
-      .site-nav a:hover { color: var(--accent); }
-      .site-nav a:hover::after { transform: scaleX(1); }
-      @media (min-width: 820px) {
-        .site-nav { display: flex; }
-      }
-
-      /* Hero */
-      .hero {
-        position: relative;
-        padding: clamp(8rem, 18vh, 13rem) 0 clamp(4rem, 9vw, 7rem);
-        text-align: center;
-        overflow: hidden;
-      }
-      .hero__logo {
-        max-width: min(720px, 86vw);
-        margin: 0 auto 2.25rem;
-      }
-      .hero__sub {
-        font-family: var(--serif);
-        font-style: italic;
-        font-size: clamp(1.25rem, 2.4vw, 1.625rem);
-        color: var(--muted);
-        max-width: 36ch;
-        margin: 0 auto;
-      }
-      .hero__ctas {
-        margin-top: 2.75rem;
-        display: flex;
-        gap: 0.85rem;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-      .hero__decor {
-        position: absolute;
-        font-family: var(--serif);
-        font-style: italic;
-        color: var(--line);
-        font-size: clamp(8rem, 25vw, 22rem);
-        line-height: 1;
-        opacity: 0.5;
-        user-select: none;
-        pointer-events: none;
-        z-index: -1;
-      }
-      .hero__decor--l { top: 12%; left: -3vw; }
-      .hero__decor--r { bottom: 8%; right: -2vw; }
-      @media (max-width: 768px) {
-        .hero__decor { display: none; }
-      }
-
-      /* Buttons */
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.55rem;
-        padding: 0.95rem 1.5rem;
-        border-radius: 999px;
-        font-family: var(--sans);
-        font-weight: 700;
-        font-size: 0.9375rem;
-        letter-spacing: 0.005em;
-        border: 1px solid transparent;
-        transition: transform var(--t), background var(--t), color var(--t), border-color var(--t);
-        will-change: transform;
-      }
-      .btn:hover { transform: translateY(-1px); }
-      .btn--primary { background: var(--ink); color: var(--bg); }
-      .btn--primary:hover { background: var(--accent); }
-      .btn--ghost { color: var(--ink); border-color: var(--ink); }
-      .btn--ghost:hover { background: var(--ink); color: var(--bg); }
-      .btn--light { background: var(--bg); color: var(--ink); }
-      .btn--light:hover { background: var(--accent); color: var(--bg); }
-      .btn--outline-light { color: var(--bg); border-color: rgba(245, 241, 232, 0.4); }
-      .btn--outline-light:hover { background: var(--bg); color: var(--ink); border-color: var(--bg); }
-      .btn .arrow { transition: transform var(--t); }
-      .btn:hover .arrow { transform: translateX(3px); }
-
-      /* Quotes strip */
-      .quotes {
-        padding: clamp(2rem, 5vw, 4rem) 0 clamp(4rem, 9vw, 7rem);
-        border-top: 1px solid var(--line-soft);
-      }
-      .quotes__grid {
-        display: grid;
-        gap: clamp(2rem, 4vw, 3.5rem);
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        align-items: start;
-      }
-      .quote { font-family: var(--serif); }
-      .quote__mark {
-        font-size: 3rem;
-        line-height: 1;
-        font-style: italic;
-        color: var(--accent);
-        margin-bottom: 0.5rem;
-        display: block;
-      }
-      .quote__body {
-        font-size: 1.1875rem;
-        font-style: italic;
-        line-height: 1.5;
-        color: var(--ink-soft);
-        margin-bottom: 1rem;
-      }
-      .quote cite {
-        font-family: var(--sans);
-        font-style: normal;
-        font-size: 0.75rem;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: var(--muted);
-      }
-
-      /* Concepts */
-      .concepts__grid {
-        display: grid;
-        gap: clamp(2.5rem, 5vw, 5rem);
-        align-items: start;
-      }
-      @media (min-width: 900px) {
-        .concepts__grid { grid-template-columns: 1.1fr 1fr; }
-      }
-      .concepts__sidenotes p + p { margin-top: 1rem; }
-      .concepts__sidenotes p { color: var(--ink-soft); }
-
-      /* Accordion */
-      .accordion { margin-top: clamp(3rem, 6vw, 5rem); }
-      .accordion details {
-        border-top: 1px solid var(--line);
-        padding: 1.5rem 0;
-      }
-      .accordion details:last-of-type { border-bottom: 1px solid var(--line); }
-      .accordion summary {
-        list-style: none;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        gap: 1.5rem;
-        font-family: var(--serif);
-        font-weight: 600;
-        font-size: clamp(1.25rem, 2.2vw, 1.5rem);
-        letter-spacing: -0.01em;
-        color: var(--ink);
-        transition: color var(--t);
-      }
-      .accordion summary::-webkit-details-marker { display: none; }
-      .accordion summary:hover { color: var(--accent); }
-      .accordion summary .toggle {
-        flex-shrink: 0;
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        border: 1px solid var(--ink-soft);
-        position: relative;
-        transition: background var(--t), border-color var(--t), transform var(--t);
-      }
-      .accordion summary .toggle::before,
-      .accordion summary .toggle::after {
-        content: '';
-        position: absolute;
-        background: var(--ink);
-        transition: background var(--t), transform var(--t);
-      }
-      .accordion summary .toggle::before {
-        top: 50%; left: 25%; right: 25%; height: 1.5px;
-        transform: translateY(-50%);
-      }
-      .accordion summary .toggle::after {
-        top: 25%; bottom: 25%; left: 50%; width: 1.5px;
-        transform: translateX(-50%);
-      }
-      .accordion details[open] summary { color: var(--accent); }
-      .accordion details[open] summary .toggle {
-        background: var(--accent);
-        border-color: var(--accent);
-      }
-      .accordion details[open] summary .toggle::before { background: var(--bg); }
-      .accordion details[open] summary .toggle::after { transform: translateX(-50%) scaleY(0); }
-
-      .accordion__body {
-        padding-top: 1.25rem;
-        max-width: 72ch;
-        color: var(--ink-soft);
-      }
-      .accordion__body p + p { margin-top: 0.85rem; }
-      .accordion__body ol { padding-left: 1.25rem; list-style: decimal; }
-      .accordion__body ol li { margin-bottom: 0.65rem; }
-      .accordion__body ol li::marker { color: var(--accent); font-weight: 700; }
-
-      /* Inline text */
-      .accordion__body a, .prose a {
-        color: var(--ink);
-        text-decoration: underline;
-        text-decoration-color: var(--accent);
-        text-underline-offset: 4px;
-        text-decoration-thickness: 1.5px;
-        transition: color var(--t);
-      }
-      .accordion__body a:hover, .prose a:hover { color: var(--accent); }
-      code {
-        font-family: var(--mono);
-        font-size: 0.875em;
-        background: var(--line-soft);
-        padding: 0.12em 0.42em;
-        border-radius: 4px;
-        color: var(--ink);
-      }
-      .section--alt code { background: var(--bg); }
-
-      /* Tabs */
-      .tabs__list {
-        display: inline-flex;
-        gap: 0;
-        padding: 4px;
-        background: var(--line-soft);
-        border-radius: 999px;
-        margin-bottom: 1.75rem;
-      }
-      .section--alt .tabs__list { background: var(--bg); }
-      .tabs__list button {
-        padding: 0.5rem 1.1rem;
-        font-size: 0.8125rem;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        color: var(--muted);
-        border-radius: 999px;
-        transition: background var(--t), color var(--t);
-      }
-      .tabs__list button[aria-selected="true"] {
-        background: var(--ink);
-        color: var(--bg);
-      }
-      .tabs__panel { display: none; }
-      .tabs__panel.is-active { display: block; animation: fade 320ms ease both; }
-      @keyframes fade {
-        from { opacity: 0; transform: translateY(4px); }
-        to { opacity: 1; transform: none; }
-      }
-      .tabs__panel img {
-        margin: 1rem 0;
-        border-radius: 8px;
-        border: 1px solid var(--line-soft);
-      }
-
-      /* Callout */
-      .callout {
-        background: var(--accent-soft);
-        border-radius: 12px;
-        padding: 1.5rem 1.75rem;
-        margin: 2rem 0;
-        position: relative;
-      }
-      .callout__label {
-        font-family: var(--sans);
-        font-size: 0.7rem;
-        font-weight: 700;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin-bottom: 0.5rem;
-      }
-      .callout p { color: var(--ink); font-size: 1rem; }
-      .callout p + p { margin-top: 0.5rem; }
-
-      /* Param sections */
-      .param {
-        padding: clamp(2rem, 4vw, 3rem) 0;
-        border-top: 1px solid var(--line);
-      }
-      .param__num {
-        font-family: var(--sc);
-        font-size: 0.875rem;
-        letter-spacing: 0.18em;
-        color: var(--accent);
-        margin-bottom: 0.4rem;
-      }
-      .param__name {
-        font-family: var(--serif);
-        font-size: clamp(1.5rem, 3vw, 2.25rem);
-        font-weight: 600;
-        margin-bottom: 0.8rem;
-      }
-      .param__name code {
-        background: transparent;
-        padding: 0;
-        font-family: var(--mono);
-        font-size: 0.7em;
-        color: var(--accent);
-        vertical-align: middle;
-      }
-      .param p { color: var(--ink-soft); }
-      .param p + p { margin-top: 0.75rem; }
-      .gallery {
-        display: grid;
-        gap: 1rem;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        margin-top: 1.75rem;
-      }
-      .gallery a {
-        display: block;
-        border-radius: 8px;
-        overflow: hidden;
-        border: 1px solid var(--line-soft);
-        transition: transform var(--t), box-shadow var(--t), border-color var(--t);
-      }
-      .gallery a:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 18px 38px -22px rgba(0,0,0,0.25);
-        border-color: var(--line);
-      }
-
-      /* Data table */
-      .data-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 1.75rem 0;
-        font-size: 0.9375rem;
-      }
-      .data-table th, .data-table td {
-        text-align: left;
-        padding: 1rem 0;
-        border-bottom: 1px solid var(--line-soft);
-        vertical-align: top;
-      }
-      .data-table th {
-        font-family: var(--sans);
-        font-weight: 700;
-        font-size: 0.7rem;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--muted);
-      }
-      .data-table td:first-child {
-        font-weight: 700;
-        padding-right: 1.5rem;
-        white-space: nowrap;
-        color: var(--ink);
-      }
-      .data-table td { color: var(--ink-soft); }
-
-      /* Code blocks */
-      pre {
-        background: var(--bg-deep);
-        color: #ece5d4;
-        padding: 1.25rem 1.5rem;
-        border-radius: 10px;
-        overflow-x: auto;
-        font-family: var(--mono);
-        font-size: 0.875rem;
-        line-height: 1.7;
-        margin: 1.5rem 0;
-      }
-      pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
-
-      /* Examples / video */
-      .video-wrap {
-        position: relative;
-        padding-bottom: 56.25%;
-        overflow: hidden;
-        border-radius: 14px;
-        margin-top: 2.5rem;
-        background: var(--bg-deep);
-        box-shadow: 0 30px 60px -28px rgba(20, 17, 13, 0.45);
-      }
-      .video-wrap iframe {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        border: 0;
-      }
-
-      /* Contribute card */
-      .contribute-card {
-        background: var(--bg-deep);
-        color: var(--bg);
-        border-radius: 24px;
-        padding: clamp(3rem, 7vw, 6rem) clamp(2rem, 6vw, 5rem);
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-      }
-      .contribute-card::before {
-        content: '{ }';
-        font-family: var(--serif);
-        font-style: italic;
-        position: absolute;
-        font-size: 22rem;
-        line-height: 1;
-        top: -3rem;
-        right: -2rem;
-        color: rgba(184, 68, 43, 0.15);
-        pointer-events: none;
-      }
-      .contribute-card h2 { color: var(--bg); position: relative; }
-      .contribute-card .eyebrow { color: var(--accent-soft); }
-      .contribute-card .eyebrow::before { background: var(--accent-soft); }
-      .contribute-card p {
-        max-width: 50ch;
-        margin: 1.25rem auto 2.25rem;
-        color: rgba(245, 241, 232, 0.72);
-        font-size: 1.125rem;
-        position: relative;
-      }
-      .contribute-card__ctas {
-        display: flex;
-        gap: 0.85rem;
-        justify-content: center;
-        flex-wrap: wrap;
-        position: relative;
-      }
-
-      /* Footer */
-      .site-footer {
-        padding: 2.5rem 0;
-        border-top: 1px solid var(--line-soft);
-        font-size: 0.875rem;
-        color: var(--muted);
-      }
-      .site-footer__row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1.5rem;
-        flex-wrap: wrap;
-      }
-      .site-footer ul {
-        display: flex;
-        gap: 1.75rem;
-        flex-wrap: wrap;
-      }
-      .site-footer a { transition: color var(--t); }
-      .site-footer a:hover { color: var(--ink); }
-
-      /* Sub-section headers inside accordion */
-      .sub-eyebrow {
-        font-family: var(--sans);
-        font-size: 0.7rem;
-        font-weight: 700;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin: 2rem 0 1rem;
-      }
-
-      /* Prose helper */
-      .prose p { color: var(--ink-soft); }
-      .prose p + p { margin-top: 0.85rem; }
-
-      /* Reduced motion */
-      @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
-          scroll-behavior: auto !important;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="css/site.css" />
   </head>
   <body>
     <header class="site-header" id="site-header">
@@ -657,12 +51,12 @@
           <ul>
             <li><a href="#concepts">Concepts</a></li>
             <li><a href="#usage">Usage</a></li>
-            <li><a href="tutorial/">Tutorial</a></li>
+            <li><a href="tutorial/en.html">Tutorial</a></li>
             <li><a href="#examples">Examples</a></li>
             <li><a href="#contribute">Contribute</a></li>
           </ul>
         </nav>
-        <a class="btn btn--primary" href="https://donate.stripe.com/fZu8wJ7HR6e2cga86wgjC00" target="_blank" rel="noopener" style="padding:0.55rem 1.1rem; font-size:0.8125rem;">
+        <a class="btn btn--primary btn--sm" href="https://donate.stripe.com/fZu8wJ7HR6e2cga86wgjC00" target="_blank" rel="noopener">
           Donate
           <span class="arrow" aria-hidden="true">♥</span>
         </a>
@@ -670,7 +64,6 @@
     </header>
 
     <main>
-      <!-- Hero -->
       <section class="hero">
         <span class="hero__decor hero__decor--l" aria-hidden="true">L</span>
         <span class="hero__decor hero__decor--r" aria-hidden="true">s</span>
@@ -682,7 +75,7 @@
               Install
               <span class="arrow" aria-hidden="true">↓</span>
             </a>
-            <a class="btn btn--ghost" href="tutorial/">
+            <a class="btn btn--ghost" href="tutorial/en.html">
               Tutorial
               <span class="arrow" aria-hidden="true">→</span>
             </a>
@@ -690,22 +83,21 @@
         </div>
       </section>
 
-      <!-- Quotes -->
       <section class="quotes">
         <div class="container">
           <div class="quotes__grid">
             <figure class="quote">
-              <span class="quote__mark" aria-hidden="true">“</span>
+              <span class="quote__mark" aria-hidden="true">&ldquo;</span>
               <blockquote class="quote__body">An amazing tool to have a well-done spacing in every step of a font project.</blockquote>
               <cite>Eduardo Tunni</cite>
             </figure>
             <figure class="quote">
-              <span class="quote__mark" aria-hidden="true">“</span>
+              <span class="quote__mark" aria-hidden="true">&ldquo;</span>
               <blockquote class="quote__body">It was very useful for defining Henderson. We made different spacings very quickly to decide the best one.</blockquote>
               <cite>Alejandro Paul</cite>
             </figure>
             <figure class="quote">
-              <span class="quote__mark" aria-hidden="true">“</span>
+              <span class="quote__mark" aria-hidden="true">&ldquo;</span>
               <blockquote class="quote__body">It is very easy to make different spacing tests and save a lot of time when you start a project.</blockquote>
               <cite>Pablo Impallari</cite>
             </figure>
@@ -713,7 +105,6 @@
         </div>
       </section>
 
-      <!-- Concepts -->
       <section class="section" id="concepts">
         <div class="container">
           <div class="section__head">
@@ -724,7 +115,7 @@
           <div class="concepts__grid">
             <div>
               <p class="lead">
-                HT Letterspacer is a tool for spacing fonts that works on finished fonts as well as during development. The first public version works as a macro for <a href="https://glyphsapp.com" target="_blank" rel="noopener" class="prose-link">Glyphs</a>, but the method is adaptable to any editor or programming language.
+                HT Letterspacer is a tool for spacing fonts that works on finished fonts as well as during development. The first public version works as a macro for <a class="prose-link" href="https://glyphsapp.com" target="_blank" rel="noopener">Glyphs</a>, but the method is adaptable to any editor or programming language.
               </p>
             </div>
             <div class="concepts__sidenotes">
@@ -734,16 +125,16 @@
             </div>
           </div>
 
-          <div class="accordion">
+          <div class="accordion prose">
             <details>
               <summary>So it replaces the type designer's craft? <span class="toggle" aria-hidden="true"></span></summary>
-              <div class="accordion__body prose">
+              <div class="accordion__body">
                 <p>No. You have to configure and use it in what you think is the best way. You still need to know what you are doing. The default configuration will produce a reasonable result for a beginner, but it does not replace the eye of a master type designer. To achieve excellent spacing, you need to carefully configure and use the script. But achieving good results will be easier and faster.</p>
               </div>
             </details>
             <details>
               <summary>What are the ideas behind it? <span class="toggle" aria-hidden="true"></span></summary>
-              <div class="accordion__body prose">
+              <div class="accordion__body">
                 <p>HT Letterspacer is a method for defining sidebearings based on the amount of white space or area in a glyph box, and it defines a way to measure it using three parameters per master. The parameters are set up for lowercase letters and modified by a configuration template for different groups of letters (using the glyph categories in Glyphs). There is a script version with a window where you can apply specific parameters to selected glyphs.</p>
                 <p>You can use the script based on a template where each category of glyphs has a number that changes the area parameter proportionally, or work by applying specific parameters manually to different groups of glyphs, on the fly. The more you put your eye and hand into the process, the more accurate the results.</p>
                 <p>It works with large families and many masters. If you've changed your mind late in the process, redesigning the spacing scheme of the entire typeface family is easy.</p>
@@ -752,7 +143,7 @@
             </details>
             <details>
               <summary>Project history <span class="toggle" aria-hidden="true"></span></summary>
-              <div class="accordion__body prose">
+              <div class="accordion__body">
                 <p>Andrés Torresi is the initial and primary author of this tool. Soon after joining the postgraduate course in typeface design in Buenos Aires in 2009, he began research to find a simple, semi-automated method to set glyph sidebearings that could work at any moment during a project and that the type designer can control.</p>
                 <p>Today HT Letterspacer is the result of this research, and has been thoroughly tested by Andrés and Juan Pablo del Peral at the HT Fonts foundry, as well as by other designers on Latin, Greek, Cyrillic and Devanagari designs.</p>
                 <p>At ATypI 2015 in São Paulo, Andrés approached Dave Crossland to discuss ways of funding the project to make it available under the GPLv3 licence. The tool was used and tested privately by the Google Fonts team and finally released for free at ATypI 2016, with sources at <a href="https://github.com/huertatipografica/HTLetterspacer" target="_blank" rel="noopener">github.com/huertatipografica/HTLetterspacer</a>.</p>
@@ -763,7 +154,6 @@
         </div>
       </section>
 
-      <!-- Usage -->
       <section class="section section--alt" id="usage">
         <div class="container">
           <div class="section__head">
@@ -772,10 +162,10 @@
             <p class="lead" style="margin-top: 1.5rem;">A short installation per Glyphs version, then a couple of files to set up.</p>
           </div>
 
-          <div class="accordion">
+          <div class="accordion prose">
             <details open>
               <summary>How do I install HT Letterspacer? <span class="toggle" aria-hidden="true"></span></summary>
-              <div class="accordion__body prose">
+              <div class="accordion__body">
                 <div class="tabs" id="install-tabs">
                   <div class="tabs__list" role="tablist">
                     <button role="tab" aria-selected="true" data-tab="g2">Glyphs 2</button>
@@ -811,7 +201,7 @@
 
             <details>
               <summary>What do I need to set up to use it? <span class="toggle" aria-hidden="true"></span></summary>
-              <div class="accordion__body prose">
+              <div class="accordion__body">
                 <ol>
                   <li>Declare custom parameters on each master of your Glyphs file, or a general default one in the script code. The parameters are <code>paramArea</code>, <code>paramDepth</code> and <code>paramOver</code>.</li>
                   <li>A configuration file in the same folder as your Glyphs file, named like <code>yourfontname_autospace.py</code>, with all the glyph categories, their area values and a reference glyph to define the vertical range over which the group will be measured.</li>
@@ -824,17 +214,19 @@
 
             <details>
               <summary>Parameters <span class="toggle" aria-hidden="true"></span></summary>
-              <div class="accordion__body prose">
+              <div class="accordion__body">
                 <p>Parameters are declared in the master custom parameters box, in the font info, for each of the masters where you want to store the values.</p>
-                <a href="images/params.png" target="_blank" rel="noopener" style="display:block; margin: 1.5rem 0;">
-                  <img alt="Diagram of parameters" src="images/params.png" style="border: 1px solid var(--line-soft); border-radius: 8px;" />
-                </a>
+                <figure>
+                  <a href="images/params.png" target="_blank" rel="noopener">
+                    <img alt="Diagram of parameters" src="images/params.png" />
+                  </a>
+                </figure>
                 <p>You can tune the parameters with the HT Letterspacer UI and press <em>Copy Parameters</em>. After that, paste the custom parameters into the active master: <strong>Font Info / Masters</strong>.</p>
                 <p>If the master doesn't have the appropriate custom parameters, or the parameter name differs from what is required, the script will use the default values from the source code.</p>
 
                 <div class="param">
                   <div class="param__num">Parameter 01</div>
-                  <h3 class="param__name">paramArea <code>·</code> <span style="color: var(--muted); font-size: 0.6em; font-weight: 400; font-style: italic;">area between letters</span></h3>
+                  <h3 class="param__name">paramArea <em>·</em> area between letters</h3>
                   <p>The <code>paramArea</code> parameter lets you define how much area (measured in thousands of units) you want between the lowercase letters inside the x-height. A font suitable for text at 1000 UPM typically uses a value between 200 and 400.</p>
                   <div class="gallery">
                     <a href="images/README-01.png" target="_blank" rel="noopener"><img alt="Diagram of depth" src="images/README-01.png" /></a>
@@ -846,7 +238,7 @@
 
                 <div class="param">
                   <div class="param__num">Parameter 02</div>
-                  <h3 class="param__name">paramDepth <code>·</code> <span style="color: var(--muted); font-size: 0.6em; font-weight: 400; font-style: italic;">depth into open counters</span></h3>
+                  <h3 class="param__name">paramDepth <em>·</em> depth into open counters</h3>
                   <p>The <code>paramDepth</code> parameter (measured relatively as a % of x-height) lets you define how deep into open counterforms you want to measure the space, from the extreme points of each glyph to its centre. This parameter affects rounded or open shapes.</p>
                   <p>A triangle with x-height (a circle, a c-shape or a T) has a long distance and a large amount of white from its extreme points or sides to the centre of the letter. Our eyes don't pay attention to the whole area, so the program doesn't either. You decide how much of this "big white" to measure by setting up this parameter.</p>
                   <p>Depending on the design, this value moves between 10 and 25 (per cent of x-height).</p>
@@ -859,7 +251,7 @@
 
                 <div class="param">
                   <div class="param__num">Parameter 03</div>
-                  <h3 class="param__name">paramOver <code>·</code> <span style="color: var(--muted); font-size: 0.6em; font-weight: 400; font-style: italic;">vertical overshoot</span></h3>
+                  <h3 class="param__name">paramOver <em>·</em> vertical overshoot</h3>
                   <p>The <code>paramOver</code> parameter expands the vertical range over which you measure the space, above and below the shape, by a certain % of x-height. It lets you make slight differences when a sign has outlines that exceed the height of its group of letters, typically ascenders or descenders.</p>
                   <p>For example, in a sans-serif font, a dotless /i/ and /l/ could have exactly the same shape between the baseline and the x-height. Setting an overshoot expands the range up and down and produces a different calculation of space for each sign. In this case, the sign with ascenders (the /l/) ends up with looser spacing.</p>
                   <p>This parameter is optional and depends on what you want to do with it, but it is intended to be used similarly to an overshoot.</p>
@@ -869,7 +261,7 @@
 
             <details>
               <summary>Configuration file <span class="toggle" aria-hidden="true"></span></summary>
-              <div class="accordion__body prose">
+              <div class="accordion__body">
                 <div class="callout">
                   <div class="callout__label">Glyphs 2 / 3 incompatibility</div>
                   <p>Glyphs has changed the way it classifies characters. Config files generated in Glyphs 2 will produce inconsistent results in Glyphs 3.</p>
@@ -878,7 +270,7 @@
 
                 <p>A text file in the same folder as the Glyphs file defines all the different alterations for each category of signs, as well as a reference sign that defines the height or vertical range of the sign group. For example, lowercase with <code>x</code>, uppercase with <code>X</code> or <code>H</code>, small caps with <code>x.sc</code>, numbers with <code>one</code>, and so on.</p>
 
-                <div class="sub-eyebrow">Config values and rules</div>
+                <div class="subhead-eyebrow">Config values and rules</div>
                 <p>Each line of the configuration file contains a set of rules to apply to a group of glyphs. Lines should be ordered from general to specific rules. Each field on the line should be separated by a comma, with a trailing comma:</p>
                 <pre><code>Script, Category, Subcategory, value, reference glyph, name filter,</code></pre>
 
@@ -910,7 +302,6 @@
         </div>
       </section>
 
-      <!-- Examples -->
       <section class="section" id="examples">
         <div class="container">
           <div class="section__head">
@@ -925,7 +316,6 @@
         </div>
       </section>
 
-      <!-- Contribute -->
       <section class="section" id="contribute">
         <div class="container">
           <div class="contribute-card">
@@ -960,7 +350,6 @@
     </footer>
 
     <script>
-      // Tabs
       document.querySelectorAll('.tabs').forEach(tabs => {
         const buttons = tabs.querySelectorAll('[role="tab"]');
         const panels = tabs.querySelectorAll('[role="tabpanel"]');
@@ -972,8 +361,6 @@
           });
         });
       });
-
-      // Header scrolled state
       const header = document.getElementById('site-header');
       const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
       window.addEventListener('scroll', onScroll, { passive: true });
