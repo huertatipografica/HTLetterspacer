@@ -849,7 +849,7 @@ kbd {
 .site-footer a:hover { color: var(--ink); }
 
 /* Lightbox */
-.content img { cursor: zoom-in; }
+.content img, .section img { cursor: zoom-in; }
 .lightbox {
   position: fixed;
   inset: 0;
