@@ -48,7 +48,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   padding-left: var(--gutter);
   padding-right: var(--gutter);
 }
-.section { padding: clamp(4.5rem, 10vw, 9rem) 0; }
+.section { padding: clamp(2.5rem, 5vw, 5rem) 0; }
 .section--alt { background: var(--bg-alt); }
 .section__head { margin-bottom: clamp(3rem, 6vw, 5rem); max-width: 60ch; }
 
@@ -208,7 +208,7 @@ strong, b { color: var(--ink); font-weight: 700; }
 /* Hero (landing) */
 .hero {
   position: relative;
-  padding: clamp(8rem, 18vh, 13rem) 0 clamp(4rem, 9vw, 7rem);
+  padding: clamp(4rem, 8vh, 6rem) 0 clamp(3rem, 5vw, 4rem);
   text-align: center;
   overflow: hidden;
 }
@@ -228,22 +228,6 @@ strong, b { color: var(--ink); font-weight: 700; }
   justify-content: center;
   flex-wrap: wrap;
 }
-.hero__decor {
-  position: absolute;
-  font-family: var(--serif);
-  font-style: italic;
-  color: var(--line);
-  font-size: clamp(8rem, 25vw, 22rem);
-  line-height: 1;
-  opacity: 0.5;
-  user-select: none;
-  pointer-events: none;
-  z-index: -1;
-}
-.hero__decor--l { top: 12%; left: -3vw; }
-.hero__decor--r { bottom: 8%; right: -2vw; }
-@media (max-width: 768px) { .hero__decor { display: none; } }
-
 /* Tutorial hero */
 .tut-hero {
   padding: clamp(4rem, 8vh, 6rem) 0 clamp(3rem, 6vw, 5rem);
@@ -281,7 +265,7 @@ strong, b { color: var(--ink); font-weight: 700; }
 
 /* Quotes */
 .quotes {
-  padding: clamp(2rem, 5vw, 4rem) 0 clamp(4rem, 9vw, 7rem);
+  padding: clamp(1.5rem, 3vw, 2.5rem) 0 clamp(2.5rem, 5vw, 4rem);
   border-top: 1px solid var(--line-soft);
 }
 .quotes__grid {
