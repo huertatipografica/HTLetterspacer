@@ -1,4 +1,4 @@
-#MenuTitle: HT LetterSpacer
+#MenuTitle: HT LetterSpacer for all Masters
 #
 # Letterspacer, an auto-spacing tool
 # Copyright (C) 2009 - 2018, The Letterspacer Project Authors
@@ -12,4 +12,4 @@ except:
 	pass
 reload(HT_LetterSpacer_script)
 
-HT_LetterSpacer_script.HTLetterspacerScript(ui=False, all_masters=False)
+HT_LetterSpacer_script.HTLetterspacerScript(ui=False, all_masters=True)

@@ -12,4 +12,4 @@ except:
 	pass
 reload(HT_LetterSpacer_script)
 
-HT_LetterSpacer_script.HTLetterspacerScript(ui=True)
+HT_LetterSpacer_script.HTLetterspacerScript(ui=True, all_masters=False)
