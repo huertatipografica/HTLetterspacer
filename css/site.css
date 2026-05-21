@@ -847,6 +847,17 @@ kbd {
 .site-footer ul { display: flex; gap: 1.75rem; flex-wrap: wrap; }
 .site-footer a { transition: color var(--t); }
 .site-footer a:hover { color: var(--ink); }
+.site-footer__licence {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line-soft);
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 70ch;
+}
+.site-footer__licence a { text-decoration: underline; text-decoration-color: var(--line); }
+.site-footer__licence a:hover { color: var(--ink); }
 
 /* Lightbox */
 .content img, .section img { cursor: zoom-in; }
