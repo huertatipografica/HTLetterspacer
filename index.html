@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HT Letterspacer — Free font-spacing tool by HT Fonts</title>
-    <meta name="description"
-      content="HT Letterspacer by HT Fonts — a free, open-source tool that automates glyph side-bearings and spacing for type designers. Download it free." />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://letterspacer.htfonts.com/" />
 
-    <meta property="og:title" content="HT Letterspacer — Free font-spacing tool by HT Fonts" />
-    <meta property="og:site_name" content="HT Fonts" />
-    <meta property="og:description"
-      content="A free, open-source tool that automates glyph side-bearings and spacing for type designers." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://letterspacer.htfonts.com/" />
-    <meta property="og:image" content="https://letterspacer.htfonts.com/images/HTLetterspacerLogo.png" />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HT Letterspacer — Free font-spacing tool by HT Fonts</title>
+  <meta name="description"
+    content="HT Letterspacer by HT Fonts — a free, open-source tool that automates glyph side-bearings and spacing for type designers. Download it free." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://letterspacer.htfonts.com/" />
 
-    <script type="application/ld+json">
+  <meta property="og:title" content="HT Letterspacer — Free font-spacing tool by HT Fonts" />
+  <meta property="og:site_name" content="HT Fonts" />
+  <meta property="og:description"
+    content="A free, open-source tool that automates glyph side-bearings and spacing for type designers." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://letterspacer.htfonts.com/" />
+  <meta property="og:image" content="https://letterspacer.htfonts.com/images/HTLetterspacerLogo.png" />
+
+  <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "CreativeWork",
@@ -31,380 +32,502 @@
     }
     </script>
 
-    <link rel="icon" type="image/png" href="images/htfonts-iso-b.png" />
+  <link rel="icon" type="image/png" href="images/htfonts-iso-b.png" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Alegreya+SC:wght@400;700&family=JetBrains+Mono:wght@400;500&family=Sarala:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/site.css" />
-  </head>
-  <body>
-    <header class="site-header" id="site-header">
-      <div class="container site-header__inner">
-        <a class="brand" href="https://www.htfonts.com/" target="_blank" rel="noopener">
-          <img alt="HT Fonts" src="images/htfonts-b.png" />
-        </a>
-        <nav class="site-nav" aria-label="Primary">
-          <ul>
-            <li><a href="#concepts">Concepts</a></li>
-            <li><a href="#usage">Usage</a></li>
-            <li><a href="tutorial/en.html">Tutorial</a></li>
-            <li><a href="#examples">Examples</a></li>
-            <li><a href="#contribute">Contribute</a></li>
-          </ul>
-        </nav>
-        <a class="btn btn--primary btn--sm" href="https://donate.stripe.com/bJecMZe6f7i6fsm72sgjC01" target="_blank" rel="noopener">
-          Donate
-          <span class="arrow" aria-hidden="true">♥</span>
-        </a>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Alegreya+SC:wght@400;700&family=JetBrains+Mono:wght@400;500&family=Sarala:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/site.css" />
+</head>
+
+<body>
+  <header class="site-header" id="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="https://www.htfonts.com/" target="_blank" rel="noopener">
+        <img alt="HT Fonts" src="images/htfonts-b.png" />
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="#concepts">Concepts</a></li>
+          <li><a href="#usage">Usage</a></li>
+          <li><a href="tutorial/en.html">Tutorial</a></li>
+          <li><a href="#examples">Examples</a></li>
+          <li><a href="#contribute">Contribute</a></li>
+        </ul>
+      </nav>
+      <a class="btn btn--primary btn--sm" href="https://donate.stripe.com/bJecMZe6f7i6fsm72sgjC01" target="_blank"
+        rel="noopener">
+        Donate
+        <span class="arrow" aria-hidden="true">♥</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <img class="hero__logo" alt="HT Letterspacer" src="images/HTLetterspacerLogo.svg" />
+        <p class="hero__sub">A free, open-source tool for spacing fonts.</p>
+        <div class="hero__ctas">
+          <a class="btn btn--primary" href="#usage">
+            Install
+            <span class="arrow" aria-hidden="true">↓</span>
+          </a>
+          <a class="btn btn--ghost" href="tutorial/en.html">
+            Tutorial
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
       </div>
-    </header>
+    </section>
 
-    <main>
-      <section class="hero">
-        <div class="container">
-          <img class="hero__logo" alt="HT Letterspacer" src="images/HTLetterspacerLogo.svg" />
-          <p class="hero__sub">A free, open-source tool for spacing fonts.</p>
-          <div class="hero__ctas">
-            <a class="btn btn--primary" href="#usage">
-              Install
-              <span class="arrow" aria-hidden="true">↓</span>
-            </a>
-            <a class="btn btn--ghost" href="tutorial/en.html">
-              Tutorial
-              <span class="arrow" aria-hidden="true">→</span>
-            </a>
+    <section class="quotes">
+      <div class="container">
+        <div class="quotes__grid">
+          <figure class="quote">
+            <span class="quote__mark" aria-hidden="true">&ldquo;</span>
+            <blockquote class="quote__body">An amazing tool to have a well-done spacing in every step of a font project.
+            </blockquote>
+            <cite>Eduardo Tunni</cite>
+          </figure>
+          <figure class="quote">
+            <span class="quote__mark" aria-hidden="true">&ldquo;</span>
+            <blockquote class="quote__body">It was very useful for defining Henderson. We made different spacings very
+              quickly to decide the best one.</blockquote>
+            <cite>Alejandro Paul</cite>
+          </figure>
+          <figure class="quote">
+            <span class="quote__mark" aria-hidden="true">&ldquo;</span>
+            <blockquote class="quote__body">It is very easy to make different spacing tests and save a lot of time when
+              you start a project.</blockquote>
+            <cite>Pablo Impallari</cite>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="concepts">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Concepts</p>
+          <h2>A method, not a magic button.</h2>
+        </div>
+
+        <div class="concepts__grid">
+          <div>
+            <p class="lead">
+              HT Letterspacer is a tool for spacing fonts that works on finished fonts as well as during development.
+              The first public version works as a macro for <a class="prose-link" href="https://glyphsapp.com"
+                target="_blank" rel="noopener">Glyphs</a>, but the method is adaptable to any editor or programming
+              language.
+            </p>
+          </div>
+          <div class="concepts__sidenotes">
+            <p>With HT Letterspacer, achieving consistent spacing is easy because you can define fixed parameters during
+              your type design process and focus on the letterform drawing.</p>
+            <p>By simplifying the spacing of a font, you can try different options quickly without going mad.</p>
+            <p>At present, HT Letterspacer doesn't kern — it is only for setting glyph widths and sidebearings.</p>
           </div>
         </div>
-      </section>
 
-      <section class="quotes">
-        <div class="container">
-          <div class="quotes__grid">
-            <figure class="quote">
-              <span class="quote__mark" aria-hidden="true">&ldquo;</span>
-              <blockquote class="quote__body">An amazing tool to have a well-done spacing in every step of a font project.</blockquote>
-              <cite>Eduardo Tunni</cite>
-            </figure>
-            <figure class="quote">
-              <span class="quote__mark" aria-hidden="true">&ldquo;</span>
-              <blockquote class="quote__body">It was very useful for defining Henderson. We made different spacings very quickly to decide the best one.</blockquote>
-              <cite>Alejandro Paul</cite>
-            </figure>
-            <figure class="quote">
-              <span class="quote__mark" aria-hidden="true">&ldquo;</span>
-              <blockquote class="quote__body">It is very easy to make different spacing tests and save a lot of time when you start a project.</blockquote>
-              <cite>Pablo Impallari</cite>
-            </figure>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="concepts">
-        <div class="container">
-          <div class="section__head">
-            <p class="eyebrow">Concepts</p>
-            <h2>A method, not a magic button.</h2>
-          </div>
-
-          <div class="concepts__grid">
-            <div>
-              <p class="lead">
-                HT Letterspacer is a tool for spacing fonts that works on finished fonts as well as during development. The first public version works as a macro for <a class="prose-link" href="https://glyphsapp.com" target="_blank" rel="noopener">Glyphs</a>, but the method is adaptable to any editor or programming language.
+        <div class="accordion prose">
+          <details>
+            <summary>So it replaces the type designer's craft? <span class="toggle" aria-hidden="true"></span></summary>
+            <div class="accordion__body">
+              <p>No. You have to configure and use it in what you think is the best way. You still need to know what you
+                are doing. The default configuration will produce a reasonable result for a beginner, but it does not
+                replace the eye of a master type designer. To achieve excellent spacing, you need to carefully configure
+                and use the script. But achieving good results will be easier and faster.</p>
+            </div>
+          </details>
+          <details>
+            <summary>What are the ideas behind it? <span class="toggle" aria-hidden="true"></span></summary>
+            <div class="accordion__body">
+              <p>HT Letterspacer is a method for defining sidebearings based on the amount of white space or area in a
+                glyph box, and it defines a way to measure it using three parameters per master. The parameters are set
+                up for lowercase letters and modified by a configuration template for different groups of letters (using
+                the glyph categories in Glyphs). There is a script version with a window where you can apply specific
+                parameters to selected glyphs.</p>
+              <p>You can use the script based on a template where each category of glyphs has a number that changes the
+                area parameter proportionally, or work by applying specific parameters manually to different groups of
+                glyphs, on the fly. The more you put your eye and hand into the process, the more accurate the results.
               </p>
+              <p>It works with large families and many masters. If you've changed your mind late in the process,
+                redesigning the spacing scheme of the entire typeface family is easy.</p>
+              <p>HT Letterspacer is a tool for type designers. There are no magic parameters, and each designer can run
+                their own experiments to achieve different results.</p>
             </div>
-            <div class="concepts__sidenotes">
-              <p>With HT Letterspacer, achieving consistent spacing is easy because you can define fixed parameters during your type design process and focus on the letterform drawing.</p>
-              <p>By simplifying the spacing of a font, you can try different options quickly without going mad.</p>
-              <p>At present, HT Letterspacer doesn't kern — it is only for setting glyph widths and sidebearings.</p>
+          </details>
+          <details>
+            <summary>Project history <span class="toggle" aria-hidden="true"></span></summary>
+            <div class="accordion__body">
+              <p>Andrés Torresi is the initial and primary author of this tool. Soon after joining the postgraduate
+                course in typeface design in Buenos Aires in 2009, he began research to find a simple, semi-automated
+                method to set glyph sidebearings that could work at any moment during a project and that the type
+                designer can control.</p>
+              <p>Today HT Letterspacer is the result of this research, and has been thoroughly tested by Andrés and Juan
+                Pablo del Peral at the HT Fonts foundry, as well as by other designers on Latin, Greek, Cyrillic and
+                Devanagari designs.</p>
+              <p>At ATypI 2015 in São Paulo, Andrés approached Dave Crossland to discuss ways of funding the project to
+                make it available under the GPLv3 licence. The tool was used and tested privately by the Google Fonts
+                team and finally released for free at ATypI 2016, with sources at <a
+                  href="https://github.com/huertatipografica/HTLetterspacer" target="_blank"
+                  rel="noopener">github.com/huertatipografica/HTLetterspacer</a>.</p>
+              <p>We want to thank Google for making it possible to open this up to the community.</p>
             </div>
-          </div>
-
-          <div class="accordion prose">
-            <details>
-              <summary>So it replaces the type designer's craft? <span class="toggle" aria-hidden="true"></span></summary>
-              <div class="accordion__body">
-                <p>No. You have to configure and use it in what you think is the best way. You still need to know what you are doing. The default configuration will produce a reasonable result for a beginner, but it does not replace the eye of a master type designer. To achieve excellent spacing, you need to carefully configure and use the script. But achieving good results will be easier and faster.</p>
-              </div>
-            </details>
-            <details>
-              <summary>What are the ideas behind it? <span class="toggle" aria-hidden="true"></span></summary>
-              <div class="accordion__body">
-                <p>HT Letterspacer is a method for defining sidebearings based on the amount of white space or area in a glyph box, and it defines a way to measure it using three parameters per master. The parameters are set up for lowercase letters and modified by a configuration template for different groups of letters (using the glyph categories in Glyphs). There is a script version with a window where you can apply specific parameters to selected glyphs.</p>
-                <p>You can use the script based on a template where each category of glyphs has a number that changes the area parameter proportionally, or work by applying specific parameters manually to different groups of glyphs, on the fly. The more you put your eye and hand into the process, the more accurate the results.</p>
-                <p>It works with large families and many masters. If you've changed your mind late in the process, redesigning the spacing scheme of the entire typeface family is easy.</p>
-                <p>HT Letterspacer is a tool for type designers. There are no magic parameters, and each designer can run their own experiments to achieve different results.</p>
-              </div>
-            </details>
-            <details>
-              <summary>Project history <span class="toggle" aria-hidden="true"></span></summary>
-              <div class="accordion__body">
-                <p>Andrés Torresi is the initial and primary author of this tool. Soon after joining the postgraduate course in typeface design in Buenos Aires in 2009, he began research to find a simple, semi-automated method to set glyph sidebearings that could work at any moment during a project and that the type designer can control.</p>
-                <p>Today HT Letterspacer is the result of this research, and has been thoroughly tested by Andrés and Juan Pablo del Peral at the HT Fonts foundry, as well as by other designers on Latin, Greek, Cyrillic and Devanagari designs.</p>
-                <p>At ATypI 2015 in São Paulo, Andrés approached Dave Crossland to discuss ways of funding the project to make it available under the GPLv3 licence. The tool was used and tested privately by the Google Fonts team and finally released for free at ATypI 2016, with sources at <a href="https://github.com/huertatipografica/HTLetterspacer" target="_blank" rel="noopener">github.com/huertatipografica/HTLetterspacer</a>.</p>
-                <p>We want to thank Google for making it possible to open this up to the community.</p>
-              </div>
-            </details>
-          </div>
+          </details>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="section section--alt" id="usage">
-        <div class="container">
-          <div class="section__head">
-            <p class="eyebrow">Usage</p>
-            <h2>Install &amp; configure.</h2>
-            <p class="lead" style="margin-top: 1.5rem;">A short installation per Glyphs version, then a couple of files to set up.</p>
-          </div>
+    <section class="section section--alt" id="usage">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Usage</p>
+          <h2>Install &amp; configure.</h2>
+          <p class="lead" style="margin-top: 1.5rem;">A short installation per Glyphs version, then a couple of files to
+            set up.</p>
+        </div>
 
-          <div class="accordion prose">
-            <details open>
-              <summary>How do I install HT Letterspacer? <span class="toggle" aria-hidden="true"></span></summary>
-              <div class="accordion__body">
-                <div class="tabs" id="install-tabs">
-                  <div class="tabs__list" role="tablist">
-                    <button role="tab" aria-selected="true" data-tab="g2">Glyphs 2</button>
-                    <button role="tab" aria-selected="false" data-tab="g3">Glyphs 3</button>
-                  </div>
-                  <div class="tabs__panel is-active" id="g2" role="tabpanel">
-                    <ol>
-                      <li>Open <strong>Glyphs Preferences</strong>, navigate to Addons / Modules and press <em>Install Modules</em>.</li>
-                      <li>Go to <strong>Script / Open Scripts folder</strong> and close Glyphs.</li>
-                      <li>Download the <a href="https://github.com/huertatipografica/HTLetterspacer/archive/master.zip" target="_blank" rel="noopener">latest version of HTLetterspacer</a> and put the <code>HTLetterspacer</code> folder inside the <strong>Scripts</strong> folder.</li>
-                      <li>Open Glyphs — the scripts appear under <strong>Scripts / HTLetterspacer</strong>.</li>
-                    </ol>
-                  </div>
-                  <div class="tabs__panel" id="g3" role="tabpanel">
-                    <ol>
-                      <li>Open <strong>Window / Plugin Manager</strong>.</li>
-                      <li>In the <strong>Modules</strong> section, install Python, FontTools, RoboFab and Vanilla.
-                        <img alt="Plugin Manager — modules" src="images/pluginManager-modules.png" />
-                      </li>
-                      <li>In the <strong>Scripts</strong> section, install Letterspacer.
-                        <img alt="Plugin Manager — scripts" src="images/pluginManager-scripts.png" />
-                      </li>
-                      <li>Restart Glyphs.</li>
-                      <li>Open <strong>Preferences</strong> and select Glyphs in Addons / Python version.
-                        <img alt="Preferences — Python version" src="images/preferences.png" />
-                      </li>
-                      <li>Use the scripts by navigating to <strong>Scripts / HT Letterspacer</strong>.</li>
-                    </ol>
-                  </div>
+        <div class="accordion prose">
+          <details open>
+            <summary>How do I install HT Letterspacer? <span class="toggle" aria-hidden="true"></span></summary>
+            <div class="accordion__body">
+              <div class="tabs" id="install-tabs">
+                <div class="tabs__list" role="tablist">
+                  <button role="tab" aria-selected="true" data-tab="g2">Glyphs 2</button>
+                  <button role="tab" aria-selected="false" data-tab="g3">Glyphs 3</button>
+                </div>
+                <div class="tabs__panel is-active" id="g2" role="tabpanel">
+                  <ol>
+                    <li>Open <strong>Glyphs Preferences</strong>, navigate to Addons / Modules and press <em>Install
+                        Modules</em>.</li>
+                    <li>Go to <strong>Script / Open Scripts folder</strong> and close Glyphs.</li>
+                    <li>Download the <a href="https://github.com/huertatipografica/HTLetterspacer/archive/master.zip"
+                        target="_blank" rel="noopener">latest version of HTLetterspacer</a> and put the
+                      <code>HTLetterspacer</code> folder inside the <strong>Scripts</strong> folder.
+                    </li>
+                    <li>Open Glyphs — the scripts appear under <strong>Scripts / HTLetterspacer</strong>.</li>
+                  </ol>
+                </div>
+                <div class="tabs__panel" id="g3" role="tabpanel">
+                  <ol>
+                    <li>Open <strong>Window / Plugin Manager</strong>.</li>
+                    <li>In the <strong>Modules</strong> section, install Python, FontTools, RoboFab and Vanilla.
+                      <img alt="Plugin Manager — modules" src="images/pluginManager-modules.png" />
+                    </li>
+                    <li>In the <strong>Scripts</strong> section, install Letterspacer.
+                      <img alt="Plugin Manager — scripts" src="images/pluginManager-scripts.png" />
+                    </li>
+                    <li>Restart Glyphs.</li>
+                    <li>Open <strong>Preferences</strong> and select Glyphs in Addons / Python version.
+                      <img alt="Preferences — Python version" src="images/preferences.png" />
+                    </li>
+                    <li>Use the scripts by navigating to <strong>Scripts / HT Letterspacer</strong>.</li>
+                  </ol>
                 </div>
               </div>
-            </details>
+            </div>
+          </details>
 
-            <details>
-              <summary>What do I need to set up to use it? <span class="toggle" aria-hidden="true"></span></summary>
-              <div class="accordion__body">
-                <ol>
-                  <li>Declare custom parameters on each master of your Glyphs file, or a general default one in the script code. The parameters are <code>paramArea</code>, <code>paramDepth</code> and <code>paramOver</code>.</li>
-                  <li>A configuration file in the same folder as your Glyphs file, named like <code>yourfontname_autospace.py</code>, with all the glyph categories, their area values and a reference glyph to define the vertical range over which the group will be measured.</li>
-                  <li>To create a proof glyph called <code>_areas</code> with the measured outlines when used on a single glyph, set <code>drawAreas = True</code> in the script.</li>
-                  <li>To work with fixed-width fonts by blocking the advance width, set <code>self.engine.tabVersion = True</code> in the script.</li>
-                  <li>To use it differently at different times, duplicate the script with different configurations and change the menu name at the beginning. We recommend assigning keyboard shortcuts in macOS to each variation.</li>
-                </ol>
-              </div>
-            </details>
+          <details>
+            <summary>What do I need to set up to use it? <span class="toggle" aria-hidden="true"></span></summary>
+            <div class="accordion__body">
+              <ol>
+                <li>Declare custom parameters on each master of your Glyphs file, or a general default one in the script
+                  code. The parameters are <code>paramArea</code>, <code>paramDepth</code> and <code>paramOver</code>.
+                </li>
+                <li>A configuration file in the same folder as your Glyphs file, named like
+                  <code>yourfontname_autospace.py</code>, with all the glyph categories, their area values and a
+                  reference glyph to define the vertical range over which the group will be measured.
+                </li>
+                <li>To create a proof glyph called <code>_areas</code> with the measured outlines when used on a single
+                  glyph, set <code>drawAreas = True</code> in the script.</li>
+                <li>To work with fixed-width fonts by blocking the advance width, set
+                  <code>self.engine.tabVersion = True</code> in the script.
+                </li>
+                <li>To use it differently at different times, duplicate the script with different configurations and
+                  change the menu name at the beginning. We recommend assigning keyboard shortcuts in macOS to each
+                  variation.</li>
+              </ol>
+            </div>
+          </details>
 
-            <details>
-              <summary>Parameters <span class="toggle" aria-hidden="true"></span></summary>
-              <div class="accordion__body">
-                <p>Parameters are declared in the master custom parameters box, in the font info, for each of the masters where you want to store the values.</p>
-                <figure>
-                  <a href="images/params.png" target="_blank" rel="noopener">
-                    <img alt="Diagram of parameters" src="images/params.png" />
-                  </a>
-                </figure>
-                <p>You can tune the parameters with the HT Letterspacer UI and press <em>Copy Parameters</em>. After that, paste the custom parameters into the active master: <strong>Font Info / Masters</strong>.</p>
-                <p>If the master doesn't have the appropriate custom parameters, or the parameter name differs from what is required, the script will use the default values from the source code.</p>
+          <details>
+            <summary>Parameters <span class="toggle" aria-hidden="true"></span></summary>
+            <div class="accordion__body">
+              <p>Parameters are declared in the master custom parameters box, in the font info, for each of the masters
+                where you want to store the values.</p>
+              <figure>
+                <a href="images/params.png" target="_blank" rel="noopener">
+                  <img alt="Diagram of parameters" src="images/params.png" />
+                </a>
+              </figure>
+              <p>You can tune the parameters with the HT Letterspacer UI and press <em>Copy Parameters</em>. After that,
+                paste the custom parameters into the active master: <strong>Font Info / Masters</strong>.</p>
+              <p>If the master doesn't have the appropriate custom parameters, or the parameter name differs from what
+                is required, the script will use the default values from the source code.</p>
 
-                <div class="param">
-                  <div class="param__num">Parameter 01</div>
-                  <h3 class="param__name">paramArea <em>·</em> area between letters</h3>
-                  <p>The <code>paramArea</code> parameter lets you define how much area (measured in thousands of units) you want between the lowercase letters inside the x-height. A font suitable for text at 1000 UPM typically uses a value between 200 and 400.</p>
-                  <div class="gallery">
-                    <a href="images/README-01.png" target="_blank" rel="noopener"><img alt="Diagram of depth" src="images/README-01.png" /></a>
-                    <a href="images/README-02.png" target="_blank" rel="noopener"><img alt="Area compensation left of C" src="images/README-02.png" /></a>
-                    <a href="images/README-03.png" target="_blank" rel="noopener"><img alt="Area compensation left of N" src="images/README-03.png" /></a>
-                    <a href="images/README-06.png" target="_blank" rel="noopener"><img alt="Variations 10 and 20" src="images/README-06.png" /></a>
-                  </div>
-                </div>
-
-                <div class="param">
-                  <div class="param__num">Parameter 02</div>
-                  <h3 class="param__name">paramDepth <em>·</em> depth into open counters</h3>
-                  <p>The <code>paramDepth</code> parameter (measured relatively as a % of x-height) lets you define how deep into open counterforms you want to measure the space, from the extreme points of each glyph to its centre. This parameter affects rounded or open shapes.</p>
-                  <p>A triangle with x-height (a circle, a c-shape or a T) has a long distance and a large amount of white from its extreme points or sides to the centre of the letter. Our eyes don't pay attention to the whole area, so the program doesn't either. You decide how much of this "big white" to measure by setting up this parameter.</p>
-                  <p>Depending on the design, this value moves between 10 and 25 (per cent of x-height).</p>
-                  <div class="gallery">
-                    <a href="images/README-04.png" target="_blank" rel="noopener"><img alt="Area compensation right of C" src="images/README-04.png" /></a>
-                    <a href="images/README-05.png" target="_blank" rel="noopener"><img alt="Depth variations" src="images/README-05.png" /></a>
-                    <a href="images/README-07.png" target="_blank" rel="noopener"><img alt="Depth not affecting flat sides" src="images/README-07.png" /></a>
-                  </div>
-                </div>
-
-                <div class="param">
-                  <div class="param__num">Parameter 03</div>
-                  <h3 class="param__name">paramOver <em>·</em> vertical overshoot</h3>
-                  <p>The <code>paramOver</code> parameter expands the vertical range over which you measure the space, above and below the shape, by a certain % of x-height. It lets you make slight differences when a sign has outlines that exceed the height of its group of letters, typically ascenders or descenders.</p>
-                  <p>For example, in a sans-serif font, a dotless /i/ and /l/ could have exactly the same shape between the baseline and the x-height. Setting an overshoot expands the range up and down and produces a different calculation of space for each sign. In this case, the sign with ascenders (the /l/) ends up with looser spacing.</p>
-                  <p>This parameter is optional and depends on what you want to do with it, but it is intended to be used similarly to an overshoot.</p>
+              <div class="param">
+                <div class="param__num">Parameter 01</div>
+                <h3 class="param__name">paramArea <em>·</em> area between letters</h3>
+                <p>The <code>paramArea</code> parameter lets you define how much area (measured in thousands of units)
+                  you want between the lowercase letters inside the x-height. A font suitable for text at 1000 UPM
+                  typically uses a value between 200 and 400.</p>
+                <div class="gallery">
+                  <a href="images/README-01.png" target="_blank" rel="noopener"><img alt="Diagram of depth"
+                      src="images/README-01.png" /></a>
+                  <a href="images/README-02.png" target="_blank" rel="noopener"><img alt="Area compensation left of C"
+                      src="images/README-02.png" /></a>
+                  <a href="images/README-03.png" target="_blank" rel="noopener"><img alt="Area compensation left of N"
+                      src="images/README-03.png" /></a>
+                  <a href="images/README-06.png" target="_blank" rel="noopener"><img alt="Variations 10 and 20"
+                      src="images/README-06.png" /></a>
                 </div>
               </div>
-            </details>
 
-            <details>
-              <summary>Configuration file <span class="toggle" aria-hidden="true"></span></summary>
-              <div class="accordion__body">
-                <div class="callout">
-                  <div class="callout__label">Glyphs 2 / 3 incompatibility</div>
-                  <p>Glyphs has changed the way it classifies characters. Config files generated in Glyphs 2 will produce inconsistent results in Glyphs 3.</p>
-                  <p>If you've updated to Glyphs 3, delete the old config files and let the script regenerate new ones from scratch.</p>
+              <div class="param">
+                <div class="param__num">Parameter 02</div>
+                <h3 class="param__name">paramDepth <em>·</em> depth into open counters</h3>
+                <p>The <code>paramDepth</code> parameter (measured relatively as a % of x-height) lets you define how
+                  deep into open counterforms you want to measure the space, from the extreme points of each glyph to
+                  its centre. This parameter affects rounded or open shapes.</p>
+                <p>A triangle with x-height (a circle, a c-shape or a T) has a long distance and a large amount of white
+                  from its extreme points or sides to the centre of the letter. Our eyes don't pay attention to the
+                  whole area, so the program doesn't either. You decide how much of this "big white" to measure by
+                  setting up this parameter.</p>
+                <p>Depending on the design, this value moves between 10 and 25 (per cent of x-height).</p>
+                <div class="gallery">
+                  <a href="images/README-04.png" target="_blank" rel="noopener"><img alt="Area compensation right of C"
+                      src="images/README-04.png" /></a>
+                  <a href="images/README-05.png" target="_blank" rel="noopener"><img alt="Depth variations"
+                      src="images/README-05.png" /></a>
+                  <a href="images/README-07.png" target="_blank" rel="noopener"><img
+                      alt="Depth not affecting flat sides" src="images/README-07.png" /></a>
                 </div>
+              </div>
 
-                <p>A text file in the same folder as the Glyphs file defines all the different alterations for each category of signs, as well as a reference sign that defines the height or vertical range of the sign group. For example, lowercase with <code>x</code>, uppercase with <code>X</code> or <code>H</code>, small caps with <code>x.sc</code>, numbers with <code>one</code>, and so on.</p>
+              <div class="param">
+                <div class="param__num">Parameter 03</div>
+                <h3 class="param__name">paramOver <em>·</em> vertical overshoot</h3>
+                <p>The <code>paramOver</code> parameter expands the vertical range over which you measure the space,
+                  above and below the shape, by a certain % of x-height. It lets you make slight differences when a sign
+                  has outlines that exceed the height of its group of letters, typically ascenders or descenders.</p>
+                <p>For example, in a sans-serif font, a dotless /i/ and /l/ could have exactly the same shape between
+                  the baseline and the x-height. Setting an overshoot expands the range up and down and produces a
+                  different calculation of space for each sign. In this case, the sign with ascenders (the /l/) ends up
+                  with looser spacing.</p>
+                <p>This parameter is optional and depends on what you want to do with it, but it is intended to be used
+                  similarly to an overshoot.</p>
+              </div>
+            </div>
+          </details>
 
-                <div class="subhead-eyebrow">Config values and rules</div>
-                <p>Each line of the configuration file contains a set of rules to apply to a group of glyphs. Lines should be ordered from general to specific rules. Each field on the line should be separated by a comma, with a trailing comma:</p>
-                <pre><code>Script, Category, Subcategory, value, reference glyph, name filter,</code></pre>
+          <details>
+            <summary>Configuration file <span class="toggle" aria-hidden="true"></span></summary>
+            <div class="accordion__body">
+              <div class="callout">
+                <div class="callout__label">Glyphs 2 / 3 incompatibility</div>
+                <p>Glyphs has changed the way it classifies characters. Config files generated in Glyphs 2 will produce
+                  inconsistent results in Glyphs 3.</p>
+                <p>If you've updated to Glyphs 3, delete the old config files and let the script regenerate new ones
+                  from scratch.</p>
+              </div>
 
-                <table class="data-table">
-                  <thead>
-                    <tr><th>Item</th><th>Description</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>Script</td><td>The name of the script type. Asterisk <code>*</code> means all.</td></tr>
-                    <tr><td>Category</td><td>The name of the Glyphs category. For lowercase glyphs, it is Letter.</td></tr>
-                    <tr><td>Subcategory</td><td>The name of the Glyphs subcategory. For lowercase glyphs, it is Lowercase.</td></tr>
-                    <tr><td>Value</td><td>The coefficient that changes the area parameter in each category or rule. If you set a paramArea of 400 and this value is equal to 2, the area applied is 800. In this version of the script, only the area parameter is altered by this number.</td></tr>
-                    <tr><td>Reference</td><td>The name of the glyph that defines the vertical range over which spacing will be measured. For lowercase we use <code>x</code>, but you can use any other glyph with the same height, lower and higher points.</td></tr>
-                    <tr><td>Filter</td><td>You can filter the rules by any suffix or part of the glyph name. <code>*</code> means <code>all</code>. For example, to constrain a rule to ordinal glyphs, write <code>ord</code>.</td></tr>
-                  </tbody>
-                </table>
+              <p>A text file in the same folder as the Glyphs file defines all the different alterations for each
+                category of signs, as well as a reference sign that defines the height or vertical range of the sign
+                group. For example, lowercase with <code>x</code>, uppercase with <code>X</code> or <code>H</code>,
+                small caps with <code>x.sc</code>, numbers with <code>one</code>, and so on.</p>
 
-                <p>A simple example of the first four lines of a config file:</p>
-<pre><code>*,Letter,Uppercase,1.5,H,*,
+              <div class="subhead-eyebrow">Config values and rules</div>
+              <p>Each line of the configuration file contains a set of rules to apply to a group of glyphs. Lines should
+                be ordered from general to specific rules. Each field on the line should be separated by a comma, with a
+                trailing comma:</p>
+              <pre><code>Script, Category, Subcategory, value, reference glyph, name filter,</code></pre>
+
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Script</td>
+                    <td>The name of the script type. Asterisk <code>*</code> means all.</td>
+                  </tr>
+                  <tr>
+                    <td>Category</td>
+                    <td>The name of the Glyphs category. For lowercase glyphs, it is Letter.</td>
+                  </tr>
+                  <tr>
+                    <td>Subcategory</td>
+                    <td>The name of the Glyphs subcategory. For lowercase glyphs, it is Lowercase.</td>
+                  </tr>
+                  <tr>
+                    <td>Value</td>
+                    <td>The coefficient that changes the area parameter in each category or rule. If you set a paramArea
+                      of 400 and this value is equal to 2, the area applied is 800. In this version of the script, only
+                      the area parameter is altered by this number.</td>
+                  </tr>
+                  <tr>
+                    <td>Reference</td>
+                    <td>The name of the glyph that defines the vertical range over which spacing will be measured. For
+                      lowercase we use <code>x</code>, but you can use any other glyph with the same height, lower and
+                      higher points.</td>
+                  </tr>
+                  <tr>
+                    <td>Filter</td>
+                    <td>You can filter the rules by any suffix or part of the glyph name. <code>*</code> means
+                      <code>all</code>. For example, to constrain a rule to ordinal glyphs, write <code>ord</code>.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <p>A simple example of the first four lines of a config file:</p>
+              <pre><code>*,Letter,Uppercase,1.5,H,*,
 *,Letter,Smallcaps,1.25,h.sc,*,
 *,Letter,Lowercase,1,x,*,
 *,Letter,Superscript,0.7,ordfeminine,*,</code></pre>
 
-                <p>A <a href="https://github.com/huertatipografica/HTLetterspacer/blob/master/defaultConfigFile.py" target="_blank" rel="noopener">default config file</a> is provided to make the process easier. You must rename it so it has the same name as your font plus the <code>_autospace</code> suffix — e.g. <code>myserif.glyphs</code> → <code>myserif_autospace.py</code>.</p>
-                <p>Activate or deactivate lines by writing a hash <code>#</code> at the beginning of the line, just as in Python. Each line must contain the six values separated by commas.</p>
-              </div>
-            </details>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="examples">
-        <div class="container">
-          <div class="section__head">
-            <p class="eyebrow">Examples</p>
-            <h2>See it in action.</h2>
-          </div>
-
-          <div class="prose" style="max-width: 60ch;">
-            <p>You can download our <a href="https://github.com/huertatipografica/HTLetterspacer/tree/master/Examples" target="_blank" rel="noopener">example source files</a> from our <a href="https://github.com/huertatipografica/HTLetterspacer" target="_blank" rel="noopener">GitHub repository</a>.</p>
-            <p>The <a href="https://www.htfonts.com/en/fonts/telder" target="_blank" rel="noopener">Telder HT Pro</a> family's spacing was done around 98% with the tool, plus a small 2% of post-adjustment. The family was drawn in parallel with the development of the tool.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="contribute">
-        <div class="container">
-          <div class="contribute-card">
-            <p class="eyebrow">Open source</p>
-            <h2>Made with the community, for the community.</h2>
-            <p>We want this tool to be open and free, to receive feedback and improvements from other designers. Star it, fork it, send a pull request — or chip in to keep it going.</p>
-            <div class="contribute-card__ctas">
-              <a class="btn btn--light" href="https://donate.stripe.com/bJecMZe6f7i6fsm72sgjC01" target="_blank" rel="noopener">
-                Donate to the project
-                <span class="arrow" aria-hidden="true">♥</span>
-              </a>
-              <a class="btn btn--outline-light" href="https://github.com/huertatipografica/HTLetterspacer" target="_blank" rel="noopener">
-                View on GitHub
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
+              <p>A <a href="https://github.com/huertatipografica/HTLetterspacer/blob/master/defaultConfigFile.py"
+                  target="_blank" rel="noopener">default config file</a> is provided to make the process easier. You
+                must rename it so it has the same name as your font plus the <code>_autospace</code> suffix — e.g.
+                <code>myserif.glyphs</code> → <code>myserif_autospace.py</code>.
+              </p>
+              <p>Activate or deactivate lines by writing a hash <code>#</code> at the beginning of the line, just as in
+                Python. Each line must contain the six values separated by commas.</p>
             </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="examples">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Examples</p>
+          <h2>See it in action.</h2>
+        </div>
+
+        <div class="prose" style="max-width: 60ch;">
+          <p>You can download our <a href="https://github.com/huertatipografica/HTLetterspacer/tree/master/Examples"
+              target="_blank" rel="noopener">example source files</a> from our <a
+              href="https://github.com/huertatipografica/HTLetterspacer" target="_blank" rel="noopener">GitHub
+              repository</a>.</p>
+          <p>The <a href="https://www.htfonts.com/en/fonts/telder/buy" target="_blank" rel="noopener">Telder</a>
+            family's
+            spacing was done around 98% with the tool, plus a small 2% of post-adjustment. The family was drawn in
+            parallel with the development of the tool.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contribute">
+      <div class="container">
+        <div class="contribute-card">
+          <p class="eyebrow">Open source</p>
+          <h2>Made with the community, for the community.</h2>
+          <p>We want this tool to be open and free, to receive feedback and improvements from other designers. Star it,
+            fork it, send a pull request — or chip in to keep it going.</p>
+          <div class="contribute-card__ctas">
+            <a class="btn btn--light" href="https://donate.stripe.com/bJecMZe6f7i6fsm72sgjC01" target="_blank"
+              rel="noopener">
+              Donate to the project
+              <span class="arrow" aria-hidden="true">♥</span>
+            </a>
+            <a class="btn btn--outline-light" href="https://github.com/huertatipografica/HTLetterspacer" target="_blank"
+              rel="noopener">
+              View on GitHub
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
           </div>
         </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="container">
-        <div class="site-footer__row">
-          <span>© HT Fonts</span>
-          <ul>
-            <li><a href="https://htfonts.com/fonts" target="_blank" rel="noopener">Font catalogue</a></li>
-            <li><a href="https://htfonts.com/resources" target="_blank" rel="noopener">More info</a></li>
-            <li><a href="https://htfonts.com/contact" target="_blank" rel="noopener">Contact</a></li>
-            <li><a href="https://github.com/huertatipografica/HTLetterspacer" target="_blank" rel="noopener">GitHub</a></li>
-          </ul>
-        </div>
-        <p class="site-footer__licence">Documentation, texts and images in this repo: HT Letterspacer Documentation © 2016 by Andrés Torresi and Carolina Giovagnoli is licensed under CC BY 4.0 — <a href="https://creativecommons.org/licenses/by/4.0" target="_blank" rel="noopener">creativecommons.org/licenses/by/4.0</a></p>
-        <p class="site-footer__licence">License: HT Letterspacer License — GPL-3.0 license | <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GNU General Public License Version 3, 29 June 2007</a></p>
       </div>
-    </footer>
+    </section>
+  </main>
 
-    <script>
-      document.querySelectorAll('.tabs').forEach(tabs => {
-        const buttons = tabs.querySelectorAll('[role="tab"]');
-        const panels = tabs.querySelectorAll('[role="tabpanel"]');
-        buttons.forEach(btn => {
-          btn.addEventListener('click', () => {
-            const target = btn.dataset.tab;
-            buttons.forEach(b => b.setAttribute('aria-selected', b === btn ? 'true' : 'false'));
-            panels.forEach(p => p.classList.toggle('is-active', p.id === target));
-          });
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__row">
+        <span>© HT Fonts</span>
+        <ul>
+          <li><a href="https://htfonts.com/fonts" target="_blank" rel="noopener">Font catalogue</a></li>
+          <li><a href="https://htfonts.com/resources" target="_blank" rel="noopener">More info</a></li>
+          <li><a href="https://htfonts.com/contact" target="_blank" rel="noopener">Contact</a></li>
+          <li><a href="https://github.com/huertatipografica/HTLetterspacer" target="_blank" rel="noopener">GitHub</a>
+          </li>
+        </ul>
+      </div>
+      <p class="site-footer__licence">Documentation, texts and images in this repo: HT Letterspacer Documentation © 2016
+        by Andrés Torresi and Carolina Giovagnoli is licensed under CC BY 4.0 — <a
+          href="https://creativecommons.org/licenses/by/4.0" target="_blank"
+          rel="noopener">creativecommons.org/licenses/by/4.0</a></p>
+      <p class="site-footer__licence">License: HT Letterspacer License — GPL-3.0 license | <a
+          href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GNU General Public License
+          Version 3, 29 June 2007</a></p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.tabs').forEach(tabs => {
+      const buttons = tabs.querySelectorAll('[role="tab"]');
+      const panels = tabs.querySelectorAll('[role="tabpanel"]');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = btn.dataset.tab;
+          buttons.forEach(b => b.setAttribute('aria-selected', b === btn ? 'true' : 'false'));
+          panels.forEach(p => p.classList.toggle('is-active', p.id === target));
         });
       });
-      const header = document.getElementById('site-header');
-      const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
+    });
+    const header = document.getElementById('site-header');
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 
-      (function () {
-        const overlay = document.createElement('div');
-        overlay.className = 'lightbox';
-        overlay.setAttribute('role', 'dialog');
-        overlay.setAttribute('aria-modal', 'true');
-        overlay.innerHTML = '<button class="lightbox__close" type="button" aria-label="Close">×</button><img class="lightbox__img" alt="" />';
-        document.body.appendChild(overlay);
-        const lbImg = overlay.querySelector('.lightbox__img');
+    (function () {
+      const overlay = document.createElement('div');
+      overlay.className = 'lightbox';
+      overlay.setAttribute('role', 'dialog');
+      overlay.setAttribute('aria-modal', 'true');
+      overlay.innerHTML = '<button class="lightbox__close" type="button" aria-label="Close">×</button><img class="lightbox__img" alt="" />';
+      document.body.appendChild(overlay);
+      const lbImg = overlay.querySelector('.lightbox__img');
 
-        const open = (src, alt) => {
-          lbImg.src = src;
-          lbImg.alt = alt || '';
-          overlay.classList.add('is-open');
-          document.body.style.overflow = 'hidden';
-        };
-        const close = () => {
-          overlay.classList.remove('is-open');
-          document.body.style.overflow = '';
-        };
-        overlay.addEventListener('click', close);
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+      const open = (src, alt) => {
+        lbImg.src = src;
+        lbImg.alt = alt || '';
+        overlay.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      };
+      const close = () => {
+        overlay.classList.remove('is-open');
+        document.body.style.overflow = '';
+      };
+      overlay.addEventListener('click', close);
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 
-        const imgExt = /\.(png|jpe?g|gif|webp|svg)$/i;
-        document.querySelectorAll('.section a').forEach((a) => {
-          const href = a.getAttribute('href') || '';
-          if (imgExt.test(href)) {
-            a.addEventListener('click', (e) => {
-              e.preventDefault();
-              open(href, a.querySelector('img')?.alt);
-            });
-          }
-        });
-        document.querySelectorAll('.section img').forEach((el) => {
-          if (el.closest('a')) return;
-          el.addEventListener('click', () => open(el.currentSrc || el.src, el.alt));
-        });
-      })();
-    </script>
-  </body>
+      const imgExt = /\.(png|jpe?g|gif|webp|svg)$/i;
+      document.querySelectorAll('.section a').forEach((a) => {
+        const href = a.getAttribute('href') || '';
+        if (imgExt.test(href)) {
+          a.addEventListener('click', (e) => {
+            e.preventDefault();
+            open(href, a.querySelector('img')?.alt);
+          });
+        }
+      });
+      document.querySelectorAll('.section img').forEach((el) => {
+        if (el.closest('a')) return;
+        el.addEventListener('click', () => open(el.currentSrc || el.src, el.alt));
+      });
+    })();
+  </script>
+</body>
+
 </html>
