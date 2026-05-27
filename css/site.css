@@ -55,7 +55,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* Typography */
 h1, h2, h3, h4 {
   font-family: var(--serif);
-  font-weight: 600;
+  font-weight: bold;
   line-height: 1.1;
   color: var(--ink);
 }
@@ -324,7 +324,7 @@ strong, b { color: var(--ink); font-weight: 700; }
   align-items: baseline;
   gap: 1.5rem;
   font-family: var(--serif);
-  font-weight: 600;
+  font-weight: bold;
   font-size: clamp(1.25rem, 2.2vw, 1.5rem);
   color: var(--ink);
   transition: color var(--t);
@@ -519,7 +519,7 @@ pre code, .section--alt pre code { background: transparent; padding: 0; color: i
 .param__name {
   font-family: var(--serif);
   font-size: clamp(1.5rem, 3vw, 2.25rem);
-  font-weight: 600;
+  font-weight: bold;
   margin-bottom: 0.8rem;
 }
 .param__name code {
@@ -531,7 +531,7 @@ pre code, .section--alt pre code { background: transparent; padding: 0; color: i
 }
 .param__title {
   font-family: var(--serif);
-  font-weight: 600;
+  font-weight: bold;
   font-size: 1.375rem;
   color: var(--ink);
   margin-bottom: 0.5rem;
@@ -720,7 +720,7 @@ pre code, .section--alt pre code { background: transparent; padding: 0; color: i
 .subhead {
   font-family: var(--serif);
   font-style: italic;
-  font-weight: 600;
+  font-weight: bold;
   font-size: 1.375rem;
   color: var(--ink);
   margin: 2.5rem 0 1rem;
