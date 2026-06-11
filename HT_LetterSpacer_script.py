@@ -110,6 +110,28 @@ def area(points):
 		s = s + (points[ii].x * points[ii + 1].y - points[ii + 1].x * points[ii].y)
 	return abs(s) * 0.5
 
+# expand strokes/attributes into rendered outlines, in place
+def applyPrepareLayerCallbacks(layer):
+	"""Run Glyphs' prepare-layer processing on `layer` (a scratch copy!).
+
+	`copyDecomposedLayer` only decomposes COMPONENTS. Stroke skeletons —
+	Glyphs' native stroke path attributes and anything
+	else registered as a GSPrepareLayerCallback — are expanded into their
+	rendered outlines by the same callback chain Glyphs runs for drawing
+	and metrics. Without this, stroked glyphs measure as zero-height
+	skeleton centerlines. Safe no-op when no callbacks are registered
+	(then the layer keeps its source outlines, the previous behavior).
+	"""
+	try:
+		handler = objc.lookUpClass('GSCallbackHandler')
+		callbacks = handler.callbacksForType_('GSPrepareLayerCallback')
+		if callbacks:
+			handler.applyLayerCallbacks_toLayer_error_(callbacks, layer, None)
+	except Exception:
+		import traceback
+		print(traceback.format_exc())
+
+
 # get margins in Glyphs
 def getMargins(layer, y):
 	startPoint = NSMakePoint(NSMinX(layer.bounds) - 1, y)
@@ -548,6 +570,10 @@ class HTLetterspacerLib(object):
 				# Decompose layer for analysis, as the deeper plumbing assumes to be looking at outlines.
 				layer_decomposed = layer.copyDecomposedLayer()
 				layer_decomposed.parent = layer.parent
+				# Expand stroke skeletons
+				# into rendered outlines so the margins measure the stroke
+				# envelope, not the centerlines.
+				applyPrepareLayerCallbacks(layer_decomposed)
 
 				#run the spacing
 				space = self.setSpace(layer_decomposed, referenceLayer)
