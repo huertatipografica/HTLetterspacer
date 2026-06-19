@@ -1,3 +1,9 @@
+# If you are migrating from G2 to G3, categories and subcategories are different. If you want to keep your spacing working the same way, please include G2 GlyphData.xml in your project.
+# Otherwise you would need to update the config with new categories matching.
+# Roll your own Glyph data: https://glyphsapp.com/learn/roll-your-own-glyph-data
+# For Glyphs 3, Letter Subcategory is taken from case values (upper [1], smallCaps [3] and lowercase [2]). case value minor [4] is ignored.
+# Glyphs categories can differ between Glyphs 2 and 3 versions. Please update your config accordingly
+
 # Reference
 # Script, Category, Subcategory, value, referenceGlyph, filter
 *,Letter,Uppercase,1.25,H,*,
@@ -15,12 +21,11 @@
 *,Number,*,0.8,*,superior,
 
 # Punctuation
-*,Punctuation,Other,1.4,*,*,
 *,Punctuation,Parenthesis,1.2,*,*,
 *,Punctuation,Quote,1.2,*,*,
 *,Punctuation,Dash,1,*,*,
 *,Punctuation,*,1,*,slash,
-*,Punctuation,*,1.2,*,*,
+*,Punctuation,*,1.4,*,*,
 
 # Symbols
 *,Symbol,Currency,1.6,*,*,
