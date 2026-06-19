@@ -4,6 +4,6 @@
 # Name or Organization <email address> and an email is not needed for
 # organizations.
 
-Andrés Torresi <andres@huertatipografica.com>
+Andrés Torresi <andres.torresi@htfonts.com>
 Georg Seifert <gs@schriftgestaltung.de>
 Google Inc.

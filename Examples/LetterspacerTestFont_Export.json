@@ -1,0 +1,543 @@
+{
+  "format": "HTLetterspacer",
+  "version": 2,
+  "familyName": "Letterspacer Test Font",
+  "rules": [
+    {
+      "name": "",
+      "category": "Symbol",
+      "script": "Any",
+      "subcategory": "Currency",
+      "case": 0,
+      "filter": "",
+      "reference": "",
+      "area": {
+        "mode": "percent",
+        "value": 160.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "d313699988aa49e5a1a3b9ed65d94c05"
+    },
+    {
+      "name": "NUM Oldstyle",
+      "category": "Number",
+      "script": "Any",
+      "subcategory": "Decimal Digit",
+      "case": 0,
+      "filter": ".osf",
+      "reference": "zero.osf",
+      "area": {
+        "mode": "percent",
+        "value": 120.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "280170385a76405d9d429047b6292f33"
+    },
+    {
+      "name": "",
+      "category": "Punctuation",
+      "script": "Any",
+      "subcategory": "Parenthesis",
+      "case": 0,
+      "filter": "",
+      "reference": "",
+      "area": {
+        "mode": "percent",
+        "value": 120.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "80b0e699d25b42e3a97b39b835e1dee1"
+    },
+    {
+      "name": "Lowercase",
+      "category": "Letter",
+      "script": "Any",
+      "subcategory": "Any",
+      "case": 2,
+      "filter": "",
+      "reference": "x",
+      "area": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "1e4a77f3a2e543cc819d2cb55bc4e064"
+    },
+    {
+      "name": "",
+      "category": "Punctuation",
+      "script": "Any",
+      "subcategory": "Any",
+      "case": 0,
+      "filter": "slash",
+      "reference": "",
+      "area": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "54835e791832447e9372203ef0971663"
+    },
+    {
+      "name": "Dnom",
+      "category": "Number",
+      "script": "Any",
+      "subcategory": "Any",
+      "case": 0,
+      "filter": ".dnom",
+      "reference": "",
+      "area": {
+        "mode": "percent",
+        "value": 80.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "d807c9bf65bf4fc399770d81d7863e5f"
+    },
+    {
+      "name": "",
+      "category": "Punctuation",
+      "script": "Any",
+      "subcategory": "Quote",
+      "case": 0,
+      "filter": "",
+      "reference": "",
+      "area": {
+        "mode": "percent",
+        "value": 120.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "3ba1aa16dea046fb8c6d8ba7638078c9"
+    },
+    {
+      "name": "Deva",
+      "category": "Letter",
+      "script": "devanagari",
+      "subcategory": "Other",
+      "case": 0,
+      "filter": "",
+      "reference": "devaHeight",
+      "area": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "a52d1c737f5e492ab4a7579c6f1d4b0b"
+    },
+    {
+      "name": "",
+      "category": "Symbol",
+      "script": "Any",
+      "subcategory": "Any",
+      "case": 0,
+      "filter": "",
+      "reference": "",
+      "area": {
+        "mode": "percent",
+        "value": 150.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "ec210c6f28544a648357cf471d62f1b0"
+    },
+    {
+      "name": "",
+      "category": "Number",
+      "script": "Any",
+      "subcategory": "Any",
+      "case": 0,
+      "filter": "superior",
+      "reference": "",
+      "area": {
+        "mode": "percent",
+        "value": 80.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 80.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "bc6af3deca54443981a4335102747f26"
+    },
+    {
+      "name": "Uppercase",
+      "category": "Letter",
+      "script": "Any",
+      "subcategory": "Any",
+      "case": 1,
+      "filter": "",
+      "reference": "H",
+      "area": {
+        "mode": "percent",
+        "value": 125.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "1e242226c5cf45838b060668dffb4c06"
+    },
+    {
+      "name": "Lowercase",
+      "category": "Letter",
+      "script": "Any",
+      "subcategory": "Any",
+      "case": 2,
+      "filter": ".sups",
+      "reference": "m.sups",
+      "area": {
+        "mode": "percent",
+        "value": 70.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "51b8e724d446447ba7d4bc26bf73a737"
+    },
+    {
+      "name": "",
+      "category": "Number",
+      "script": "Any",
+      "subcategory": "Decimal Digit",
+      "case": 0,
+      "filter": "",
+      "reference": "one",
+      "area": {
+        "mode": "percent",
+        "value": 120.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "3b4a941dd78e4198bee55eb21cb82a77"
+    },
+    {
+      "name": "",
+      "category": "Number",
+      "script": "Any",
+      "subcategory": "Any",
+      "case": 0,
+      "filter": ".inferior",
+      "reference": "",
+      "area": {
+        "mode": "percent",
+        "value": 80.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "dd65dca241a841d2849881a148147a04"
+    },
+    {
+      "name": "",
+      "category": "Mark",
+      "script": "Any",
+      "subcategory": "Any",
+      "case": 0,
+      "filter": "",
+      "reference": "",
+      "area": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "349050a66e734d8ab917830387e5d536"
+    },
+    {
+      "name": "",
+      "category": "Punctuation",
+      "script": "Any",
+      "subcategory": "Any",
+      "case": 0,
+      "filter": "",
+      "reference": "",
+      "area": {
+        "mode": "percent",
+        "value": 140.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "fc70ea35eddf4d8d9761d82f9546209a"
+    },
+    {
+      "name": "NUM Tabualr",
+      "category": "Number",
+      "script": "Any",
+      "subcategory": "Decimal Digit",
+      "case": 0,
+      "filter": ".tf,.tosf",
+      "reference": "one",
+      "area": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": true,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "3ce26b9924e143ad9636724378bbe485"
+    },
+    {
+      "name": "",
+      "category": "Number",
+      "script": "Any",
+      "subcategory": "Any",
+      "case": 0,
+      "filter": ".numr",
+      "reference": "",
+      "area": {
+        "mode": "percent",
+        "value": 80.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "fec5d2b802a14eb2824b51b0f7124c5f"
+    },
+    {
+      "name": "SmallCaps",
+      "category": "Letter",
+      "script": "Any",
+      "subcategory": "Any",
+      "case": 3,
+      "filter": "",
+      "reference": "h.sc",
+      "area": {
+        "mode": "percent",
+        "value": 110.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "41b65d41ed0b43f1b4559735ef18d823"
+    },
+    {
+      "name": "",
+      "category": "Number",
+      "script": "Any",
+      "subcategory": "Fraction",
+      "case": 0,
+      "filter": "",
+      "reference": "",
+      "area": {
+        "mode": "percent",
+        "value": 130.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "6233270ea7f742bb950d1b9e2307d22f"
+    },
+    {
+      "name": "",
+      "category": "Punctuation",
+      "script": "Any",
+      "subcategory": "Dash",
+      "case": 0,
+      "filter": "",
+      "reference": "",
+      "area": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "depth": {
+        "mode": "percent",
+        "value": 100.0
+      },
+      "tabular": false,
+      "sides": {
+        "LSB": true,
+        "RSB": true
+      },
+      "glyphlist": [],
+      "id": "083c0a29c0564acb8c1492d0a01c7027"
+    }
+  ],
+  "masters": [
+    {
+      "name": "Light",
+      "id": "7DA69401-B8BB-4CEF-A33A-65E5ADA83450",
+      "parameters": {
+        "paramArea": 500,
+        "paramDepth": 17,
+        "paramOver": 3
+      },
+      "overrides": {}
+    },
+    {
+      "name": "Regular",
+      "id": "F36DCCA2-8A71-42CF-9609-F852DF368EC0",
+      "parameters": {
+        "paramArea": 440,
+        "paramDepth": 17,
+        "paramOver": 3
+      },
+      "overrides": {}
+    },
+    {
+      "name": "Bold",
+      "id": "A9E408DD-A955-440F-BEB6-B96F0772F152",
+      "parameters": {
+        "paramArea": 410,
+        "paramDepth": 17,
+        "paramOver": 3
+      },
+      "overrides": {}
+    }
+  ]
+}

@@ -6,9 +6,10 @@
 # Names should be added to this file as:
 # Name <email address> 
 
-Andrés Torresi <andres@huertatipografica.com>
+Andrés Torresi <andres.torresi@htfonts.com>
 Dave Crossland <dave@lab6.com>
 Georg Seifert <gs@schriftgestaltung.de>
 Simon Cozens <simon@simon-cozens.org>
 Pablo Impallari <impallari@gmail.com>
-Juan Pablo del Peral <juan@huertatipografica.com>
+Juan Pablo del Peral <juandelperal@htfonts.com>
+Sebastian Carewe <sebastian.carewe@gmail.com>
