@@ -168,29 +168,47 @@ class HTLetterspacer(GeneralPlugin):
 
 	@objc.python_method
 	def _scope_layers(self, layers):
-		"""When "All masters" is on, expand each glyph in `layers` to ALL of its
-		master layers, so every master is spaced for the scope. Otherwise the
-		layers are returned as given (current master only). space_layers dedupes
-		by (glyph, master), so duplicates here are harmless."""
+		"""When "All masters" is on, expand each glyph in `layers` to EVERY
+		spaceable layer it has — all master layers PLUS all special (bracket /
+		brace) layers, across all masters — so they're all spaced no matter which
+		layer is currently active. Otherwise the layers are returned unchanged.
+		Dedupe by layerId (NOT associated master) so a special layer is never
+		collapsed into the master it belongs to."""
 		if not self.all_masters_enabled():
 			return layers
 		font = self.font
 		if font is None:
 			return layers
 		out, seen = [], set()
+
+		def add(layer):
+			glyph = layer.parent
+			if glyph is None:
+				return
+			key = (glyph.name, layer.layerId)
+			if key in seen:
+				return
+			seen.add(key)
+			out.append(layer)
+
+		def spaceable(layer):
+			# master layers + bracket layers; skip brace (intermediate) layers,
+			# which spacing ignores, and colour / backup layers.
+			try:
+				if engine_mod.is_brace_layer(layer):
+					return False
+				return bool(layer.isMasterLayer or layer.isSpecialLayer)
+			except Exception:
+				return False
+
 		for layer in layers:
+			add(layer)   # keep the selected layer itself even if it's atypical
 			glyph = layer.parent
 			if glyph is None:
 				continue
-			for master in font.masters:
-				ml = glyph.layers[master.id]
-				if ml is None:
-					continue
-				key = (glyph.name, master.id)
-				if key in seen:
-					continue
-				seen.add(key)
-				out.append(ml)
+			for gl in glyph.layers:
+				if spaceable(gl):
+					add(gl)
 		return out
 
 	@objc.python_method
@@ -285,7 +303,7 @@ class HTLetterspacer(GeneralPlugin):
 		# Tabs leave a strip at the bottom for the shared apply footer.
 		self.w.tabs = Tabs(
 			(10, 10, -10, -42),
-			["Font rules", "Master rules", "Parameters", "Inspector"],
+			["Parameters", "Font rules", "Master rules", "Inspector"],
 			callback=self.tabChanged_,
 		)
 
@@ -307,12 +325,12 @@ class HTLetterspacer(GeneralPlugin):
 
 		self.currentMasterID = self.font.selectedFontMaster.id if self.font.selectedFontMaster else None
 
-		# Tab 0 — Font rules; Tab 1 — Master rules; Tab 2 — Parameters
-		self.fontRules = FontRulesManager(self, self.w.tabs[0], self.scripts, self.subcategories)
-		self.masterRules = MasterRulesManager(self, self.w.tabs[1])
-		self.parameters = ParametersManager(self, self.w.tabs[2])
+		# Tab 0 — Parameters; Tab 1 — Font rules; Tab 2 — Master rules; Tab 3 — Inspector
+		self.parameters = ParametersManager(self, self.w.tabs[0])
+		self.fontRules = FontRulesManager(self, self.w.tabs[1], self.scripts, self.subcategories)
+		self.masterRules = MasterRulesManager(self, self.w.tabs[2])
 		self.inspector = InspectorManager(self, self.w.tabs[3])
-		self._prevTab = 0   # Font rules is the initial tab
+		self._prevTab = 0   # Parameters is the initial tab
 
 		self.w.open()
 		self.w.makeKey()
@@ -335,19 +353,19 @@ class HTLetterspacer(GeneralPlugin):
 			# Carry the sort + selection from the tab we're leaving onto the one
 			# we're entering, so Font/Master rules stay aligned for comparison.
 			prev = getattr(self, "_prevTab", 0)
-			leaving = {0: getattr(self, "fontRules", None),
-			           1: getattr(self, "masterRules", None)}.get(prev)
+			leaving = {1: getattr(self, "fontRules", None),
+			           2: getattr(self, "masterRules", None)}.get(prev)
 			if leaving is not None:
 				leaving._save_state()
 			self._prevTab = idx
-			if idx == 0 and hasattr(self, "fontRules"):
+			if idx == 0 and hasattr(self, "parameters"):
+				self.parameters.refresh()
+			elif idx == 1 and hasattr(self, "fontRules"):
 				self.fontRules.apply_shared_sort()
 				self.fontRules.refresh_list()
-			elif idx == 1 and hasattr(self, "masterRules"):
+			elif idx == 2 and hasattr(self, "masterRules"):
 				self.masterRules.apply_shared_sort()
 				self.masterRules.refresh()
-			elif idx == 2 and hasattr(self, "parameters"):
-				self.parameters.refresh()
 			elif idx == 3 and hasattr(self, "inspector"):
 				self.inspector.refresh()
 		except Exception:
@@ -410,15 +428,15 @@ class HTLetterspacer(GeneralPlugin):
 					self.parameters.refresh()
 
 			# ✓ match marks / inspector: only when the glyph selection changed,
-			# and only for the visible tab (Font rules = 0, Master rules = 1,
+			# and only for the visible tab (Font rules = 1, Master rules = 2,
 			# Inspector = 3).
 			sig = self._selection_signature()
 			if sig != getattr(self, "_lastSelectionSig", None) or master_changed:
 				self._lastSelectionSig = sig
 				visible = self.w.tabs.get()
-				if visible == 0 and hasattr(self, "fontRules"):
+				if visible == 1 and hasattr(self, "fontRules"):
 					self.fontRules.refresh_list()
-				elif visible == 1 and hasattr(self, "masterRules"):
+				elif visible == 2 and hasattr(self, "masterRules"):
 					self.masterRules.refresh_list()
 				elif visible == 3 and hasattr(self, "inspector"):
 					self.inspector.refresh()

@@ -141,6 +141,17 @@ def zoneMargins(lMargins, rMargins, minY, maxY):
 	return pointsFilteredL, pointsFilteredR
 
 
+def is_brace_layer(layer):
+	"""True for an intermediate ("brace") layer — one with interpolation
+	coordinates, e.g. {150}. Bracket / alternate layers and master layers are
+	NOT brace layers. Brace layers are skipped by the spacing entirely."""
+	try:
+		attrs = layer.attributes
+		return bool(attrs and attrs["coordinates"])
+	except Exception:
+		return False
+
+
 class HTLSEngine(object):
 	"""Per-layer spacing engine. Construct with a layer; it resolves the
 	master parameters and the matching rule, then computes polygons and
@@ -482,6 +493,8 @@ class HTLSEngine(object):
 		try:
 			if not layer.name:
 				pass
+			elif is_brace_layer(layer):
+				self.output += "Glyph %s has a brace layer. Spacing not set.\n" % layer.parent.name
 			elif len(layer.paths) < 1 and len(layer.components) < 1:
 				self.output += "No paths in glyph %s\n" % (layer.parent.name or "")
 			elif layer.hasAlignedWidth() and not self._force:
@@ -612,24 +625,34 @@ def _topo_order(layers, forward):
 	composite that uses it (within the spaced set, per master) — so a composite
 	is measured with its bases already in their final positions. Kahn's
 	algorithm; on a (degenerate) cycle the leftovers keep their input order."""
-	key_of = {}
+	# Identity is (glyph name, layerId): a master layer's layerId equals the font
+	# master id (shared across ALL glyphs), so layerId alone would collapse every
+	# glyph in a master into one entry. The pair keeps each layer distinct — a
+	# bracket layer and the master layer of the same glyph included — while
+	# dependencies are still resolved per master via (glyph name, master id).
+	key_of = {}        # uid -> layer
+	nm_of = {}         # uid -> (glyph name, associated master id)
+	by_nm = {}         # (glyph name, master id) -> [uid, ...]
 	for layer in layers:
 		glyph = layer.parent
 		if glyph is not None:
-			key_of[(glyph.name, layer.associatedMasterId)] = layer
+			uid = (glyph.name, layer.layerId)
+			key_of[uid] = layer
+			nm = (glyph.name, layer.associatedMasterId)
+			nm_of[uid] = nm
+			by_nm.setdefault(nm, []).append(uid)
 	spaced = set(key_of)
 
 	indeg = {k: 0 for k in spaced}
 	adj = {k: [] for k in spaced}
-	for composite in spaced:
-		name, mid = composite
-		for base in forward.get(composite, ()):
-			base_key = (base, mid)
-			if base_key in spaced:
-				adj[base_key].append(composite)
-				indeg[composite] += 1
+	for uid in spaced:
+		name, mid = nm_of[uid]
+		for base in forward.get((name, mid), ()):
+			for base_uid in by_nm.get((base, mid), ()):
+				adj[base_uid].append(uid)
+				indeg[uid] += 1
 
-	queue = deque(sorted((k for k in spaced if indeg[k] == 0)))
+	queue = deque(sorted((k for k in spaced if indeg[k] == 0), key=lambda l: nm_of[l]))
 	ordered = []
 	while queue:
 		k = queue.popleft()
@@ -697,7 +720,11 @@ def space_layers(layers, font_rules=None, param_overrides=None, preserve_compone
 	unique = []
 	for layer in layers:
 		glyph = layer.parent
-		key = (glyph.name if glyph else id(layer), layer.associatedMasterId)
+		# Dedupe by layerId, NOT associated master: a glyph repeated in an edit
+		# view is the same layer object (same layerId) so "HHHa" still spaces H
+		# once, while a special layer (bracket / brace) and the master layer it
+		# belongs to stay DISTINCT and are both spaced.
+		key = (glyph.name if glyph else id(layer), layer.layerId)
 		if key in seen:
 			continue
 		seen.add(key)

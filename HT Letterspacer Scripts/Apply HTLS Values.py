@@ -83,9 +83,10 @@ def _space_selection(layers, area, depth, over, lsb, rsb, tabular, width,
                      preserve_components=True):
 	"""Space `layers` with manual values, no rules. Returns (report, spaced).
 
-	Mirrors `engine.space_layers`: dedupe by (glyph, master), wrap the writes
-	in disableUpdateInterface, and sync metric keys only after the whole batch
-	so a glyph keyed to another in the selection resolves against final metrics.
+	Mirrors `engine.space_layers`: dedupe by layerId (so a special layer and its
+	master layer stay distinct), wrap the writes in disableUpdateInterface, and
+	sync metric keys only after the whole batch so a glyph keyed to another in the
+	selection resolves against final metrics.
 	With `preserve_components`, glyphs used as components are spaced first and
 	their referencing components shifted back so composites stay in place (it
 	reuses the same helpers as `engine.space_layers`).
@@ -94,7 +95,7 @@ def _space_selection(layers, area, depth, over, lsb, rsb, tabular, width,
 	unique = []
 	for layer in layers:
 		glyph = layer.parent
-		key = (glyph.name if glyph else id(layer), layer.associatedMasterId)
+		key = (glyph.name if glyph else id(layer), layer.layerId)
 		if key in seen:
 			continue
 		seen.add(key)
