@@ -57,7 +57,7 @@ The two scripts:
 - **Apply HTLS Config** — spaces the current selection using the rules stored in the font, with no UI. Select some glyphs (or open a tab) and run it from the submenu; it writes the computed sidebearings and prints a short report to the Macro panel. This is the headless equivalent of the Parameters tab’s **Apply to selection**.
 - **Apply HTLS Values** — a floating window to apply specific manual values (Area / Depth / Overshoot / LSB / RSB / fixed width) to the selection, independent of the stored rules. Each selected glyph is spaced against itself using the values you type; **Fixed width** keeps the advance width fixed, and an unchecked **LSB**/**RSB** leaves that side untouched. **Keep components in place** behaves as in the plugin, and **Copy parameters** puts an Area/Depth/Overshoot master-custom-parameter snippet on the clipboard. The window remembers its last-used values.
 
-  ![The Apply HTLS Values window, with the figures it spaced alongside](images/Values.jpeg)
+  ![The Apply HTLS Values window, with the figures it spaced alongside](images/Values.jpg)
 
 ## Usage
 
@@ -67,7 +67,7 @@ Open the plugin from the **Glyph** menu (*HT Letterspacer*). The window has four
 
 The spacing rules stored in the font. Each row is a rule; selecting one opens its full editor on the right, and the (sortable) columns summarise it. The toolbar adds a blank rule (`+`), seeds a rule from the current selection (`+=`), removes (`−`), duplicates, and an `⋯` menu handles import/export (setup or legacy rules) and **Reset to defaults** — see [Sharing a configuration between fonts](#sharing-a-configuration-between-fonts). The ✓ column marks the rule matching the selected glyph; the **Ovr** column marks rules that carry a master override.
 
-![The Font rules tab — rule list, the per-rule editor on the right, and the spacing-action footer along the bottom](images/FontRules.jpeg)
+![The Font rules tab — rule list, the per-rule editor on the right, and the spacing-action footer along the bottom](images/FontRules.jpg)
 
 #### Rule fields
 
@@ -91,13 +91,13 @@ A rule has two kinds of fields: ones that decide **which glyphs it matches**, an
 
 Per-master overrides of a rule’s **Area** and/or **Depth** — for when one master needs different spacing from the family default. Pick a rule, then set an Area and/or Depth override for the current master; leave a field empty to **inherit** the font rule (the placeholder shows the inherited value), and **Clear overrides** removes them. The list uses the same sortable columns as Font rules, with the **●** column marking rules that carry an override on this master.
 
-![The Master rules tab — the same rule list with a per-master Area/Depth override editor](images/MasterRules.jpeg)
+![The Master rules tab — the same rule list with a per-master Area/Depth override editor](images/MasterRules.jpg)
 
 ### Parameters
 
-The current master’s base spacing parameters — **Area** (shown as the raw value and in units²), **Depth** (as a % of the x-height) and **Overshoot** — as sliders and fields, with a live **spacing preview** below. Type any text in the **Text** field to see those glyphs spaced with the current values, with the previous advance width shown above each for comparison. **Save parameters** writes the values to the master (as `paramArea` / `paramDepth` / `paramOver` custom parameters); **Reset parameters** reverts to the saved values; **Live Tab Test** applies the working values to the current Edit tab *without* saving them to the master, so you can audition a change non-destructively.
+The current master’s base spacing parameters — **Area** (shown as the raw value and in units²), **Depth** (as a % of the x-height) and **Overshoot** — as sliders and fields, with a live **spacing preview** below. Type any text in the **Text** field to see those glyphs spaced with the current values, with the previous LSB, advance width and RSB shown above each for comparison. As in the *Show areas* reporter, each glyph’s area polygons are tinted by the **rule that matches it** — a distinct colour per rule (the same colours across both views), or **grey when no rule matches**. **Save parameters** writes the values to the master (as `paramArea` / `paramDepth` / `paramOver` custom parameters); **Reset parameters** reverts to the saved values; **Live Tab Test** applies the working values to the current Edit tab *without* saving them to the master, so you can audition a change non-destructively.
 
-![The Parameters tab — Area/Depth/Overshoot sliders above a live spacing preview of the text “noon”](images/Parameters.jpeg)
+![The Parameters tab — Area/Depth/Overshoot sliders above a live spacing preview of the text “noon”](images/Parameters.jpg)
 
 These values are stored as ordinary **master custom parameters** — `paramArea`, `paramDepth` and `paramOver` (*Font Info ▸ Masters ▸ Custom Parameters*) — so you can also see and edit them there directly, or copy them between masters.
 
@@ -114,7 +114,7 @@ The **Actions** menu helps to copy parameters from another master or interpolate
 
 A read-only readout for the currently selected glyph — handy for understanding *why* it is spaced the way it is. It shows the glyph’s **categorization** (script, category, subcategory, case), the **applied spacing** (the resolved Area and Depth — the percentage and the value it works out to — plus the reference glyph), and a **Matching rules** table listing every rule that matches the glyph: the one actually in use first (marked ✓), then the fallbacks in priority order.
 
-![The Inspector tab — categorization, applied spacing, and the matching-rules table for the selected glyph](images/Inspector.jpeg)
+![The Inspector tab — categorization, applied spacing, and the matching-rules table for the selected glyph](images/Inspector.jpg)
 
 ### Applying spacing
 
@@ -132,7 +132,9 @@ The controls along the window footer decide **what** gets spaced and **when**:
 
 Enable the *HT Letterspacer Areas* reporter from the **View** menu (or bind it to a shortcut) to draw each glyph’s calculated white area as a non-destructive overlay — on both the active and inactive glyphs — so you can judge spacing visually without writing anything to the font.
 
-![The areas reporter — translucent white-area overlays drawn behind the glyphs in an Edit view](images/Reporter.jpeg)
+Each area is tinted by the **rule that matches the glyph** — a distinct colour per rule, or **grey when no rule matches** — so you can tell at a glance which rule is driving each glyph (the Parameters preview uses the same colours for the same rules).
+
+![The areas reporter — translucent white-area overlays drawn behind the glyphs in an Edit view](images/Reporter.jpg)
 
 > 💡 **Mind the load on large glyph sets.** The *Show areas* reporter, *Live tab apply*, *All masters* and *Keep components in place* each recompute spacing continuously or in bulk — the reporter redraws every glyph in view as you move, live apply re-spaces the tab on each keystroke, All masters multiplies the work by the number of masters, and Keep components in place scans the font for referencing components. On a long Edit tab or a many-master family this can get processor-intensive and sluggish. Use them at your discretion: a few glyphs at a time when tuning, and turn them off for bulk runs.
 
@@ -178,11 +180,12 @@ Version 2.0 — Glyphs 3 plugin (beta)
 - **Keep components in place** (footer toggle + helper-script option, on by default): re-spacing a glyph used as a component shifts its referencing components back so composites stay put; auto-aligned components are left to Glyphs
 - **Master rules** tab for per-master Area/Depth overrides (an empty field inherits the font rule)
 - **Parameters** tab to edit the master Area/Depth/Overshoot and Apply to selection
-- Live, non-destructive **Show areas** overlay (reporter), for active and inactive glyphs
+- Live, non-destructive **Show areas** overlay (reporter), for active and inactive glyphs — areas are coloured per matching rule (a distinct colour per rule, grey when none matches), with the Parameters preview using the same colours
 - Import/export the whole **setup** (rules **and** per-master parameters and overrides) as a `.json` file, to transfer or back up a configuration between fonts (a portable container, not a sidecar read while spacing)
 - Still imports **and** exports the legacy comma-separated `.yml` / `.py` rules format, and migrates eweracs’ HTLSManager font data automatically
 - Faithful port of the original spacing engine, parity-tested against the script (including italic, tabular and stroked glyphs)
 - Helper scripts: **Apply HTLS Config** (space the selection from the font rules, no UI) and **Apply HTLS Values** (a window for manual Area/Depth/Overshoot/LSB/RSB/fixed-width values)
+- **Bracket layers** are spaced using their associated master’s parameters and rules; **brace (intermediate) layers** are skipped
 
 Version 1.20
 - Improve code simplicity and syntax by Nikolaus and Georg
