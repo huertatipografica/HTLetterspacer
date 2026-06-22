@@ -79,15 +79,8 @@ class HTLetterspacerPreview(ReporterPlugin):
 
 	@objc.python_method
 	def _build_order(self, rules):
-		"""Map rule_id -> colour index by ordering rules on script, category,
-		subcategory, case (rule_id breaks ties for determinism)."""
-		def sort_key(item):
-			rid, r = item
-			return (
-				str(r.get("script") or ""), str(r.get("category") or ""),
-				str(r.get("subcategory") or ""), int(r.get("case") or 0), rid,
-			)
-		return {rid: i for i, (rid, _r) in enumerate(sorted(rules.items(), key=sort_key))}
+		"""Map rule_id -> colour index (shared with the Parameters preview)."""
+		return drawing.build_rule_order(rules)
 
 	@objc.python_method
 	def foreground(self, layer):
@@ -203,13 +196,47 @@ class HTLetterspacerPreview(ReporterPlugin):
 			return entry[1], entry[2], entry[3]
 		font = layer.parent.parent
 		font_rules = self._font_rules(font)
+		# Building the engine is cheap (it resolves the rule for the report); the
+		# expensive part is calculate_polygons() — decompose + stroke expansion +
+		# setSpace. So skip it entirely when BOTH sides are metric-keyed (no area
+		# to draw), and mask the keyed side otherwise.
 		engine = HTLSEngine(layer, font_rules=font_rules)
-		path = drawing.build_area_path(engine.calculate_polygons())
+		left_keyed, right_keyed = self._metric_keyed(layer)
+		if left_keyed and right_keyed:
+			path = None
+		else:
+			polys = engine.calculate_polygons()
+			if (left_keyed or right_keyed) and polys:
+				left, right = polys
+				polys = (None if left_keyed else left, None if right_keyed else right)
+			path = drawing.build_area_path(polys)
 		report = self._rule_report(engine)
 		color_index = self._order.get(engine.matched_rule_id) if engine.matched_rule_id else None
 		color = drawing.area_color(color_index)
 		self._cache[key] = (signature, path, report, color)
 		return path, report, color
+
+	@objc.python_method
+	def _metric_keyed(self, layer):
+		"""(left_keyed, right_keyed) — True when that side's sidebearing is driven
+		by a metrics key (layer-level key wins, else the glyph-level key)."""
+		glyph = layer.parent
+
+		def keyed(layer_attr, glyph_attr):
+			try:
+				if getattr(layer, layer_attr, None):
+					return True
+			except Exception:
+				pass
+			try:
+				if glyph is not None and getattr(glyph, glyph_attr, None):
+					return True
+			except Exception:
+				pass
+			return False
+
+		return (keyed("leftMetricsKey", "leftMetricsKey"),
+		        keyed("rightMetricsKey", "rightMetricsKey"))
 
 	@objc.python_method
 	def _labels_on(self):
@@ -347,9 +374,10 @@ class HTLetterspacerPreview(ReporterPlugin):
 				return default
 
 		gen = Glyphs.defaults[RULES_GEN_KEY] or 0
-		base = "%s|%s|%s|%s|%s|%s" % (
+		lk, rk = self._metric_keyed(layer)
+		base = "%s|%s|%s|%s|%s|%s|%d%d" % (
 			param("paramArea", 400), param("paramDepth", 15), param("paramOver", 0),
-			len(layer.paths), len(layer.components), int(gen),
+			len(layer.paths), len(layer.components), int(gen), int(lk), int(rk),
 		)
 		if not active:
 			return base

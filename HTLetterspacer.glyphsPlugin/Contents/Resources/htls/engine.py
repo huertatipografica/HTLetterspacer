@@ -457,11 +457,13 @@ class HTLSEngine(object):
 			self.newL += widthDiff
 			self.newR += widthDiff
 			self.newWidth = self.layerWidth
-		# metric-rule / skipped-side handling
+		# metric-rule / skipped-side handling. In force mode (the Parameters
+		# preview) metric keys are ignored entirely, so the preview shows the
+		# pure HTLS spacing as if no metric key were present.
 		else:
-			if layer.parent.leftMetricsKey is not None or self.LSB is False:
+			if (layer.parent.leftMetricsKey is not None and not self._force) or self.LSB is False:
 				self.newL = layer.LSB
-			if layer.parent.rightMetricsKey is not None or self.RSB is False:
+			if (layer.parent.rightMetricsKey is not None and not self._force) or self.RSB is False:
 				self.newR = layer.RSB
 
 		return lPolygon, rPolygon

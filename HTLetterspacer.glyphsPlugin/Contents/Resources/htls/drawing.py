@@ -32,6 +32,20 @@ def _default_label_color():
 	return NSColor.colorWithCalibratedWhite_alpha_(0.35, 0.9)
 
 
+def build_rule_order(rules):
+	"""Map rule_id -> colour index by ordering rules on script, category,
+	subcategory, case (rule_id breaks ties for determinism). Shared by the areas
+	reporter and the Parameters-tab preview so a rule gets the SAME colour in
+	both."""
+	def sort_key(item):
+		rid, r = item
+		return (
+			str(r.get("script") or ""), str(r.get("category") or ""),
+			str(r.get("subcategory") or ""), int(r.get("case") or 0), rid,
+		)
+	return {rid: i for i, (rid, _r) in enumerate(sorted(rules.items(), key=sort_key))}
+
+
 def area_color(index, alpha=0.35):
 	"""Translucent fill colour for area `index` (a rule's sort position), looping
 	the 20-colour palette. `index is None` → grey (no matching rule)."""

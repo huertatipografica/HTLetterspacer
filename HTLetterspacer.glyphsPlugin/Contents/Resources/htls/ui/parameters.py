@@ -4,7 +4,7 @@
 Edits the current master's `paramArea` / `paramDepth` / `paramOver` (master
 custom parameters; rules scale these), with:
 
-  * a full-width text preview — type a word (up to 5 glyphs, slashed names like
+  * a full-width text preview — type a word (up to 20 glyphs, slashed names like
     /A/space allowed) and see the glyphs laid out with their HTLS spacing,
     area polygons, margin lines, and per-glyph numbers (LSB/RSB at the inner
     corners, previous width top-centre, new width bottom-centre). Non-destructive;
@@ -16,6 +16,8 @@ With "Live tab apply" on (window footer), editing a value also re-spaces the
 current Edit tab — the Manager's "live preview" equivalent.
 """
 from __future__ import division, print_function, unicode_literals
+
+import math
 
 import objc
 from vanilla import (
@@ -36,7 +38,7 @@ DEPTH_MAX = 50
 
 DEFAULTS = {"paramArea": 400, "paramDepth": 15, "paramOver": 0}
 PARAMS = ("paramArea", "paramDepth", "paramOver")
-MAX_GLYPHS = 5
+MAX_GLYPHS = 20
 DEFAULT_TEXT = "noon"
 _LINE_COLOR = (0.15, 0.4, 0.95, 0.7)
 
@@ -105,13 +107,20 @@ class _StripNSView(NSView):
 		strip_w = sum(max(c["new_w"], 1.0) for c in cells)
 		if strip_w <= 0:
 			return
+		# Width basis for the scale is frozen when text is entered (set_cells); the
+		# live `strip_w` still drives horizontal centring so the band stays centred
+		# as spacing changes, without rescaling.
+		scale_w = getattr(self, "_scale_w", None) or strip_w
 		w, h = bounds.size.width, bounds.size.height
 		pad_x, label_h = 16.0, 18.0
-		scale = min((w - 2 * pad_x) / strip_w, (h - 2 * label_h) / (asc - desc))
+		scale = min((w - 2 * pad_x) / scale_w, (h - 2 * label_h) / (asc - desc))
 		if scale <= 0:
 			scale = (h - 2 * label_h) / 1000.0
 		tx = (w - strip_w * scale) / 2.0
-		ty = label_h - desc * scale
+		# centre the glyph band vertically between the top/bottom label rows
+		# (when scale is width-limited the band is shorter than the slot).
+		slack = (h - 2 * label_h) - (asc - desc) * scale
+		ty = label_h + slack / 2.0 - desc * scale
 
 		# 1) glyphs + areas + margin lines, under the strip transform
 		t = NSAffineTransform.transform()
@@ -120,21 +129,27 @@ class _StripNSView(NSView):
 		ctx = NSGraphicsContext.currentContext()
 		ctx.saveGraphicsState()
 		fg = getattr(self, "_fgColor", None) or NSColor.textColor()
-		area_color = getattr(self, "_areaColor", None)
+		default_area_color = getattr(self, "_areaColor", None)
 		try:
 			t.concat()
 			pen = 0.0
 			boundaries = [0.0]
 			for c in cells:
 				layer, sb, polys, new_w = c["layer"], c["sb"], c["polys"], c["new_w"]
-				dx = pen + (sb[0] if sb else 0.0) - c["ink_l"]
+				# Layout is a pure horizontal shift: the outline already encodes its
+				# current (de-slanted) LSB relative to its advance origin, so moving
+				# the origin to `pen` and shifting by (newLSB - oldLSB) yields the new
+				# spacing. Do NOT use bounds.origin.x — for italics the slanted bbox
+				# edge is not the sidebearing reference (Glyphs measures it de-slanted,
+				# pivoted at half x-height), which threw the preview off.
+				dx = pen + (sb[0] - c["prev_l"] if sb else 0.0)
 				ctx.saveGraphicsState()
 				try:
 					off = NSAffineTransform.transform()
 					off.translateXBy_yBy_(dx, 0.0)
 					off.concat()
 					if polys:
-						drawing.draw_areas(polys, area_color)
+						drawing.draw_areas(polys, c.get("color") or default_area_color)
 					try:
 						path = layer.completeBezierPath
 						if path is not None:
@@ -146,13 +161,23 @@ class _StripNSView(NSView):
 					ctx.restoreGraphicsState()
 				pen += new_w
 				boundaries.append(pen)
-			# margin lines at every advance boundary
+			# margin lines at every advance boundary — slanted to the master's
+			# italic angle, pivoting at half x-height (from the baseline) so they
+			# track the glyphs, matching Glyphs' italic metric slant.
 			line = NSBezierPath.bezierPath()
 			line.setLineWidth_(1.0 / scale)
 			top, bottom = asc + 80, desc - 80
+			try:
+				slope = math.tan(math.radians(float(master.italicAngle or 0.0)))
+			except Exception:
+				slope = 0.0
+			try:
+				pivot_y = float(master.xHeight) / 2.0
+			except Exception:
+				pivot_y = 0.0
 			for bx in boundaries:
-				line.moveToPoint_((bx, bottom))
-				line.lineToPoint_((bx, top))
+				line.moveToPoint_((bx + slope * (bottom - pivot_y), bottom))
+				line.lineToPoint_((bx + slope * (top - pivot_y), top))
 			NSColor.colorWithCalibratedRed_green_blue_alpha_(*_LINE_COLOR).set()
 			line.stroke()
 		finally:
@@ -165,7 +190,10 @@ class _StripNSView(NSView):
 			left_v = tx + pen * scale
 			right_v = tx + (pen + c["new_w"]) * scale
 			center_v = (left_v + right_v) / 2.0
-			self._text("%s" % _sb(c["prev_w"]), center_v, h - label_h + 2, attrs, "center")
+			top_y = h - label_h + 2
+			self._text("(%s)" % _sb(c["prev_w"]), center_v, top_y, attrs, "center")
+			self._text("(%s)" % _sb(c["prev_l"]), left_v + 3, top_y, attrs, "left")
+			self._text("(%s)" % _sb(c["prev_r"]), right_v - 3, top_y, attrs, "right")
 			self._text("%s" % _sb(c["new_w"]), center_v, 3, attrs, "center")
 			if c["sb"]:
 				self._text("%s" % _sb(c["sb"][0]), left_v + 3, 3, attrs, "left")
@@ -197,11 +225,18 @@ class _StripView(Group):
 		v._areaColor = areaColor
 		v._cells = None
 		v._master = None
+		v._scale_w = None
 
-	def set_cells(self, cells, master):
+	def set_cells(self, cells, master, reset_scale=False):
 		v = self.getNSView()
 		v._cells = cells
 		v._master = master
+		# The fit-to-width scale is frozen at text-entry time (with 30% headroom)
+		# so moving the spacing sliders doesn't rescale the glyphs — only typing
+		# new text re-fits. Headroom leaves room to loosen before glyphs clip.
+		if reset_scale or v._scale_w is None:
+			strip_w = sum(max(c["new_w"], 1.0) for c in (cells or []))
+			v._scale_w = strip_w * 1.30 if strip_w > 0 else None
 		v.setNeedsDisplay_(True)
 
 
@@ -535,6 +570,9 @@ class ParametersManager(object):
 		cells = []
 		if font is None or master is None:
 			return cells
+		# Per-rule colour ordering — same mapping the areas reporter uses, so a
+		# rule is shown in the SAME colour in the preview and the edit view.
+		order = drawing.build_rule_order(self.plugin.font_rules or {})
 		for name in self._parse_text(self.group.textField.get(), font):
 			glyph = font.glyphs[name]
 			if glyph is None:
@@ -543,22 +581,28 @@ class ParametersManager(object):
 			if layer is None:
 				continue
 			sb = polys = None
+			color = None
 			new_w = layer.width
 			try:
 				eng = engine_mod.HTLSEngine(
 					layer, font_rules=self.plugin.font_rules, param_overrides=overrides, force=True)
 				sb = eng.current_layer_sidebearings()
 				polys = eng.calculate_polygons()
-				ink_w = layer.bounds.size.width
+				color_index = order.get(eng.matched_rule_id) if eng.matched_rule_id else None
+				color = drawing.area_color(color_index)
 				if eng.newWidth:
 					new_w = eng.newWidth
 				elif sb:
-					new_w = sb[0] + ink_w + sb[1]
+					# advance = LSB + RSB + (invariant ink advance). Use width - LSB -
+					# RSB for the invariant part, NOT the slanted bbox width, which is
+					# wider than the de-slanted ink on italic masters.
+					new_w = sb[0] + sb[1] + (layer.width - layer.LSB - layer.RSB)
 			except Exception:
 				pass
 			cells.append({
-				"layer": layer, "sb": sb, "polys": polys,
-				"ink_l": layer.bounds.origin.x, "prev_w": layer.width, "new_w": new_w,
+				"layer": layer, "sb": sb, "polys": polys, "color": color,
+				"prev_w": layer.width, "new_w": new_w,
+				"prev_l": layer.LSB, "prev_r": layer.RSB,
 			})
 		return cells
 
@@ -587,22 +631,22 @@ class ParametersManager(object):
 		if font is not None and not any(m.id in self._saved for m in font.masters):
 			self._saved = self._snapshot_all()
 		self._build_actions()
-		self.update_previews()
+		self.update_previews(reset_scale=True)
 		self._update_reset_enabled()
 
 	def refresh(self):
 		self.load()
 
-	def update_previews(self):
+	def update_previews(self, reset_scale=False):
 		font = self.plugin.font
 		master = self._master()
 		cells = self._build_cells(font, master, self._current_values())
-		self.group.strip.set_cells(cells, master)
+		self.group.strip.set_cells(cells, master, reset_scale=reset_scale)
 
 	def _text_cb(self, sender):
 		if self._loading:
 			return
-		self.update_previews()
+		self.update_previews(reset_scale=True)
 
 	# --- callbacks --------------------------------------------------------
 
