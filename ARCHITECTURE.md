@@ -156,6 +156,14 @@ Both discover the bundle's `Resources/` relative to the script (symlink-resolved
 
 ---
 
+## Naming conventions
+Classes use `CapWords` (`HTLSEngine`, the UI managers, the custom views). New, pure-Python functions and methods use `snake_case` (`space_layers`, `calculate_polygons`, `is_brace_layer`, `build_rule_order`, the `_update_*` UI helpers). Two sets of names are **intentionally** camelCase and must stay that way — a PEP8 linter should skip them, not "fix" them:
+
+- **Objective-C selector methods** — `drawRect_`, `tabChanged_`, `updateInterface_`, `windowClosed_`, `initWithManager_`, `tableView_willDisplayCell_forTableColumn_row_`, etc. The underscores stand in for the selector colons (`drawRect:`, `tableView:willDisplayCell:…`); PyObjC dispatches by the exact selector name, so renaming them breaks the binding.
+- **Geometry/measuring functions ported verbatim from the original script** — `area`, `triangle`, `getMargins`, `totalMarginList`, `zoneMargins`, `setSpace`, `setDepth`, `diagonize`, `closeOpenCounters`, `calculateSBValue`, `maxPoints`, `processMargins`, plus mirrored fields like `self.newL` / `self.minYref`. These are kept name-for-name so the math can be diffed against `HT_Letterspacer_script.py` and stays parity-tested; renaming buys cosmetics at the cost of traceability and regression risk.
+
+The plugin also sits on a camelCase Glyphs/Cocoa API (`layer.completeBezierPath`, `customParameters`, `associatedMasterId`, …), so uniform `snake_case` isn't attainable regardless — follow the prevailing convention of whatever you're calling (per PEP8's own "know when to be inconsistent").
+
 ## Where to add things (quick index)
 - **Change spacing math** → `htls/engine.py` (keep it matching the standalone script).
 - **Add a rule field** → `htls/config.py` (`_normalize_rule`, serialization), `htls/rules.py` (matching/effective), `htls/ui/rules.py` (`RuleEditor` + columns), and consume it in `engine.py`.
