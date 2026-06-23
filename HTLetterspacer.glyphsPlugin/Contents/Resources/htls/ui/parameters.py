@@ -310,9 +310,12 @@ class ParametersManager(object):
 
 		g.overLbl = TextBox((10, 122, 76, 18), "Overshoot")
 		g.overField = EditText((92, 120, 60, 22), "0", callback=self._over_field, continuous=False, sizeStyle="small")
+		# Read-only paramFreq display: the vertical measuring step (set per master
+		# via a `paramFreq` custom parameter, else the engine default).
+		g.freqHint = TextBox((158, 124, 150, 16), "", sizeStyle="small")
 		# Live Tab Test moved onto the overshoot row (right) to save vertical space.
 		g.liveTest = CheckBox(
-			(168, 122, -10, 20), "Live Tab Test (apply values without updating master custom parameters)",
+			(312, 122, -10, 20), "Live Tab Test (apply values without updating master custom parameters)",
 			callback=self._test_toggle, sizeStyle="small")
 
 		g.saveBtn = Button((10, 152, 124, 22), "Save parameters", callback=self._save_params, sizeStyle="small")
@@ -361,6 +364,25 @@ class ParametersManager(object):
 
 	def _update_area_hint(self, value):
 		self.group.areaHint.set("= %d units²" % self._area_units(value))
+
+	def _update_freq_hint(self, master):
+		"""Show the master's measuring step: `paramFreq = N`, with `(dflt)` only
+		when no `paramFreq` master custom parameter is set."""
+		default = int(getattr(engine_mod, "paramFreq", 5))
+		raw = None
+		if master is not None:
+			try:
+				raw = master.customParameters["paramFreq"]
+			except Exception:
+				raw = None
+		if raw is None:
+			self.group.freqHint.set("paramFreq = %d (dflt)" % default)
+		else:
+			try:
+				value = int(float(raw))
+			except (TypeError, ValueError):
+				value = default
+			self.group.freqHint.set("paramFreq = %d" % value)
 
 	def _current_values(self):
 		"""The values currently shown in the fields."""
@@ -624,6 +646,7 @@ class ParametersManager(object):
 			self.group.depthSlider.set(min(depth, DEPTH_MAX))
 			self.group.depthField.set(str(depth))
 			self.group.overField.set(str(over))
+			self._update_freq_hint(master)
 		finally:
 			self._loading = False
 		self._build_unicode_cache(font)

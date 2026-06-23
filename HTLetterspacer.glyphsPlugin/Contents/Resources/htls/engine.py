@@ -81,8 +81,9 @@ def triangle(angle, y):
 	return y * (math.tan(angle))
 
 
-def totalMarginList(layer, minY, maxY, angle, minYref, maxYref):
-	# the list of margins
+def totalMarginList(layer, minY, maxY, angle, minYref, maxYref, freq=paramFreq):
+	# the list of margins. `freq` is the vertical measuring step (per-master
+	# `paramFreq`); a larger step = fewer measurements = faster but coarser.
 	y = minY
 	listL = []
 	listR = []
@@ -124,7 +125,7 @@ def totalMarginList(layer, minY, maxY, angle, minYref, maxYref):
 		else:
 			listR.append(NSMakePoint(slantPosR, y))
 
-		y += paramFreq
+		y += freq
 
 	# if no measurements are taken, returns false and will abort in main function
 	if result:
@@ -195,7 +196,11 @@ class HTLSEngine(object):
 			self.paramArea = float(param_overrides.get("paramArea", self.paramArea))
 			self.paramDepth = float(param_overrides.get("paramDepth", self.paramDepth))
 			self.paramOver = float(param_overrides.get("paramOver", self.paramOver))
-		self.paramFreq = paramFreq
+		# Vertical measuring step. A per-master `paramFreq` custom parameter lets
+		# users trade precision for speed (fewer measurements); clamp to >= 1 so a
+		# stray 0 / negative value can't stall the measuring loop.
+		freq = int(self._master_param("paramFreq", paramFreq))
+		self.paramFreq = freq if freq >= 1 else paramFreq
 
 		# flags (engine-side; UI/aux scripts may toggle before computing)
 		self.tabVersion = False
@@ -418,7 +423,7 @@ class HTLSEngine(object):
 
 		# get the margins for the full outline
 		lTotalMargins, rTotalMargins = totalMarginList(
-			layer, self.minY, self.maxY, self.angle, self.minYref, self.maxYref
+			layer, self.minY, self.maxY, self.angle, self.minYref, self.maxYref, self.paramFreq
 		)
 
 		# margins are False, False if there is no measure in the reference zone

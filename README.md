@@ -101,6 +101,8 @@ The current master’s base spacing parameters — **Area** (shown as the raw va
 
 These values are stored as ordinary **master custom parameters** — `paramArea`, `paramDepth` and `paramOver` (*Font Info ▸ Masters ▸ Custom Parameters*) — so you can also see and edit them there directly, or copy them between masters.
 
+Next to the Overshoot field the tab also shows **`paramFreq`** — the vertical measuring step, in font units. It controls how often the outline is sampled when measuring the area: a larger value takes fewer measurements (faster, but coarser areas), the default is `5`. There’s no field for it — set it per master as a `paramFreq` **custom parameter** (*Font Info ▸ Masters ▸ Custom Parameters*) and the tab will show the value (`paramFreq = 5 (dflt)` when unset, otherwise the value you set). It applies to spacing, the *Show areas* reporter and the preview alike.
+
 ![paramArea and paramDepth stored as master custom parameters in Font Info](images/CustomParameters.jpg)
 
 The **Actions** menu helps to copy parameters from another master or interpolate them:
@@ -186,6 +188,7 @@ Version 2.0 — Glyphs 3 plugin (beta)
 - Faithful port of the original spacing engine, parity-tested against the script (including italic, tabular and stroked glyphs)
 - Helper scripts: **Apply HTLS Config** (space the selection from the font rules, no UI) and **Apply HTLS Values** (a window for manual Area/Depth/Overshoot/LSB/RSB/fixed-width values)
 - **Bracket layers** are spaced using their associated master’s parameters and rules; **brace (intermediate) layers** are skipped
+- **`paramFreq`** (the vertical measuring step) can be set as a per-master **custom parameter** to trade precision for speed — a larger value takes fewer measurements (faster, coarser areas), the default is `5`. It is not editable from the UI; the Parameters tab shows the current value (`paramFreq = 5 (dflt)`)
 
 Version 1.20
 - Improve code simplicity and syntax by Nikolaus and Georg
