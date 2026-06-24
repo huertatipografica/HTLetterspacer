@@ -209,3 +209,19 @@ Version 1.10
 - Copy parameters to clipboard (thanks mekkablue)
 - Robofab no longer required for drawing _areas
 - No more code repetition
+
+
+## Donate
+
+This project is released under GNU General Public License .
+If this application is useful for you, consider donating to the project.
+Your contribution helps us keep creating new design and development work.
+You can calculate how much time it saves by your hourly rate, and then make what you consider to be a fair donation 
+[Donate at the project homepage](https://letterspacer.htfonts.com)
+
+
+## License
+
+**Code:** HT Letterspacer is licensed under the **GPL-3.0** license (GNU General Public License Version 3, 29 June 2007). See the [`LICENSE`](LICENSE) file for the full text.
+
+**Documentation, texts and images** in this repo: HT Letterspacer Documentation © 2016 by Andrés Torresi and Carolina Giovagnoli is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0).
