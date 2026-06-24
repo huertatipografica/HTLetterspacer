@@ -13,3 +13,4 @@ Simon Cozens <simon@simon-cozens.org>
 Pablo Impallari <impallari@gmail.com>
 Juan Pablo del Peral <juandelperal@htfonts.com>
 Sebastian Carewe <sebastian.carewe@gmail.com>
+Nikolaus Waxweiler
