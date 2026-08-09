@@ -73,7 +73,15 @@ def getMargins(layer, y):
 
 	left = 1
 	right = count - 2
-	return (result[left].pointValue().x, result[right].pointValue().x)
+	leftPoint = result[left]
+	rightPoint = result[right]
+	# Glyphs 3: array of NSValue-wrapped points, needs unwrapping.
+	# Glyphs 4: array of CGPoint structs already, used as-is.
+	if hasattr(leftPoint, 'pointValue'):
+		leftPoint = leftPoint.pointValue()
+	if hasattr(rightPoint, 'pointValue'):
+		rightPoint = rightPoint.pointValue()
+	return (leftPoint.x, rightPoint.x)
 
 
 def triangle(angle, y):
