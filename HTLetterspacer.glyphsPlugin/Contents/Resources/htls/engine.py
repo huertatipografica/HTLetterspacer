@@ -583,22 +583,74 @@ def _apply_engine(engine, layer):
 # back by the same amount (`left_diff = LSB_before - LSB_after`) — the Glyphs
 # equivalent of the UFO "move the component to the opposite direction" trick.
 #
-# Two Glyphs-specific rules:
-#   * **Auto-aligned components are skipped** — Glyphs repositions them itself,
-#     so a manual shift is overwritten and only causes fighting. They already
-#     stay consistent with their base.
-#   * **Composites that are themselves being re-spaced are skipped** — they get
-#     fresh sidebearings from the engine, so preserving their old position would
-#     be pointless (and is what the topological ordering below handles instead).
+# Components Glyphs positions itself are skipped — a manual shift would only be
+# overwritten, and they already stay consistent with their base. But "Glyphs
+# positions it" is NOT the same as `automaticAlignment`: that flag is just
+# `alignment() >= 0`, i.e. alignment is *allowed*, and it reads as on even when
+# there is nothing to align to. In a layer that mixes outlines with components
+# (exclam = a drawn stem + a `period` component) Glyphs never places the
+# component, so it must be shifted here — skipping it on the flag alone is why
+# such composites drifted while pure composites looked fine.
 
 
-def _is_manual_component(component):
-	"""True for a component Glyphs does NOT auto-position (so a manual shift
-	sticks). Auto-aligned components are managed by Glyphs and left alone."""
+def _has_paths(layer):
 	try:
-		return not bool(component.automaticAlignment)
+		return len(layer.paths) > 0
 	except Exception:
 		return False
+
+
+def _is_anchor_attached(component, owner_layer, master_id, font):
+	"""True when `component` hangs off an anchor pair (base `_top` ↔ owner
+	`top`) — the only way Glyphs positions a component inside a layer that also
+	contains outlines."""
+	try:
+		base = font.glyphs[component.componentName]
+		if base is None:
+			return False
+		base_layer = base.layers[master_id]
+		if base_layer is None:
+			return False
+		# Set when several pairs would match, to pick one; honour it if present.
+		try:
+			explicit = component.anchor
+		except Exception:
+			explicit = None
+		owner_names = set()
+		for anchor in owner_layer.anchors:
+			if anchor.name:
+				owner_names.add(anchor.name)
+		for anchor in base_layer.anchors:
+			name = anchor.name or ""
+			if not name.startswith("_"):
+				continue
+			target = name[1:]
+			if explicit and target != explicit.lstrip("_"):
+				continue
+			if target in owner_names:
+				return True
+	except Exception:
+		return False
+	return False
+
+
+def _is_manual_component(component, owner_layer, master_id, font):
+	"""True when HTLS has to move this component itself, because Glyphs does not
+	control its x position."""
+	try:
+		auto = bool(component.automaticAlignment)
+	except Exception:
+		# Unknown — let the structural checks below decide rather than silently
+		# skipping (a silent skip is invisible: nothing moves and nothing warns).
+		auto = True
+	if not auto:
+		return True
+	# Alignment is nominally on, but Glyphs only acts on it when it has
+	# something to align to. With no outlines in the layer every component is
+	# placed by Glyphs; in a mixed layer only anchor-attached ones are.
+	if not _has_paths(owner_layer):
+		return False
+	return not _is_anchor_attached(component, owner_layer, master_id, font)
 
 
 def _build_component_graph(font, master_ids):
@@ -607,9 +659,11 @@ def _build_component_graph(font, master_ids):
 	  * `forward[(glyph_name, master_id)]` = set of base glyph names that glyph
 	    references via ANY component (used to order spacing: base before
 	    composite);
-	  * `reverse_manual[(base_name, master_id)]` = list of *manually positioned*
-	    components (across the whole font) that reference that base (used to
-	    shift them when the base is re-spaced).
+	  * `reverse_manual[(base_name, master_id)]` = list of components (across the
+	    whole font) that reference that base and are NOT positioned by Glyphs —
+	    including components sitting in a layer that also has outlines, which
+	    Glyphs leaves alone however `automaticAlignment` reads (used to shift
+	    them when the base is re-spaced).
 	"""
 	forward = {}
 	reverse_manual = {}
@@ -628,7 +682,7 @@ def _build_component_graph(font, master_ids):
 				if not base:
 					continue
 				forward.setdefault((gname, mid), set()).add(base)
-				if _is_manual_component(component):
+				if _is_manual_component(component, layer, mid, font):
 					reverse_manual.setdefault((base, mid), []).append(component)
 	return forward, reverse_manual
 
@@ -684,10 +738,10 @@ def _topo_order(layers, forward):
 
 
 def _shift_components(reverse_manual, base_name, master_id, left_diff):
-	"""Shift every manually positioned component that references `base_name`
-	(on `master_id`) by `left_diff` in x — so its composite keeps position after
-	the base's LSB changed — then re-sync each owning composite so any
-	auto-aligned sibling (e.g. an accent) follows the shifted base.
+	"""Shift every component that references `base_name` and is not positioned by
+	Glyphs (on `master_id`) by `left_diff` in x — so its composite keeps position
+	after the base's LSB changed — then `syncMetrics()` each owning composite so
+	a layer whose sidebearings are keyed to the base picks up its new metrics.
 
 	Called right after the base is spaced and BEFORE any composite that uses it,
 	so a composite that is itself being spaced is measured with its components
