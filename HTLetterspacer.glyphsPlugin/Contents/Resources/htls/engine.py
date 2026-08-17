@@ -31,6 +31,11 @@ from htls import config, rules
 # Frequency of vertical measuring. The script uses 5 (the Manager used 4).
 paramFreq = 5
 
+# Stand-in margin for a scanline with no outline on it — far enough out that
+# `setDepth` always clamps it back to the maximum depth, and that it can never
+# be mistaken for a real extreme. See `totalMarginList`.
+DEFAULT_MARGIN = 1e6
+
 
 # --- point list area (verbatim from the script) ---------------------------
 def area(points):
@@ -92,32 +97,33 @@ def triangle(angle, y):
 def totalMarginList(layer, minY, maxY, angle, minYref, maxYref, freq=paramFreq):
 	# the list of margins. `freq` is the vertical measuring step (per-master
 	# `paramFreq`); a larger step = fewer measurements = faster but coarser.
+	# `angle` is kept for signature compatibility; the placeholders below are
+	# deliberately slant-independent (see DEFAULT_MARGIN).
 	y = minY
 	listL = []
 	listR = []
 
-	# calculate default depth, otherwise measurement is None
-	# calculate paralelogram extremes
-	origin = NSMinX(layer.bounds)
-	endpointx = NSMaxX(layer.bounds)
-	endpointy = NSMaxY(layer.bounds)
-
-	# calculate paralelogram top left
-	xpos = triangle(angle, endpointy) + origin
-	# paralelogram top side width
-	slantWidth = (endpointx - xpos)
-	# default depth
-	dfltDepth = slantWidth
+	# Placeholder for a scanline that hits no outline. It stands for "fully
+	# white here", and `setDepth` clamps it to the maximum depth — which is
+	# what an empty row means. It MUST also be neutral for `maxPoints`, i.e.
+	# never win the min (L) / max (R) that define the shape extremes.
+	#
+	# The script derived it from a parallelogram over the bounding box, sheared
+	# by the italic angle from the BASELINE. Upright, that collapses to minX/
+	# maxX — neutral, and clamped to full depth. On an italic master it is not
+	# neutral: for a glyph that is narrow relative to tan(angle) * maxY (a
+	# `.sups` with a separate dot, say) the sheared placeholder out-runs every
+	# real de-slanted point and becomes lFullExtreme / rFullExtreme, leaking
+	# the bounding box — and therefore the position of the dot — into the
+	# sidebearings, even though the dot is nowhere near the reference zone.
+	slantPosL = DEFAULT_MARGIN
+	slantPosR = -DEFAULT_MARGIN
 
 	# result is False if all the measured margins are empty (no outlines in reference zone)
 	result = False
 
 	while y <= maxY:
 		lpos, rpos = getMargins(layer, y)
-
-		# get the default margin measure at a given y position
-		slantPosL = origin + triangle(angle, y) + dfltDepth
-		slantPosR = origin + triangle(angle, y)
 
 		if lpos is not None:
 			listL.append(NSMakePoint(lpos, y))
