@@ -22,6 +22,15 @@ from GlyphsApp import Glyphs, GetOpenFile, GetSaveFile, Message
 
 from htls import config, rules as rules_mod
 
+def _save_file(message, proposed, filetypes):
+	"""GetSaveFile wrapper: the keyword was renamed across Glyphs versions
+	(ProposedFileName -> proposedFileName)."""
+	try:
+		return GetSaveFile(message=message, proposedFileName=proposed, filetypes=filetypes)
+	except TypeError:
+		return GetSaveFile(message=message, ProposedFileName=proposed, filetypes=filetypes)
+
+
 CASE_LABELS = ["Any", "Uppercase", "Lowercase", "Smallcaps", "Minor", "Other"]
 MODE_LABELS = ["%", "abs"]
 CATEGORY_ITEMS = ["Any"] + config.CATEGORIES
@@ -834,7 +843,7 @@ class FontRulesManager(_RuleListMixin):
 		if font is None:
 			return
 		proposed = (font.familyName or "font").replace(" ", "") + "_HTLS.json"
-		path = GetSaveFile(message="Export HTLS setup", ProposedFileName=proposed, filetypes=["json"])
+		path = _save_file("Export HTLS setup", proposed, ["json"])
 		if not path:
 			return
 		try:
@@ -884,7 +893,7 @@ class FontRulesManager(_RuleListMixin):
 		if font is None:
 			return
 		proposed = (font.familyName or "font").replace(" ", "") + "_autospace.yml"
-		path = GetSaveFile(message="Export HTLS config", ProposedFileName=proposed, filetypes=["yml"])
+		path = _save_file("Export HTLS config", proposed, ["yml"])
 		if not path:
 			return
 		try:
