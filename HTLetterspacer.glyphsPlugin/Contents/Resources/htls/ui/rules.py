@@ -35,10 +35,38 @@ CASE_LABELS = ["Any", "Uppercase", "Lowercase", "Smallcaps", "Minor", "Other"]
 MODE_LABELS = ["%", "abs"]
 CATEGORY_ITEMS = ["Any"] + config.CATEGORIES
 
+def _fit_name_column(vlist, rows, minimum=64):
+	"""Widen the Name column so the longest rule name is fully visible."""
+	try:
+		from AppKit import NSFontAttributeName
+		from Foundation import NSAttributedString
+		tv = vlist.getNSTableView()
+		# stop AppKit redistributing widths (which squeezes Name back down)
+		tv.setColumnAutoresizingStyle_(0)  # NSTableViewNoColumnAutoresizing
+		try:
+			vlist.getNSScrollView().setHasHorizontalScroller_(True)
+		except Exception:
+			pass
+		col = tv.tableColumnWithIdentifier_("name")
+		if col is None:
+			return
+		font = col.dataCell().font()
+		widest = 0
+		for r in rows:
+			w = NSAttributedString.alloc().initWithString_attributes_(
+				str(r.get("name") or ""), {NSFontAttributeName: font}).size().width
+			widest = max(widest, w)
+		col.setMinWidth_(minimum)
+		col.setMaxWidth_(max(1000, widest + 40))
+		col.setWidth_(max(minimum, widest + 24))
+	except Exception:
+		pass
+
+
 COLUMNS = [
 	{"title": "Name", "key": "name", "width": 64},
 	{"title": "✓", "key": "mark", "width": 18},
-	{"title": "Ovr", "key": "ovr", "width": 28},
+	{"title": "O", "key": "ovr", "width": 16, "minWidth": 14, "maxWidth": 16},
 	{"title": "Script", "key": "script", "width": 50},
 	{"title": "Category", "key": "category", "width": 74},
 	{"title": "Case", "key": "case", "width": 64},
@@ -699,6 +727,7 @@ class FontRulesManager(_RuleListMixin):
 		self._loading = True
 		try:
 			self.group.list.set(rows)
+			_fit_name_column(self.group.list, rows)
 			idx = self._index_of(target)
 			if idx is not None:
 				self.group.list.setSelection([idx])
@@ -921,7 +950,7 @@ class FontRulesManager(_RuleListMixin):
 
 MASTER_COLUMNS = [
 	{"title": "✓", "key": "mark", "width": 18},
-	{"title": "Ovr", "key": "ovr", "width": 28},
+	{"title": "O", "key": "ovr", "width": 16, "minWidth": 14, "maxWidth": 16},
 	{"title": "Name", "key": "name", "width": 90},
 	{"title": "Script", "key": "script", "width": 50},
 	{"title": "Category", "key": "category", "width": 74},
@@ -1147,6 +1176,7 @@ class MasterRulesManager(_RuleListMixin):
 		self._loading = True
 		try:
 			self.group.list.set(rows)
+			_fit_name_column(self.group.list, rows)
 			idx = self._index_of(target)
 			if idx is not None:
 				self.group.list.setSelection([idx])
